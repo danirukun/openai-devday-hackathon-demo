@@ -62,7 +62,7 @@ Handles are optional and private by default. Each owner must opt in before eithe
 ## States that need clear copy
 
 - **First visitor / no pets:** explain how to bring a pet; don't show simulated activity as real.
-- **Waiting for a decision:** show that pets are settling in, and distinguish this from an API failure or demo turn limit.
+- **Waiting for a decision:** show that pets are settling in, and distinguish this from an API failure.
 - **Venue full:** explain the 50-person limit and let the visitor retry; a stale place expires after two minutes without a heartbeat in the current implementation.
 - **Invalid password or unavailable sign-in:** show a clear retry message without disclosing the configured password.
 - **Bad ZIP or unsupported sprite:** keep the form open with the specific safe validation message and allow another file.

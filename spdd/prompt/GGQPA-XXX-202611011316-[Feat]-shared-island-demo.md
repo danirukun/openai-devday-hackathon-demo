@@ -61,7 +61,7 @@ Participant identity is Supabase Auth; the server uses `island_presence` as a te
 2. **Verify real behavior.** The account has signed in; two real Petdex pets joined and a Decisions-driven greeting appeared in two tabs sharing one account. Verify a second independent account and browser, event visibility, and meaningful behavior after refresh; distinguish evidence from assumptions.
 3. **Keep admission and secrets server-controlled.** Continue verifying access tokens through Supabase Auth and use the advisory-locked presence function for a maximum of 50 distinct active accounts with a two-minute lease. No service-role or OpenAI credential enters the browser or repository.
 4. **Deliver within the event constraint.** Configure a single long-running Node instance, approved deployment host, provider secrets, and the exact allowed Supabase Auth redirect. Verify public HTTPS and provider access before using it in the video. Built-in email currently restricts recipients; general attendees need SMTP or another user-approved sign-in change, and remain blocked until then.
-5. **Preserve honest state.** Report provider failures, full island and decision budget exhaustion accurately. The existing cap of 30 Decisions calls per process and 30-second interval is a demo guard, not a durable quota; restarting or running multiple processes resets or bypasses it.
+5. **Preserve honest state.** Report provider failures and a full island accurately. Decisions are spaced at least 10 seconds apart and the earlier 30-call per-process cap has been removed, so there is no built-in spending limit; running multiple processes can trigger duplicate decisions.
 
 ## Structure
 
@@ -97,7 +97,7 @@ Participant identity is Supabase Auth; the server uses `island_presence` as a te
 4. Keep personalities between 3 and 120 characters and tell users they are shared. Do not use real email addresses, personal data or secrets in demo content.
 5. Accept only catalogue-selected sprite URLs from the Petdex asset domain; retain the same-origin proxy, image-type/size bounds, and clear failure behavior.
 6. Record only an actual valid Decisions API choice among approach, wave, and explore; refusals, errors and timeouts must not create events or be described as AI decisions.
-7. Keep a single Node process for the existing in-memory turn guard; no more than 30 attempted Decisions calls per process, spaced at least 30 seconds, and stop when no world request has arrived for two minutes. This does not survive restart and is not a public abuse control.
+7. Keep a single Node process for the existing in-memory turn guard; spaced at least 10 seconds apart with no total cap, and stop when no world request has arrived for two minutes. This is not a public abuse control or a spending limit.
 8. Do not expose the demo publicly as a general-attendee email experience while the chosen built-in sender excludes nonmembers. A public deployment URL may be reachable even when login is restricted; verify and describe both separately.
 9. Confirm that the chosen pets and other assets may be used in the public demo, attribute creators, and avoid assuming MIT covers third-party assets.
 10. Finish a no-more-than-90-second video, public repository, tested public link, setup instructions, and specific Codex contribution before the 17:00 London submission deadline. Do not claim the demo has been submitted until actually verified.
