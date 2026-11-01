@@ -36,8 +36,33 @@ new GLTFLoader().load('/venue.glb',gltf=>{
   const center=bounds.getCenter(new THREE.Vector3());
   venue.position.x-=center.x;venue.position.z-=center.z;venue.position.y-=bounds.min.y;
   venue.traverse(object=>{if(object.isMesh){object.castShadow=true;object.receiveShadow=true;}});
-  fallbackScene.visible=false;venueLoaded=true;scene.add(venue);placeVenueStations();petGroup.children.forEach((sprite,i)=>{sprite.material.depthTest=true;sprite.renderOrder=0;const home=venueHome(i);sprite.userData.home.set(home.x,.25,home.z);sprite.scale.set(.38,.41,1);sprite.userData.waveIndicator.scale.set(.3,.3,1);sprite.userData.bubble.scale.set(1.2,.675,1)});dotSignature='';renderDots(world.inventory||[]);$('#venue-status').textContent='Venue preview';
+  fallbackScene.visible=false;venueLoaded=true;scene.add(venue);placeVenueSeating(venue);placeVenueStations();petGroup.children.forEach((sprite,i)=>{sprite.material.depthTest=true;sprite.renderOrder=0;const home=venueHome(i);sprite.userData.home.set(home.x,.25,home.z);sprite.scale.set(.38,.41,1);sprite.userData.waveIndicator.scale.set(.3,.3,1);sprite.userData.bubble.scale.set(1.2,.675,1)});dotSignature='';renderDots(world.inventory||[]);$('#venue-status').textContent='Venue preview';
 },undefined,()=>{$('#venue-status').textContent='Island preview';});
+// Reuse the venue chair mesh for three tidy rows facing screen-bottom-right (+X).
+function placeVenueSeating(venue){
+  const source=venue.getObjectByName('chair_other_four_back_no_2');
+  if(!source?.isMesh)return;
+  const geometry=source.geometry.clone();
+  geometry.computeBoundingBox();
+  const bounds=geometry.boundingBox,center=bounds.getCenter(new THREE.Vector3());
+  geometry.translate(-center.x,-bounds.min.y,-center.z);
+  // Replace the scattered audience chairs, keeping the chairs alongside the tables.
+  venue.traverse(object=>{
+    if(!object.isMesh||!object.name.startsWith('chair_'))return;
+    object.geometry.computeBoundingBox();
+    const position=object.geometry.boundingBox.getCenter(new THREE.Vector3());
+    if(position.z< -10&&position.x> -3)object.visible=false;
+  });
+  const seating=new THREE.Group();seating.name='Audience seating';
+  for(let row=0;row<3;row++)for(let seat=0;seat<4;seat++){
+    const chair=new THREE.Mesh(geometry,source.material);
+    chair.name=`Audience chair ${row+1}-${seat+1}`;
+    chair.scale.copy(venue.scale);chair.rotation.y=Math.PI/2;
+    chair.position.set(-.65+row*.35,venue.position.y,-3.45+seat*.3);
+    chair.castShadow=true;chair.receiveShadow=true;seating.add(chair);
+  }
+  scene.add(seating);
+}
 // Placeholder stations and figures remain visible until the venue supplies station anchors.
 const printerGroup=new THREE.Group();scene.add(printerGroup);const printer=new THREE.Group();printerGroup.add(printer);
 function printerBox(w,h,d,color,x,y,z){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),material(color));m.position.set(x,y,z);m.castShadow=true;printer.add(m);return m}
