@@ -1,17 +1,17 @@
 # Pet Island
 
-A small shared island for community coding pets. Visitors choose a Petdex pet, add a personality, and watch a server-controlled OpenAI Decisions choice trigger a greeting, wave, or exploration. A click on a pet shows the inputs and returned choice; the display does not claim to expose model reasoning.
+A small shared island for community coding pets. Visitors choose a Petdex pet or upload a Codex pet ZIP, add a personality, and watch a server-controlled OpenAI Decisions choice trigger a greeting, wave, or exploration. A click on a pet shows the inputs and returned choice; the display does not claim to expose model reasoning.
 
 **Hackathon work in progress:** the full live journey and public deployment still need verification. Decisions run at most 30 times per server process, at least 30 seconds apart, and pause if no visitor has refreshed the world for two minutes. The app is deliberately limited to one server instance; multiple instances can trigger duplicate decisions and bypass that per-process limit. It is not a production rate limiter.
 
 ## Run locally
 
-1. Install Node.js 20 or later. Create a separate Supabase project and apply `schema.sql` followed by `capacity.sql` once with the Supabase SQL editor. The application uses server-only access to these tables; RLS blocks anonymous direct access.
+1. Install Node.js 22.9 or later and run `npm ci`. Create a separate Supabase project and apply `schema.sql`, `capacity.sql`, then `upload.sql` once with the Supabase SQL editor. The application uses server-only access to these tables; RLS blocks anonymous direct access.
 2. Copy `.env.example` to `.env`, and fill in `SUPABASE_URL`, the public `SUPABASE_PUBLISHABLE_KEY`, the server-side `SUPABASE_SERVICE_ROLE_KEY` (or compatible secret key), and `OPENAI_API_KEY`. Never commit or share `.env`. Use an OpenAI project with access to the Decisions API and billing/credits configured.
 3. Run `npm start` and open `http://localhost:3000`. Petdex and the Three.js CDN require internet access. Sign in through an email link, then create two pets with innocuous personalities; wait up to 30 seconds for an interaction. Open a second browser to see the shared state. Petdex access and Decisions/model availability depend on the providers.
 4. Run `npm test`. The tests cover the local HTTP boundary, input rejection and unavailable-database handling; they do not replace a live two-browser provider test.
 
-This demo stores names, public personalities and recent interactions. Do not enter personal data or secrets. All users can view this shared content. The in-process request limits are for a small supervised demo and are not sufficient for an unrestricted public service.
+This demo stores names, public personalities and recent interactions. Do not enter personal data or secrets. All users can view this shared content. Uploaded sprites are served through an unguessable image URL, which anyone possessing it can access. The in-process request limits are for a small supervised demo and are not sufficient for an unrestricted public service.
 
 ## Credits
 
@@ -29,3 +29,7 @@ The project code is available under the [MIT License](LICENSE). Third-party Petd
 Email magic-link sign-in is required for the shared island. The server verifies the session with Supabase Auth and atomically admits at most 50 distinct accounts. Multiple tabs share one place. A place expires after two minutes without a world request; capacity is checked on each refresh and join. The cap is distinct from the maximum of 50 persistent pets. Configure the deployed origin as an allowed Auth redirect URL.
 
 The Supabase built-in email sender only sends to organization team members and is unsuitable for open public hackathon access. The event requires custom SMTP for general attendees, and its send rate limit must accommodate expected sign-ins. See [Supabase authentication testing](https://supabase.com/docs/guides/auth/testing-auth-flows) and [custom SMTP](https://supabase.com/docs/guides/auth/auth-smtp). Email addresses are retained by Supabase Auth and are not displayed in the island.
+
+## Bring your own pet
+
+Choose **Upload a ZIP** in the pet form. Include one `pet.json` with a `displayName` and relative `spritesheetPath`, and the PNG or WebP file named by that path. The manifest and sprite may be inside one parent folder. Supported sprite sheets are 1536×1872 (8×9) or 1536×2288 (8×11). The ZIP limit is 8 MiB; the extracted sprite limit is 5 MiB. Unsafe paths, duplicate files and oversized archives are rejected. Only the manifest name and sprite image are saved, not the full archive. Upload only pets and artwork you have the right to share.

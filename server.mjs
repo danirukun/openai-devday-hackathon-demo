@@ -2,6 +2,9 @@ import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { randomUUID } from 'node:crypto';
+import { parsePetPackage, PetPackageError } from './pet-package.mjs';
+import { readUploadForm } from './upload-form.mjs';
 
 const root = fileURLToPath(new URL('./public/', import.meta.url));
 const port = Number(process.env.PORT || 3000);
@@ -72,7 +75,16 @@ const server=createServer(async(req,res)=>{
     if(req.method==='GET' && url.pathname==='/api/config') return send(res,200,{url:base||null,publishableKey:publicKey||null});
     if(req.method==='GET' && url.pathname==='/api/catalogue') return send(res,200,{pets:await pets()});
     if(req.method==='GET' && url.pathname==='/api/sprite') {
-      const selected=(await pets()).find(p=>p.slug===url.searchParams.get('slug'));
+      const slug=url.searchParams.get('slug') || '';
+      if (/^upload-[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(slug)) {
+        const images=await db(`island_uploaded_sprites?select=content_type,data&id=eq.${slug.slice(7)}&limit=1`);
+        if(!images.length) return send(res,404,{error:'Pet not found.'});
+        const {content_type,data}=images[0];
+        if(typeof data!=='string'||!data.startsWith('\\x')||!['image/png','image/webp'].includes(content_type)) throw Error('Uploaded sprite unavailable.');
+        const bytes=Buffer.from(data.slice(2),'hex');
+        res.writeHead(200,{'content-type':content_type,'cache-control':'public, max-age=3600','x-content-type-options':'nosniff'});return res.end(bytes);
+      }
+      const selected=(await pets()).find(p=>p.slug===slug);
       if(!selected) return send(res,404,{error:'Pet not found.'});
       const image=await fetch(selected.sprite,{signal:AbortSignal.timeout(12000),redirect:'error'});
       const size=Number(image.headers.get('content-length')||0), type=image.headers.get('content-type')||'';
@@ -85,6 +97,25 @@ const server=createServer(async(req,res)=>{
       lastViewer=Date.now();
       const [residents,events]=await Promise.all([db('island_pets?select=*&order=created_at.desc&limit=50'),db('island_events?select=*&order=created_at.desc&limit=20')]);
       return send(res,200,{pets:residents,events,decisionsConfigured:Boolean(process.env.OPENAI_API_KEY),decisionError,turnLimitReached:turnCount>=30});
+    }
+    if(req.method==='POST' && url.pathname==='/api/join-upload') {
+      const access=await admit(req); if(access.status!==200) return send(res,access.status,{error:access.error});
+      const ip=req.socket.remoteAddress || 'unknown'; const now=Date.now();
+      if(now-(joins.get(ip)||0)<15000) return send(res,429,{error:'Please wait a moment before adding another pet.'});
+      joins.set(ip,now);
+      const {zip,personality}=await readUploadForm(req);
+      const pet=await parsePetPackage(zip);
+      const existing=await db('island_pets?select=id&limit=50');
+      if(existing.length>=50) return send(res,429,{error:'The island is full for this demo.'});
+      const id=randomUUID();
+      await db('island_uploaded_sprites?select=id','POST',{id,content_type:pet.contentType,data:'\\x'+pet.image.toString('hex')});
+      try {
+        const created=await db('island_pets','POST',{slug:`upload-${id}`,name:pet.name,sprite:`island-upload://${id}`,credit:'Uploaded by a visitor',personality});
+        void turn(); return send(res,201,{pet:created[0]});
+      } catch(error) {
+        await db(`island_uploaded_sprites?id=eq.${id}`,'DELETE').catch(()=>{});
+        throw error;
+      }
     }
     if(req.method==='POST' && url.pathname==='/api/join') {
       const access=await admit(req); if(access.status!==200) return send(res,access.status,{error:access.error});
@@ -102,7 +133,7 @@ const server=createServer(async(req,res)=>{
     const files={'/':['index.html','text/html; charset=utf-8'],'/app.js':['app.js','text/javascript; charset=utf-8'],'/style.css':['style.css','text/css; charset=utf-8'],'/teacup-kiosk.png':['teacup-kiosk.png','image/png']};
     const file=files[url.pathname]; if(!file) return send(res,404,{error:'Not found.'});
     const contents=await readFile(path.join(root,file[0]));res.writeHead(200,{'content-type':file[1],'x-content-type-options':'nosniff'});res.end(contents);
-  } catch(e) { console.error(e.message); send(res,503,{error:e.message==='Invalid request.'?e.message:'The island could not connect to a required service. Please try again.'}); }
+  } catch(e) { if(e instanceof PetPackageError) return send(res,400,{error:e.message}); console.error(e.message); send(res,503,{error:e.message==='Invalid request.'?e.message:'The island could not connect to a required service. Please try again.'}); }
 });
 server.listen(port,()=>console.log(`Pet Island listening on http://localhost:${port}`));
 setInterval(()=>void turn(),30000).unref();

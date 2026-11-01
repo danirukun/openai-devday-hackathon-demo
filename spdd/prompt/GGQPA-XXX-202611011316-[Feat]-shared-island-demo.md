@@ -4,7 +4,7 @@
 
 Deliver one understandable shared journey for hackathon attendees: sign in by email, choose a real Petdex pet, set a fictional personality, and watch an actual Decisions API choice change the shared island. Make the demonstration reproducible and accessible to judges before 17:00 London time, with a public repository, credits, setup instructions, a video of at most 90 seconds, and a specific example of Codex helping build the project. Preserve the approved limit of 50 concurrent users. Prioritize completion over new simulation systems.
 
-The approved first slice uses an existing Petdex gallery selection; uploading a user's own package, generated sprite sheets, long-term relationship simulation, shared objectives, and a Codex SDK runtime integration are outside this canvas. The user chose Supabase's built-in email sender. It limits the audience to organization-member email addresses; do not present the site as open to all attendees or silently change that choice.
+The approved slice uses an existing Petdex gallery selection or an uploaded Codex pet ZIP. Generated sprite sheets, long-term relationship simulation, shared objectives, and a Codex SDK runtime integration are outside this canvas. The user chose Supabase's built-in email sender. It limits the audience to organization-member email addresses; do not present the site as open to all attendees or silently change that choice.
 
 ## Entities
 
@@ -57,7 +57,7 @@ Participant identity is Supabase Auth; the server uses `island_presence` as a te
 
 ## Approach
 
-1. **Complete the existing journey.** Retain the Node HTTP server, Three.js scene and Supabase tables. Use the existing Petdex manifest and same-origin sprite proxy. Show a persisted Decisions choice and its supplied context without inventing a model explanation.
+1. **Complete the existing journey.** Retain the Node HTTP server, Three.js scene and Supabase tables. Use the existing Petdex manifest and same-origin sprite proxy; validate uploaded ZIP packages and persist only the sprite and required metadata. Show a persisted Decisions choice and its supplied context without inventing a model explanation.
 2. **Verify real behavior.** The account has signed in; two real Petdex pets joined and a Decisions-driven greeting appeared in two tabs sharing one account. Verify a second independent account and browser, event visibility, and meaningful behavior after refresh; distinguish evidence from assumptions.
 3. **Keep admission and secrets server-controlled.** Continue verifying access tokens through Supabase Auth and use the advisory-locked presence function for a maximum of 50 distinct active accounts with a two-minute lease. No service-role or OpenAI credential enters the browser or repository.
 4. **Deliver within the event constraint.** Configure a single long-running Node instance, approved deployment host, provider secrets, and the exact allowed Supabase Auth redirect. Verify public HTTPS and provider access before using it in the video. Built-in email currently restricts recipients; general attendees need SMTP or another user-approved sign-in change, and remain blocked until then.
@@ -67,7 +67,7 @@ Participant identity is Supabase Auth; the server uses `island_presence` as a te
 
 - `public/index.html`, `public/style.css`, and `public/app.js`: sign-in, picker, isometric world, accessible feedback, and event trace. Browser receives only the Supabase URL and publishable key.
 - `server.mjs`: static delivery, verified admission, bounded catalogue and sprite access, joins, world polling, and one-process Decisions loop. Server credentials remain in environment configuration.
-- `schema.sql` and `capacity.sql`: existing tables, server-only grants, RLS and atomic admission. The live project's migrations have already been applied; avoid applying these files twice to it.
+- `schema.sql`, `capacity.sql`, and `upload.sql`: existing tables, uploaded sprites, server-only grants, RLS and atomic admission. The live project's migrations have already been applied; avoid applying these files twice to it.
 - `test/server.test.mjs`: local server-boundary tests; add targeted tests only where they protect material behavior. Supabase holds shared events and presence, not email addresses in the island tables.
 - `README.md`, `LICENSE`, generated kiosk image, and this canvas: setup, provenance, MIT license, limitations, and review record. Petdex creator rights are separate from the project license.
 
