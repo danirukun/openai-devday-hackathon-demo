@@ -1,6 +1,6 @@
 # Venue actions and pet state plan
 
-**Status: actions implemented on the server; pet state and area bonuses still planned.** The printer, photo wall, plotter, refreshments and messages are implemented in `actions.mjs`, `turn.mjs`, `printer.sql` and `actions.sql`, with tests; scene movement and interface display for the new stations are not. This incorporates the Discord handoff and the request for areas that restore energy and fun over time. The user approved dot-style printer figures and a photo wall separate from the physical plotter. Other changes remain proposals. See [pet actions](pet-actions.md) for the current implementation status. The GLB is being built by a teammate.
+**Status: actions implemented on the server; pet state and area bonuses still planned.** The printer, photo wall, plotter, refreshments and messages are implemented in `actions.mjs`, `turn.mjs`, `printer.sql` and `actions.sql`, with tests; the scene shows placeholder stations, station status and pet movement to each station (the photo wall, plotter and refreshments use stand-in models and floor spots in `public/roaming.mjs` until the GLB anchors arrive), but photos, portraits and refreshment items are not yet drawn. This incorporates the Discord handoff and the request for areas that restore energy and fun over time. The user approved dot-style printer figures and a photo wall separate from the physical plotter. Other changes remain proposals. See [pet actions](pet-actions.md) for the current implementation status. The GLB is being built by a teammate.
 
 ## Demo and scope
 
