@@ -109,3 +109,5 @@ input::placeholder { color: #b5c0b4; }
   .hud-button { padding: 0 9px; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; } }
+
+.camera-flash { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; z-index: 2; }
