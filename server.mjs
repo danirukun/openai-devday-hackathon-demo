@@ -130,9 +130,9 @@ const server=createServer(async(req,res)=>{
       void turn(); return send(res,201,{pet:created[0]});
     }
     if(req.method!=='GET') return send(res,404,{error:'Not found.'});
-    const files={'/':['index.html','text/html; charset=utf-8'],'/app.js':['app.js','text/javascript; charset=utf-8'],'/style.css':['style.css','text/css; charset=utf-8'],'/teacup-kiosk.png':['teacup-kiosk.png','image/png']};
+    const files={'/':['index.html','text/html; charset=utf-8'],'/app.js':['app.js','text/javascript; charset=utf-8'],'/style.css':['style.css','text/css; charset=utf-8'],'/teacup-kiosk.png':['teacup-kiosk.png','image/png'],'/venue.glb':['venue.glb','model/gltf-binary']};
     const file=files[url.pathname]; if(!file) return send(res,404,{error:'Not found.'});
-    const contents=await readFile(path.join(root,file[0]));res.writeHead(200,{'content-type':file[1],'x-content-type-options':'nosniff'});res.end(contents);
+    let contents;try{contents=await readFile(path.join(root,file[0]))}catch(error){if(error.code==='ENOENT')return send(res,404,{error:'Not found.'});throw error}res.writeHead(200,{'content-type':file[1],'x-content-type-options':'nosniff'});res.end(contents);
   } catch(e) { if(e instanceof PetPackageError) return send(res,400,{error:e.message}); console.error(e.message); send(res,503,{error:e.message==='Invalid request.'?e.message:'The island could not connect to a required service. Please try again.'}); }
 });
 server.listen(port,()=>console.log(`Pet Island listening on http://localhost:${port}`));
