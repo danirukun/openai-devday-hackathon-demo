@@ -23,3 +23,7 @@ Use a dollhouse/cutaway interpretation of the photographed industrial interior: 
 3. Compare the look against the reference photos and adjust materials/light intensity in the GLB or Three.js; the loader alone cannot guarantee matching lighting.
 4. Confirm pets still join, move and respond to clicks in two browser sessions. Check file size and browser console for missing textures, unsupported compression and rendering errors.
 5. Commit the GLB only after its ownership and asset licenses are clear; keep the `.blend` out of the public repo unless the team explicitly wants to share it.
+
+## Requested activity stations
+
+Reserve space for a small table with a 3D printer and for a photo wall with a paper-drawing plotter. The supplied reference set shows the colorful photo-wall area in `IMG_0273.HEIC`, `IMG_0274.HEIC`, and `IMG_0320.HEIC`; the photos are not included here. Maintain a clear path and enough camera visibility for the pets and resulting objects. Please discuss station positions before final export; runtime anchor naming and placement are not implemented yet. See `docs/pet-actions.md` for the intended interactions.

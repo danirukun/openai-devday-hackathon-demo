@@ -16,7 +16,7 @@ These are the only actions currently implemented. The world records a short even
 
 A pet approaches a 3D printer on a table, chooses what to make, and watches a small object appear in the world. Other visitors see the same pet, choice and resulting object. The finished object should remain visible long enough to inspect and feature in the demo.
 
-For the hackathon, the recommended first version lets the Decisions API choose among a few clearly different, prebuilt or procedurally constructed objects based on the pet's personality. This provides an immediate, real 3D result. It does not claim to generate an arbitrary novel 3D model. Fully generated 3D models require a separate generation service and a latency, cost and reliability check; the team must choose that scope before implementation.
+For the hackathon, the team chose to let the Decisions API select from a few clearly different, prebuilt or procedurally constructed 3D objects based on the pet's personality. This provides an immediate, real 3D result. It does not claim to generate an arbitrary novel 3D model; that is outside the first version.
 
 ### Photo booth: pose and get a plotted portrait
 
