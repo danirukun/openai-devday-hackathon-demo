@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {roamPosition,actionWeight,blendPosition,waveWeight} from '../public/roaming.mjs';
+import {roamPosition,actionWeight,blendPosition,waveWeight,bubbleWeight} from '../public/roaming.mjs';
 const home={x:1,z:2},near=(a,b)=>Math.abs(a-b)<1e-7;
 test('roaming is stable for the same pet and clock, bounded, and changes with time',()=>{
  const now=1730000000000,a=roamPosition('pet-a',home,now),b=roamPosition('pet-a',home,now);
@@ -25,4 +25,12 @@ test('the wave indicator follows only the active wave event',()=>{
  assert.equal(waveWeight({...event,action:'explore'},4000),0);
  assert.equal(waveWeight(null,4000),0);
  assert.equal(waveWeight({...event,created_at:'invalid'},4000),0);
+});
+test('a speech bubble shows only for a sent message and fades with the action window',()=>{
+ const created_at='2024-10-27T03:33:20.000Z',t=Date.parse(created_at);
+ assert.equal(bubbleWeight({action:'send_message',message:'Hello!',created_at},t+10000),1);
+ assert.equal(bubbleWeight({action:'send_message',message:'Hello!',created_at},t+20000),0);
+ assert.equal(bubbleWeight({action:'send_message',message:null,created_at},t+10000),0);
+ assert.equal(bubbleWeight({action:'wave',message:'Hello!',created_at},t+10000),0);
+ assert.equal(bubbleWeight(undefined,t),0);
 });

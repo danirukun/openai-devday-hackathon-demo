@@ -41,7 +41,7 @@ A pet approaches the venue's food area and chooses food or a Codex Cola. Show th
 
 ### Send a message
 
-The Decisions API chooses `send_message` and a tone (cheerful, shy, punny, nerdy, competitive or sleepy) that suits the pet's personality. A light text model, set by `MESSAGE_MODEL`, writes one friendly sentence of at most 140 characters. Personalities are passed as untrusted data. The server rejects multiline text, links and contact details, then runs OpenAI moderation; if anything fails or times out, nothing is saved and the turn shows as failed. The feed names the model that wrote the message, never presenting it as the Decisions API's reasoning.
+The Decisions API chooses `send_message` and a tone (cheerful, shy, punny, nerdy, competitive or sleepy) that suits the pet's personality. A light text model, set by `MESSAGE_MODEL`, writes one friendly sentence of at most 140 characters. Personalities are passed as untrusted data. The server rejects multiline text, links and contact details, then runs OpenAI moderation; if anything fails or times out, nothing is saved and the turn shows as failed. The feed names the model that wrote the message, never presenting it as the Decisions API's reasoning. In the scene, the sender shows the message in a speech bubble above its avatar for the same 20-second window as other actions, fading in and out. The bubble is presentation only: it is drawn from the saved event's message and nothing extra is stored.
 
 ### Meet and exchange contact details
 

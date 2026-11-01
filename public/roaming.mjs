@@ -8,3 +8,4 @@ export function actionWeight(eventTime,timeMs){const elapsed=timeMs-eventTime;if
 export function blendPosition(from,to,weight){return {x:from.x+(to.x-from.x)*weight,z:from.z+(to.z-from.z)*weight}}
 
 export function waveWeight(event,timeMs){return event?.action==='wave'?actionWeight(Date.parse(event.created_at),timeMs):0}
+export function bubbleWeight(event,timeMs){return event?.action==='send_message'&&event.message?actionWeight(Date.parse(event.created_at),timeMs):0}
