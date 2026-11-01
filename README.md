@@ -53,3 +53,9 @@ Pet moods and area bonuses are planned but not implemented; see [the station act
 ## Fly.io deployment
 
 The included Dockerfile and `fly.toml` run the app in London on one always-on Fly Machine. Configure `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, and `OPENAI_API_KEY` as Fly secrets; never put their values in the repository. Deploy with `fly deploy --ha=false --strategy immediate`. Run only one server against the shared world: sessions and the decision scheduler are held in memory, and a restart signs everyone out. Stop a local server connected to the same database before starting the hosted instance. Fly compute and OpenAI API usage can incur charges.
+
+## Shared needs and mood
+
+Apply `supabase/migrations/20261101164901_shared_pet_needs.sql` after `actions.sql` before running this version. Existing and new pets start with fullness, energy, fun and social at 70. The server projects elapsed-time decay and records action gains atomically with the event. The pet card shows four meters and the calculated mood. Decay continues offline; reads do not write state. Area bonuses and inventory consumption are still unimplemented, so a full inventory can prevent further refreshments.
+
+Run `sh test/verify-needs-db.sh` with local PostgreSQL tools to verify initialization, decay, mood thresholds, action gains, rollback and concurrent paired updates in a disposable database.

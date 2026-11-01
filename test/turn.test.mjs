@@ -8,16 +8,17 @@ function fixture({items=[],busyUntil=null}={}) {
   const calls=[];
   const db=async(path,method='GET',data)=>{
     calls.push({path,method,data});
+    if(path==='rpc/project_pet_needs')return [actor,friend].map(p=>({pet_id:p.id,fullness:70,energy:70,fun:70,social:70,mood:'happy',as_of:new Date().toISOString()}));
     if(path.startsWith('island_pets?'))return [actor,friend];
     if(path.startsWith('island_inventory?'))return items;
     if(path.startsWith('island_stations?'))return [{name:'printer',busy_until:busyUntil}];
     if(path.startsWith('island_events?'))return [];
-    if(path==='rpc/save_printer_action'||path==='island_events')return 'saved';
+    if(path==='rpc/save_pet_turn'||path==='island_events')return 'saved';
     throw Error('Unexpected fake database request');
   };
   return {db,calls};
 }
-const writes=calls=>calls.filter(c=>c.method==='POST');
+const writes=calls=>calls.filter(c=>c.method==='POST'&&c.path!=='rpc/project_pet_needs');
 test('one simulated decision offers printer and saves the matching dot once',async()=>{
   const {db,calls}=fixture();let requests=0;
   const done=await runTurn({db,now:()=>1000,chooseActor:()=>0,onRequest:()=>requests++,requestDecision:async request=>{
@@ -27,7 +28,7 @@ test('one simulated decision offers printer and saves the matching dot once',asy
     return {answers:[answer('action','use_printer'),answer('dot','pink_dot')]};
   }});
   assert.equal(done,true);assert.equal(requests,1);assert.equal(writes(calls).length,1);
-  assert.equal(writes(calls)[0].path,'rpc/save_printer_action');
+  assert.equal(writes(calls)[0].path,'rpc/save_pet_turn');
   assert.equal(writes(calls)[0].data.p_pet_id,actor.id);assert.equal(writes(calls)[0].data.p_outcome,'pink_dot');assert.equal(writes(calls)[0].data.p_confidence,.8);
 });
 test('busy or full printers are not offered',async()=>{
@@ -37,7 +38,7 @@ test('busy or full printers are not offered',async()=>{
       assert.equal(request.questions.length,1);assert.ok(!request.questions[0].choices.some(c=>c.value==='use_printer'));
       return {answers:[answer('action','wave'),answer('dot','invalid')]};
     }});
-    assert.equal(writes(calls)[0].path,'island_events');assert.equal(writes(calls)[0].data.action,'wave');
+    assert.equal(writes(calls)[0].path,'rpc/save_pet_turn');assert.equal(writes(calls)[0].data.p_action,'wave');
   }
 });
 test('invalid, refused and unoffered answers never write',async()=>{
@@ -49,6 +50,6 @@ test('invalid, refused and unoffered answers never write',async()=>{
 });
 test('model and database errors propagate instead of reporting success',async()=>{
   let f=fixture();await assert.rejects(runTurn({db:f.db,chooseActor:()=>0,requestDecision:async()=>{throw Error('timeout')}}));assert.equal(writes(f.calls).length,0);
-  f=fixture();const db=async(...args)=>{if(args[0]==='rpc/save_printer_action')throw Error('database unavailable');return f.db(...args)};
+  f=fixture();const db=async(...args)=>{if(args[0]==='rpc/save_pet_turn')throw Error('database unavailable');return f.db(...args)};
   await assert.rejects(runTurn({db,chooseActor:()=>0,requestDecision:async()=>({answers:[answer('action','use_printer'),answer('dot','pink_dot')]})}),/database unavailable/);
 });

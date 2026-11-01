@@ -1,5 +1,8 @@
 # Pet actions
 
+Current implementation update: shared needs, elapsed-time decay, action gains and deterministic mood are implemented by the additive shared_pet_needs migration, needs.mjs and the unified turn save. The card shows four meters and real mood. Area bonuses and inventory consumption remain planned. This update supersedes older references below to mood being unimplemented.
+
+
 For the Discord handoff, proposed changes and timed area bonuses, see the [venue actions and pet state plan](station-actions-plan.md). The user has approved dot-style figures, separate photo wall and plotter activations, Codex Cola instead of coffee, and messages written by a light text model. Pet moods and area bonuses remain planned.
 
 Pet Island's actions should give attendees a reason to watch, share and meet. A single server-owned Decisions API choice selects the pet's next action using its personality and relevant world context. All visitors should see the same action and result.

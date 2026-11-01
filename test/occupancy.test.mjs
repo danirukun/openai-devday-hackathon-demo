@@ -5,7 +5,8 @@ const pets=['a','b','c'].map(id=>({id,name:id,personality:'friendly'}));
 const time=100000;
 const event=(action,pet,other,ago)=>({action,pet_id:pet,other_pet_id:other,created_at:new Date(time-ago).toISOString()});
 function fixture(recent){let requests=0,payload;const db=async(path,method='GET')=>{
- if(path.startsWith('island_pets?'))return pets;
+ if(path==='rpc/project_pet_needs')return pets.map(p=>({pet_id:p.id,fullness:70,energy:70,fun:70,social:70,mood:'happy',as_of:new Date().toISOString()}));
+    if(path.startsWith('island_pets?'))return pets;
  if(path.startsWith('island_inventory?'))return [];
  if(path.startsWith('island_stations?'))return [{name:'printer',busy_until:null},{name:'photo_wall',busy_until:null}];
  if(path.startsWith('island_events?')&&path.includes('created_at=gte.'))return recent;

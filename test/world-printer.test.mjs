@@ -7,11 +7,12 @@ import {runTurn} from '../turn.mjs';
 // This entire world is fake and exists only in the test process.
 const world={pets:[{id:'pet-a',name:'Mochi',personality:'Inventive'},{id:'pet-b',name:'Pip',personality:'Curious'}],events:[{id:'old',pet_id:'pet-b',pet_name:'Pip',other_name:'Mochi',action:'wave'}],inventory:[],stations:[{name:'printer',busy_until:null}]};
 const db=async(path,method='GET',data)=>{
- if(path.startsWith('island_pets?'))return world.pets;
+ if(path==='rpc/project_pet_needs')return world.pets.map(p=>({pet_id:p.id,fullness:70,energy:70,fun:70,social:70,mood:'happy',as_of:new Date().toISOString()}));
+    if(path.startsWith('island_pets?'))return world.pets;
  if(path.startsWith('island_events?'))return world.events;
  if(path.startsWith('island_inventory?'))return world.inventory;
  if(path.startsWith('island_stations?'))return world.stations;
- if(path==='rpc/save_printer_action'&&method==='POST'){
+ if(path==='rpc/save_pet_turn'&&method==='POST'){
   const event={id:'print-1',pet_id:data.p_pet_id,pet_name:'Mochi',other_name:data.p_other_name,action:'use_printer',outcome:data.p_outcome,confidence:data.p_confidence,context:data.p_context};
   world.events.unshift(event);world.inventory.push({pet_id:data.p_pet_id,event_id:event.id,item_type:'dot',item_key:data.p_outcome});world.stations[0].busy_until='2099-01-01T00:00:00Z';return event.id;
  }

@@ -12,6 +12,7 @@ function fixture({pets=[mochi,pip],items=[],stations=allFree,history=[]}={}) {
   const calls=[];
   const db=async(path,method='GET',data)=>{
     calls.push({path,method,data});
+    if(path==='rpc/project_pet_needs')return pets.map(p=>({pet_id:p.id,fullness:70,energy:70,fun:70,social:70,mood:'happy',as_of:new Date().toISOString()}));
     if(path.startsWith('island_pets?'))return pets;
     if(path.startsWith('island_inventory?'))return items;
     if(path.startsWith('island_stations?'))return stations;
@@ -19,7 +20,7 @@ function fixture({pets=[mochi,pip],items=[],stations=allFree,history=[]}={}) {
     if(method==='POST')return 'saved';
     throw Error('Unexpected fake database request');
   };
-  return {db,calls,writes:()=>calls.filter(c=>c.method==='POST')};
+  return {db,calls,writes:()=>calls.filter(c=>c.method==='POST'&&c.path!=='rpc/project_pet_needs')};
 }
 const values=offered=>offered.map(a=>a.value);
 const base={actor:mochi,partner:pip,items:[],stations:allFree,history:[],now:1000,messagesEnabled:true};
@@ -58,14 +59,16 @@ test('the partner is random and the question includes history and inventory',asy
   assert.match(request.input,/carrying: 1 pink dot/);
   assert.doesNotMatch(request.input,/friendly action/);
   assert.match(f.calls.find(c=>c.path.includes('or=(pet_id.eq.')).path,/or=\(pet_id\.eq\.pet-a,other_pet_id\.eq\.pet-a\)/);
-  assert.equal(f.writes()[0].data.other_name,'Bo');assert.equal(f.writes()[0].data.other_pet_id,'pet-c');
+  assert.equal(f.writes()[0].data.p_other_pet_id,bo.id);
+  assert.match(request.input,/Needs \(10–100\)/);
+  assert.match(request.input,/Mood: happy/);
 });
 test('station actions save through save_action with the right details',async()=>{
   for(const [choice,extra,expected] of [['take_photo',null,{p_other_pet_id:'pet-b',p_outcome:null}],['use_plotter',null,{p_other_pet_id:null,p_outcome:null}],['visit_refreshments',answer('item','food'),{p_other_pet_id:null,p_outcome:'food'}]]){
     const f=fixture();
     await runTurn({db:f.db,chooseActor:()=>0,choosePartner:()=>0,requestDecision:async()=>({answers:[answer('action',choice),...(extra?[extra]:[])]})});
     assert.equal(f.writes().length,1);const w=f.writes()[0];
-    assert.equal(w.path,'rpc/save_action');assert.equal(w.data.p_action,choice);assert.equal(w.data.p_pet_id,'pet-a');
+    assert.equal(w.path,'rpc/save_pet_turn');assert.equal(w.data.p_action,choice);assert.equal(w.data.p_pet_id,'pet-a');
     for(const [k,v] of Object.entries(expected))assert.equal(w.data[k],v,`${choice} ${k}`);
   }
 });
@@ -76,7 +79,7 @@ test('messages are written, checked and moderated before saving',async()=>{
   let f=fixture(),seen={};
   await turn(f,'"Want to pair-program over a Codex Cola?"',false,seen);
   assert.ok(seen.questions.some(q=>q.name==='tone'));assert.equal(seen.pets.tone,'punny');assert.equal(seen.pets.recipient.id,'pet-b');
-  const w=f.writes()[0];assert.equal(w.path,'rpc/save_action');assert.equal(w.data.p_message,'Want to pair-program over a Codex Cola?');assert.equal(w.data.p_message_model,'fake-light-model');assert.equal(w.data.p_outcome,'punny');assert.equal(seen.moderated,w.data.p_message);
+  const w=f.writes()[0];assert.equal(w.path,'rpc/save_pet_turn');assert.equal(w.data.p_message,'Want to pair-program over a Codex Cola?');assert.equal(w.data.p_message_model,'fake-light-model');assert.equal(w.data.p_outcome,'punny');assert.equal(seen.moderated,w.data.p_message);
   for(const [text,flagged] of [['Find me at https://evil.example',false],['Email me at a@b.co',false],['Follow @mochi',false],['Call 020 7946 0958',false],['line one\nline two',false],['x'.repeat(141),false],['',false],['A friendly hello!',true]]){
     f=fixture();await assert.rejects(turn(f,text,flagged));assert.equal(f.writes().length,0,JSON.stringify(text));
   }

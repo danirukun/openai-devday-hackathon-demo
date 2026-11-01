@@ -1,5 +1,8 @@
 # Venue actions and pet state plan
 
+Current implementation update: shared needs, elapsed-time decay, action gains and deterministic mood are implemented by the additive shared_pet_needs migration, needs.mjs and the unified turn save. The card shows four meters and real mood. Area bonuses and inventory consumption remain planned. This update supersedes older references below to mood being unimplemented.
+
+
 **Status: actions implemented on the server; pet state and area bonuses still planned.** The printer, photo wall, plotter, refreshments and messages are implemented in `actions.mjs`, `turn.mjs`, `printer.sql` and `actions.sql`, with tests; the scene shows placeholder stations, station status and pet movement to each station (the photo wall, plotter and refreshments use stand-in models and floor spots in `public/roaming.mjs` until the GLB anchors arrive), but photos, portraits and refreshment items are not yet drawn. This incorporates the Discord handoff and the request for areas that restore energy and fun over time. The user approved dot-style printer figures and a photo wall separate from the physical plotter. Other changes remain proposals. See [pet actions](pet-actions.md) for the current implementation status. The GLB is being built by a teammate.
 
 ## Demo and scope

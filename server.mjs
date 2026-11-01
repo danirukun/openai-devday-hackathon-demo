@@ -1,3 +1,4 @@
+import {withNeeds} from './needs.mjs';
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
@@ -117,7 +118,7 @@ const server=createServer(async(req,res)=>{
       const access=await admit(req); if(access.status!==200) return send(res,access.status,{error:access.error});
       lastViewer=Date.now();
       const [residents,events,inventory,stations]=await Promise.all([db('island_pets?select=*&order=created_at.desc&limit=50'),db('island_events?select=*&order=created_at.desc&limit=20'),db('island_inventory?select=pet_id,item_type,item_key,partner_pet_id,created_at&order=created_at.desc&limit=600'),db('island_stations?select=name,busy_until&order=name')]);
-      return send(res,200,{pets:residents,events:events.map(event=>({...event,summary:describeEvent(event)})),inventory,stations,decisionsConfigured:Boolean(process.env.OPENAI_API_KEY),messagesConfigured:Boolean(messageModel),decisionError});
+      return send(res,200,{pets:await withNeeds(db,residents),events:events.map(event=>({...event,summary:describeEvent(event)})),inventory,stations,decisionsConfigured:Boolean(process.env.OPENAI_API_KEY),messagesConfigured:Boolean(messageModel),decisionError});
     }
     if(req.method==='POST' && url.pathname==='/api/join-upload') {
       const access=await admit(req); if(access.status!==200) return send(res,access.status,{error:access.error});
