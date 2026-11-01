@@ -5,7 +5,7 @@ import path from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { parsePetPackage, PetPackageError } from './pet-package.mjs';
 import { readUploadForm } from './upload-form.mjs';
-import { dots, printerAction, printerAvailable, validateAnswers } from './printer.mjs';
+import { runTurn } from './turn.mjs';
 import { createSessions, isSameOrigin } from './session.mjs';
 
 const root = fileURLToPath(new URL('./public/', import.meta.url));
@@ -16,11 +16,6 @@ const sharedPassword = process.env.ISLAND_PASSWORD;
 const sessions = createSessions(sharedPassword || '', {secure:process.env.COOKIE_SECURE === 'true'});
 let catalogue = null, loadedAt = 0, busy = false, lastTurn = 0, lastViewer = 0, turnCount = 0, decisionError = null;
 const joins = new Map();
-const choices = [
-  { value:'approach', description:'Walk over to greet another nearby pet.' },
-  { value:'wave', description:'Wave a friendly hello from here.' },
-  { value:'explore', description:'Explore the island independently.' }
-];
 const send = (res, status, data, headers={}) => { res.writeHead(status, {'content-type':'application/json; charset=utf-8','cache-control':'no-store','x-content-type-options':'nosniff',...headers}); res.end(JSON.stringify(data)); };
 async function db(table, method='GET', data) {
   if (!base || !secret) throw Error('Supabase is not configured on the server.');
@@ -53,23 +48,12 @@ async function turn() {
   if (busy || Date.now()-lastTurn < 30000 || Date.now()-lastViewer > 120000 || turnCount >= 30 || !process.env.OPENAI_API_KEY) return;
   busy=true; lastTurn=Date.now();
   try {
-    const residents=await db('island_pets?select=*&order=created_at.desc&limit=50');
-    if (!residents.length) return;
-    const actor=residents[Math.floor(Math.random()*residents.length)];
-    const other=residents.find(p=>p.id!==actor.id);
-    const [items,stations]=await Promise.all([db('island_inventory?select=pet_id,item_type,item_key&limit=600'),db('island_stations?select=name,busy_until&name=eq.printer')]);
-    const baseChoices=other ? choices : choices.filter(choice=>choice.value==='explore');
-    const offered=printerAvailable(actor.id,items,stations[0]?.busy_until) ? [...baseChoices,printerAction] : baseChoices;
-    if(offered.length<2) return;
-    const questions=[{type:'choice',name:'action',instructions:'Choose what this pet should do next, considering its personality.',choices:offered}];
-    if(offered.includes(printerAction)) questions.push({type:'choice',name:'dot',instructions:'Choose the dot figure that best suits this pet, based on its personality.',choices:dots});
-    const input=`A pet named ${actor.name}, personality: ${actor.personality}, is on a miniature island${other ? ` near ${other.name}, personality: ${other.personality}` : ' alone'}. Choose its next friendly action.`;
-    turnCount++;
-    const response=await fetch('https://api.openai.com/v1/decisions',{method:'POST',headers:{Authorization:`Bearer ${process.env.OPENAI_API_KEY}`,'content-type':'application/json'},body:JSON.stringify({model:'gpt-6-luna',input,questions}),signal:AbortSignal.timeout(15000)});
-    if (!response.ok) throw Error(`Decisions request failed (${response.status}).`);
-    const result=await response.json(); const {action:answer,dot}=validateAnswers(result.answers,offered);
-    if(dot) await db('rpc/save_printer_action','POST',{p_pet_id:actor.id,p_other_name:other?.name||'',p_confidence:answer.confidence,p_context:input,p_outcome:dot});
-    else await db('island_events','POST',{pet_id:actor.id,pet_name:actor.name,other_name:other?.name||'',action:answer.choice,confidence:answer.confidence,context:input});
+    const completed=await runTurn({db,onRequest:()=>{turnCount++},requestDecision:async payload=>{
+      const response=await fetch('https://api.openai.com/v1/decisions',{method:'POST',headers:{Authorization:`Bearer ${process.env.OPENAI_API_KEY}`,'content-type':'application/json'},body:JSON.stringify(payload),signal:AbortSignal.timeout(15000)});
+      if(!response.ok) throw Error(`Decisions request failed (${response.status}).`);
+      return response.json();
+    }});
+    if(!completed) return;
     decisionError=null;
   } catch (error) { decisionError='A decision could not be completed. The island will try again later.'; console.error('Decision turn:',error.message); }
   finally {busy=false;}

@@ -6,10 +6,10 @@ A small shared island for community coding pets. Visitors choose a Petdex pet or
 
 ## Run locally
 
-1. Install Node.js 22.9 or later and run `npm ci`. Create a separate Supabase project and apply `schema.sql`, `capacity.sql`, then `upload.sql` once with the Supabase SQL editor. The application uses server-only access to these tables; RLS blocks anonymous direct access.
+1. Install Node.js 22.9 or later and run `npm ci`. Create a separate Supabase project and apply `schema.sql`, `capacity.sql`, `upload.sql`, then `printer.sql` once with the Supabase SQL editor. The application uses server-only access to these tables; RLS blocks anonymous direct access.
 2. Copy `.env.example` to `.env`, and fill in `SUPABASE_URL`, the server-side `SUPABASE_SERVICE_ROLE_KEY` (or compatible secret key), `OPENAI_API_KEY`, and a shared `ISLAND_PASSWORD`. Never commit or share `.env`. Use an OpenAI project with access to the Decisions API and billing/credits configured.
 3. Run `npm start` and open `http://localhost:3000`. Petdex and the Three.js CDN require internet access. Enter the shared password, then create two pets with innocuous personalities; wait up to 30 seconds for an interaction. Open a second browser to see the shared state. Petdex access and Decisions/model availability depend on the providers.
-4. Run `npm test`. The tests cover the local HTTP boundary, input rejection and unavailable-database handling; they do not replace a live two-browser provider test.
+4. Run `npm test`. Automated turn tests use fake Decisions responses and an isolated fake store; they do not replace a live two-browser provider test. If local PostgreSQL tools are installed, `sh test/verify-printer-db.sh` also tests competing writes in a disposable database.
 
 This demo stores names, public personalities and recent interactions. Do not enter personal data or secrets. All users can view this shared content. Uploaded sprites are served through an unguessable image URL, which anyone possessing it can access. The in-process request limits are for a small supervised demo and are not sufficient for an unrestricted public service.
 
@@ -42,4 +42,4 @@ The app uses Three.js r187 and will load an optional self-contained `public/venu
 
 See [pet actions](docs/pet-actions.md) for the actions available now and the requested printer and photo booth activations.
 
-The printer station requires the additive `printer.sql` migration after the existing setup migrations. It stores dot items and shared station state with server-only access. The figures are provisional; confirm the rights to the dots look with the event organizers before a public demo.
+The printer station requires the additive `printer.sql` migration after the existing setup migrations. When a print is saved, its item and activity appear immediately while the pet travels to the printer; the station remains busy for 20 seconds. It stores dot items and shared station state with server-only access. The figures are provisional; confirm the rights to the dots look with the event organizers before a public demo.
