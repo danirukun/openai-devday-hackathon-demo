@@ -1,0 +1,126 @@
+group,collection,object,category,parent
+Architecture,03 Provisional roof trusses,Longitudinal beam | left,,
+Architecture,03 Provisional roof trusses,Longitudinal beam | right,,
+Architecture,03 Provisional roof trusses,Truss 01 | centre,,
+Architecture,03 Provisional roof trusses,Truss 01 | diagonal L,,
+Architecture,03 Provisional roof trusses,Truss 01 | diagonal R,,
+Architecture,03 Provisional roof trusses,Truss 01 | left slope,,
+Architecture,03 Provisional roof trusses,Truss 01 | lower chord,,
+Architecture,03 Provisional roof trusses,Truss 01 | right slope,,
+Architecture,03 Provisional roof trusses,Truss 02 | centre,,
+Architecture,03 Provisional roof trusses,Truss 02 | diagonal L,,
+Architecture,03 Provisional roof trusses,Truss 02 | diagonal R,,
+Architecture,03 Provisional roof trusses,Truss 02 | left slope,,
+Architecture,03 Provisional roof trusses,Truss 02 | lower chord,,
+Architecture,03 Provisional roof trusses,Truss 02 | right slope,,
+Architecture,03 Provisional roof trusses,Truss 03 | centre,,
+Architecture,03 Provisional roof trusses,Truss 03 | diagonal L,,
+Architecture,03 Provisional roof trusses,Truss 03 | diagonal R,,
+Architecture,03 Provisional roof trusses,Truss 03 | left slope,,
+Architecture,03 Provisional roof trusses,Truss 03 | lower chord,,
+Architecture,03 Provisional roof trusses,Truss 03 | right slope,,
+Architecture,03 Provisional roof trusses,Truss 04 | centre,,
+Architecture,03 Provisional roof trusses,Truss 04 | diagonal L,,
+Architecture,03 Provisional roof trusses,Truss 04 | diagonal R,,
+Architecture,03 Provisional roof trusses,Truss 04 | left slope,,
+Architecture,03 Provisional roof trusses,Truss 04 | lower chord,,
+Architecture,03 Provisional roof trusses,Truss 04 | right slope,,
+Architecture,03 Provisional roof trusses,Truss 05 | centre,,
+Architecture,03 Provisional roof trusses,Truss 05 | diagonal L,,
+Architecture,03 Provisional roof trusses,Truss 05 | diagonal R,,
+Architecture,03 Provisional roof trusses,Truss 05 | left slope,,
+Architecture,03 Provisional roof trusses,Truss 05 | lower chord,,
+Architecture,03 Provisional roof trusses,Truss 05 | right slope,,
+Architecture,Architecture | ceilings,Ceiling_Dining_Room_1,,Ceilings
+Architecture,Architecture | ceilings,Ceiling_Dining_Room_2,,Ceilings
+Architecture,Architecture | ceilings,Ceiling_Living_Room_0,,Ceilings
+Architecture,Architecture | ceilings,Ceiling_Living_Room_1,,Ceilings
+Architecture,Architecture | ceilings,Ceiling_Living_Room_2,,Ceilings
+Architecture,Architecture | ceilings,Ceiling_Living_Room_3,,Ceilings
+Architecture,Architecture | ceilings,Ceiling_Living_Room_4,,Ceilings
+Architecture,Architecture | ceilings,Ceiling_Other_1,,Ceilings
+Architecture,Architecture | ceilings,Ceiling_Other_2,,Ceilings
+Architecture,Architecture | doors and windows,Door_0,,Doors
+Architecture,Architecture | doors and windows,Window_0,,Windows
+Architecture,Architecture | doors and windows,Window_1,,Windows
+Architecture,Architecture | doors and windows,Window_2,,Windows
+Architecture,Architecture | doors and windows,Window_3,,Windows
+Architecture,Architecture | floors,Floor_Dining_Room_1,,Floors
+Architecture,Architecture | floors,Floor_Dining_Room_2,,Floors
+Architecture,Architecture | floors,Floor_Living_Room,,Floors
+Architecture,Architecture | floors,Floor_Other_1,,Floors
+Architecture,Architecture | floors,Floor_Other_2,,Floors
+Architecture,Architecture | walls and joints,Joint_0,,Walls
+Architecture,Architecture | walls and joints,Joint_1,,Walls
+Architecture,Architecture | walls and joints,Joint_10,,Walls
+Architecture,Architecture | walls and joints,Joint_11,,Walls
+Architecture,Architecture | walls and joints,Joint_12,,Walls
+Architecture,Architecture | walls and joints,Joint_13,,Walls
+Architecture,Architecture | walls and joints,Joint_14,,Walls
+Architecture,Architecture | walls and joints,Joint_15,,Walls
+Architecture,Architecture | walls and joints,Joint_16,,Walls
+Architecture,Architecture | walls and joints,Joint_17,,Walls
+Architecture,Architecture | walls and joints,Joint_18,,Walls
+Architecture,Architecture | walls and joints,Joint_19,,Walls
+Architecture,Architecture | walls and joints,Joint_2,,Walls
+Architecture,Architecture | walls and joints,Joint_3,,Walls
+Architecture,Architecture | walls and joints,Joint_4,,Walls
+Architecture,Architecture | walls and joints,Joint_5,,Walls
+Architecture,Architecture | walls and joints,Joint_6,,Walls
+Architecture,Architecture | walls and joints,Joint_7,,Walls
+Architecture,Architecture | walls and joints,Joint_8,,Walls
+Architecture,Architecture | walls and joints,Joint_9,,Walls
+Architecture,Architecture | walls and joints,Wall_0,,Walls
+Architecture,Architecture | walls and joints,Wall_1,,Walls
+Architecture,Architecture | walls and joints,Wall_10,,Walls
+Architecture,Architecture | walls and joints,Wall_11,,Walls
+Architecture,Architecture | walls and joints,Wall_12,,Walls
+Architecture,Architecture | walls and joints,Wall_13,,Walls
+Architecture,Architecture | walls and joints,Wall_14,,Walls
+Architecture,Architecture | walls and joints,Wall_15,,Walls
+Architecture,Architecture | walls and joints,Wall_16,,Walls
+Architecture,Architecture | walls and joints,Wall_17,,Walls
+Architecture,Architecture | walls and joints,Wall_18,,Walls
+Architecture,Architecture | walls and joints,Wall_19,,Walls
+Architecture,Architecture | walls and joints,Wall_2,,Walls
+Architecture,Architecture | walls and joints,Wall_20,,Walls
+Architecture,Architecture | walls and joints,Wall_21,,Walls
+Architecture,Architecture | walls and joints,Wall_22,,Walls
+Architecture,Architecture | walls and joints,Wall_23,,Walls
+Architecture,Architecture | walls and joints,Wall_24,,Walls
+Architecture,Architecture | walls and joints,Wall_25,,Walls
+Architecture,Architecture | walls and joints,Wall_26,,Walls
+Architecture,Architecture | walls and joints,Wall_3,,Walls
+Architecture,Architecture | walls and joints,Wall_4,,Walls
+Architecture,Architecture | walls and joints,Wall_5,,Walls
+Architecture,Architecture | walls and joints,Wall_6,,Walls
+Architecture,Architecture | walls and joints,Wall_7,,Walls
+Architecture,Architecture | walls and joints,Wall_8,,Walls
+Architecture,Architecture | walls and joints,Wall_9,,Walls
+Furniture,Furniture | chairs,chair_dining_four_back_arms_0,Chair,Furniture
+Furniture,Furniture | chairs,chair_dining_four_back_arms_1,Chair,Furniture
+Furniture,Furniture | chairs,chair_dining_four_back_no_0,Chair,Furniture
+Furniture,Furniture | chairs,chair_dining_four_back_no_1,Chair,Furniture
+Furniture,Furniture | chairs,chair_dining_four_back_no_2,Chair,Furniture
+Furniture,Furniture | chairs,chair_dining_four_back_no_3,Chair,Furniture
+Furniture,Furniture | chairs,chair_dining_four_back_no_4,Chair,Furniture
+Furniture,Furniture | chairs,chair_other_four_back_no_0,Chair,Furniture
+Furniture,Furniture | chairs,chair_other_four_back_no_1,Chair,Furniture
+Furniture,Furniture | chairs,chair_other_four_back_no_2,Chair,Furniture
+Furniture,Furniture | chairs,chair_other_four_back_no_3,Chair,Furniture
+Furniture,Furniture | sofas and armchairs,sofa_rect_0,Sofa / armchair,Furniture
+Furniture,Furniture | sofas and armchairs,sofa_rect_1,Sofa / armchair,Furniture
+Furniture,Furniture | sofas and armchairs,sofa_single_0,Sofa / armchair,Furniture
+Furniture,Furniture | sofas and armchairs,sofa_single_1,Sofa / armchair,Furniture
+Furniture,Furniture | storage,storage_cabinet_tall2_0,Storage cabinet,Fixtures
+Furniture,Furniture | tables,table_dining_rect_0,Table,Furniture
+Furniture,Furniture | tables,table_dining_rect_1,Table,Furniture
+Furniture,Furniture | tables,table_dining_rect_2,Table,Furniture
+Furniture,Furniture | tables,table_dining_rect_3,Table,Furniture
+Furniture,Furniture | tables,table_other_rect_0,Table,Furniture
+Furniture,Furniture | tables,table_other_rect_1,Table,Furniture
+Furniture,Furniture | tables,table_other_rect_2,Table,Furniture
+Furniture,Furniture | tables,table_other_rect_3,Table,Furniture
+Furniture,Furniture | tables,table_other_rect_4,Table,Furniture
+Furniture,Furniture | tables,table_other_rect_5,Table,Furniture
+Furniture,Furniture | tables,table_other_rect_6,Table,Furniture

@@ -1,0 +1,30 @@
+---
+name: blender-lowpoly-environment
+description: Build or refine the Pet Island venue as an editable low-poly isometric Blender environment using the project's style and venue references, then verify its Three.js GLB handoff when requested.
+---
+
+# Blender low-poly environment
+
+Create an editable, self-contained environment with native Blender geometry and local materials; do not use hosted model generation, vendor meshes or third-party downloads as a reconstruction fallback. Use `3d-environment/reference-images/style.png` as the visual style reference: inspect it at the start of each task. It is a local, git-ignored input and may be absent in another checkout; if missing, ask for it rather than claiming to have inspected it. The image guides appearance, not the venue's floor plan or dimensions. Use the venue photos, map, user instructions and existing survey for subject and layout. Preserve original inputs and existing scene files; save a new version when modifying a scene.
+
+## Style and fidelity contract
+
+Before modeling, record the requested deliverable, important recognizable venue features, views to review, output size, and any scale or runtime constraints. Identify which references establish layout and which establish style. Separate observed features from inferred or deliberately simplified geometry; the map is schematic and the existing photo survey is not measured. Do not invent exact dimensions or hidden details. If a critical decision cannot be inferred, make a clearly labeled provisional choice when useful and ask for the missing information when it blocks the requested fidelity.
+
+Translate the style image into a cohesive low-poly world: an elevated orthographic/isometric composition, simple readable silhouettes, broad pastel color areas, faceted foliage and terrain, minimal surface detail, and gentle directional shading and shadows. It includes a more detailed illustrated kiosk and pixel-art pet sprite; use them as cues for the friendly, playful mood, not as a demand to model or copy those objects. Preserve the recognizable industrial venue features requested by the user while simplifying forms and materials to fit this visual language. Compare against the actual reference rather than treating this description as a substitute.
+
+For venue work, read `docs/venue-glb-handoff.md` and, when relevant, `3d-environment/scenes/REFERENCE_SURVEY.md`, `3d-environment/scenes/reference-index.csv`, and `3d-environment/scenes/CAMERA_CALIBRATION.md`. Existing drafts are provisional: inspect them and reuse appropriate work, but do not assume their dimensions or placements are verified. Treat the existing camera-facing photo-wall orientation correction as a known constraint to check against source views.
+
+## Build and review
+
+1. Plan the scene graph, landmarks, camera, palette and output paths. Use `3d-environment/scenes/` for editable `.blend` files and reusable build scripts, and `3d-environment/renders/` for preview and final renders. Keep scene objects and collections named and independently editable where useful. Use Blender's data API, mesh constructors, instances or modifiers as appropriate; keep a scripted build repeatable if one is created.
+2. Block out the floor, cutaway walls and major features first. Render from an orthographic camera approximating the app view, then refine silhouettes, proportions, landmark placement and pet visibility before adding small details. Do not copy identifiable people or private reference imagery into public assets.
+3. Add simplified architecture and station props, flat or simple PBR materials, and restrained lighting. Favor low polygon and draw-call counts and legibility at the actual display size over tiny features. Keep the center and pet travel area unobstructed; the current app has no collision or navigation system. Station positions and runtime anchors are not yet implemented; do not imply they are functional.
+4. Inspect rendered images at the intended output size. Compare the overall composition, palette, faceting, shadows and apparent detail density with `style.png`, and recognizable layout and features with the appropriate venue references. Inspect a top view and a second view for missing surfaces, clipping and obstructed paths. Record the visible differences and inferred areas. If the same problem persists after two attempts, reconsider the modeling approach.
+5. Save the actual reviewed scene and verify it reopens. If scripted, rerun the build and check stable object counts, bounds and material assignments. Check relevant geometry, transforms, missing assets, camera framing and output settings before delivery. Report unverified items rather than claiming a visual pass from numeric checks alone.
+
+## App handoff, when requested
+
+Follow `docs/venue-glb-handoff.md` and check `public/app.js` for the current loader behavior before export. The current app uses an orthographic camera at `(10, 11, 13)`, centers the model's horizontal footprint, scales its longest side to 8 world units, and puts its lowest point at Y=0. Design a cutaway with a clear, flat central floor at least 6.5 normalized units across; avoid geometry that distorts the bounds. Blender is Z-up; use standard glTF Y-up export and verify the result in the app. Keep the `.blend` editable and export a single self-contained `public/venue.glb` with simple glTF-compatible materials and embedded textures; target under 10 MB and do not rely on Draco, Meshopt or KTX2 decoders.
+
+Run the app and inspect the actual GLB at wide and narrow viewport sizes, including pets, their movement and click visibility, station clearance, materials, lighting and browser errors. Blender lights and world settings do not necessarily carry over. Check that the venue loads and the fallback island disappears; if live integration cannot be exercised, explicitly report the gap. Do not overwrite a delivered asset or claim integration has passed without checking the actual output. Record asset provenance and licensing for anything included in a public export.
