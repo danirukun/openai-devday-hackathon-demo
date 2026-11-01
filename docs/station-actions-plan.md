@@ -49,7 +49,7 @@ Proposed starting test values, subject to tuning: a regular eligible area adds 1
 
 ## Shared state and safeguards
 
-- The server offers only eligible actions. Paired actions need another pet; busy stations cannot be selected. The photo wall may hold exactly two pets for one photo. Release reservations on completion, failure or timeout.
+- The server offers only eligible actions. It excludes pets in an active 20-second station visit, including both photo participants, before choosing the actor and partner. Paired actions need another available pet; busy stations cannot be selected. The photo wall may hold exactly two pets for one photo. Release reservations on completion, failure or timeout.
 - Persist action, participants, station status and outcome once. Commit event, resulting inventory and both pets' updated needs atomically. A pet's inventory is capped at 12 items; the handoff also proposes no more than three dots and one ready-to-plot portrait per pet. A photo record belongs to both pets. Deleting a pet deletes its inventory.
 - Return shared activity, inventory and game state to visitors without exposing email or private profile details. An item record is not a stored photo or an actual plotted portrait.
 - Treat visitor-entered personalities as untrusted data. A message is one friendly public sentence, at most 140 characters. Reject multiline content, links and contact details, then run moderation before storing it. On invalid output, a failed moderation check or timeout, save no message and report a failed turn; do not substitute fabricated text. Do not message the same partner twice in a row. The exact text model is still the team's choice, set with `MESSAGE_MODEL`.

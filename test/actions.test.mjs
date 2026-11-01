@@ -57,7 +57,7 @@ test('the partner is random and the question includes history and inventory',asy
   assert.match(request.input,/Mochi waved hello to Pip\. Pip posed for a photo with Mochi at the photo wall\./);
   assert.match(request.input,/carrying: 1 pink dot/);
   assert.doesNotMatch(request.input,/friendly action/);
-  assert.match(f.calls.find(c=>c.path.startsWith('island_events?')).path,/or=\(pet_id\.eq\.pet-a,other_pet_id\.eq\.pet-a\)/);
+  assert.match(f.calls.find(c=>c.path.includes('or=(pet_id.eq.')).path,/or=\(pet_id\.eq\.pet-a,other_pet_id\.eq\.pet-a\)/);
   assert.equal(f.writes()[0].data.other_name,'Bo');assert.equal(f.writes()[0].data.other_pet_id,'pet-c');
 });
 test('station actions save through save_action with the right details',async()=>{
