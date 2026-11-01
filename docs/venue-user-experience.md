@@ -18,13 +18,24 @@ The venue and activities are primarily observed; the initial design does not pro
 
 ## Main screen
 
-**Desktop-first layout:** Give the isometric venue the largest area. Keep a compact header with the Pet Island name, occupancy/status, profile and sign-out. Beside the scene, use an activity panel with three views: **Activity**, **Pets**, and **My profile**. The panel can show a selected pet or station without covering the venue. On narrow windows, stack the activity panel below the scene and keep entry and sign-in usable without horizontal scrolling.
+**Desktop and phone are both required:** On larger screens, give the isometric venue the largest area and place the activity panel beside it. Keep a compact header with the Pet Island name, occupancy/status, profile and sign-out. The panel has three views: **Activity**, **Pets**, and **My profile**. On phones, use the dedicated layout below rather than shrinking the desktop view.
 
 - **Activity:** recent shared events in plain language, such as “Mochi is making a tiny star” or “Boba is at the photo booth.” Show progress and completed results only when they actually exist. Selecting an event opens its detail.
 - **Pets:** a text list of pets, owners' public pet names and current activities. Selecting one highlights it and exposes the same details available by clicking it in the scene. This supplies a keyboard-accessible alternative to hitting small sprites.
 - **Pet detail:** show the pet's name, supplied personality, current activity and recent event. When a real Decisions result exists, show the supplied context and returned choice/confidence as a **decision trace**, never as a fabricated explanation of the model's reasoning. Show creator attribution for Petdex pets.
 - **My profile:** edit or remove the attendee's optional handles and see pending connection invitations. Keep email and private handles out of public activity cards and screenshots.
 - **Station detail:** identify the printer, photo booth or refreshment area, show whether it is available or in use, and display a finished object or portrait when available. The first version needs no general building editor or arbitrary placement tools.
+
+## Mobile experience
+
+Attendees can complete the same sign-in, pet selection or upload, observation and mutual-opt-in connection journey on an ordinary phone browser. Portrait orientation is the default; landscape is optional. The venue, activity and contact permissions are shared with desktop visitors, not a separate mobile world.
+
+- **Layout:** Use a compact header and an edge-to-edge venue panel, with a clearly visible control to open Activity, Pets or My profile below the scene. On narrow screens, these views can use a bottom sheet or stacked panel; selecting a pet or station must leave an obvious way to return to the venue. Respect the phone's safe areas and dynamic browser bars, and avoid horizontal scrolling or controls hidden behind the keyboard.
+- **Touch:** Tap a pet or station for details, with a selectable text list as an alternative when small sprites are hard to hit. Aim for at least 44 × 44 CSS-pixel interactive targets, visible focus states and readable labels. Normal page scrolling must work without accidental scene gestures; don't require drag, hover, pinch or rotation to finish the journey.
+- **Sign-in:** Email magic links may open from a mail app in a different browser. Return the attendee to the signed-in venue on the device that opens the link, explain recovery if the session lands in another browser, and preserve a clear route to resume bringing a pet. Verify the actual flow rather than assuming app-to-browser handoff works.
+- **Bring a pet:** Offer the Petdex gallery and the ZIP upload equally. The ZIP picker must work with the phone's native Files chooser, including files stored on-device or in a cloud drive. Show format/size errors in the form, retain the personality after an error, and allow the gallery path when the attendee has no ZIP. No camera access is required for the virtual photo booth.
+- **Readable shared activity:** Present recent events as concise cards; make printer outcomes and photo-booth sketches tappable for a larger view. Keep handles hidden until both owners opt in. Profile and connection controls must remain reachable without relying on small objects in the 3D scene.
+- **Performance and fallback:** Keep the GLB and textures lightweight, cap rendering pixel density, and adapt the view to available screen size. If WebGL or model loading fails, show a clear message and retain usable text-based activity and pet controls where possible; never invent simulated events. Actual performance depends on the delivered model and device.
 
 ## Venue direction
 
@@ -65,7 +76,7 @@ Keep the interface quiet around the colorful venue: warm off-white surfaces, dee
 ## Verification before the demo
 
 1. Use two distinct permitted accounts in separate browser profiles. Each can sign in, add a pet and see the other's pet and the same activity after a refresh.
-2. Check keyboard navigation through sign-in, both pet-source choices, profile, activity list and an alternative to clicking pets in the 3D scene. Check a narrow viewport and reduced-motion mode.
+2. Verify the complete journey on a real iPhone in Safari and a real Android phone in Chrome when available: magic-link return, native ZIP selection, gallery selection, activity/pet details, opt-in controls and shared state with a desktop session. Test portrait at a narrow viewport, keyboard-open and browser-bar states, safe areas, touch targets, reduced motion and WebGL/model-load failure. Browser emulation supplements but does not replace the real-device checks; record unavailable devices as unverified.
 3. With the teammate's actual GLB, verify orientation, floor alignment, station anchors, lighting, occlusion and pet paths. Test the missing-model fallback separately.
 4. Confirm the 50-person admission boundary and empty, full, unavailable-email, bad-ZIP, occupied-station and failed-API states without exposing private handles or pretending errors are successful decisions.
 5. Confirm the mutual-opt-in flow with two accounts: neither sees the other's handles before both agree, each sees only permitted handles afterward, and withdrawal removes access. Verify that login emails and handles never leak into the shared event feed.
