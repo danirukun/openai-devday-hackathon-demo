@@ -1,17 +1,27 @@
 # Pet actions
 
-For the Discord handoff, proposed changes and timed area bonuses, see the [venue actions and pet state plan](station-actions-plan.md). The user has approved dot-style figures and separate photo wall and plotter activations; other changes remain proposals until the team agrees.
+For the Discord handoff, proposed changes and timed area bonuses, see the [venue actions and pet state plan](station-actions-plan.md). The user has approved dot-style figures, separate photo wall and plotter activations, Codex Cola instead of coffee, and messages written by a light text model. Pet moods and area bonuses remain planned.
 
 Pet Island's actions should give attendees a reason to watch, share and meet. A single server-owned Decisions API choice selects the pet's next action using its personality and relevant world context. All visitors should see the same action and result.
 
 ## Available now
 
-- **Approach:** move towards another pet to greet them.
-- **Wave:** wave hello to another pet.
-- **Explore:** move around the island independently.
-- **Printer:** choose and print one of three dot figures; the result is recorded in the pet inventory and visible to all visitors.
+Server-side, every action below is implemented; `actions.sql` is required for all but the first four.
 
-These are the actions currently implemented. The world records a short event and exposes the decision context and confidence when a pet is clicked.
+| Action | What happens | Result |
+| --- | --- | --- |
+| **Approach** | Walk over to greet another pet. | Event only. |
+| **Wave** | Wave hello to another pet. | Event only. |
+| **Explore** | Move around the island alone. | Event only. |
+| **Printer** (`use_printer`) | Choose and print one of three dot figures. | A dot in the pet's inventory. |
+| **Photo wall** (`take_photo`) | Pose together with the partner pet at the photo wall. | A photo record in **both** pets' inventories. |
+| **Plotter** (`use_plotter`) | Get a portrait of the pet ready to plot. | A *ready to plot* portrait record, at most one per pet. |
+| **Refreshments** (`visit_refreshments`) | Pick up food or a Codex Cola. | A `food` or `codex_cola` item. |
+| **Send message** (`send_message`) | Send the partner pet a short message. | A checked, moderated message in the feed. Only when `MESSAGE_MODEL` is set. |
+
+Each turn the server picks the acting pet and a **random** partner, and gives the Decisions API both personalities, the acting pet's last six events (its own and those it took part in) and its inventory, asking it to prefer variety. It only offers actions that make sense: paired actions need a partner, stations must be free (each is busy for 20 seconds after use), inventories hold at most 12 items (3 dots, 1 portrait), a pet doesn't visit refreshments twice in a row or message the same partner twice in a row. The printer dot, refreshment item and message tone are extra questions in the same Decisions request. The world records each event with a plain-language line and exposes the decision context and confidence when a pet is clicked.
+
+Not yet built: moving pets to the new stations in the scene, showing inventories in the interface, the photo screenshot, the plotter download link, pet moods and area bonuses.
 
 ## Requested venue activations
 
@@ -23,11 +33,15 @@ For the hackathon, the team chose to let the Decisions API select from a few cle
 
 ### Photo wall and separate plotter
 
-The user approved two separate activations. At the photo wall, two pets pose together for a shareable browser screenshot. The plotter marks a pet portrait ready for a visitor to submit manually to Bevell, subject to permission and a successful sprite test. Neither activation is implemented yet. Never automatically submit a pet image to the shared physical plotter or claim a portrait was plotted without confirmation.
+The user approved two separate activations. At the photo wall, two pets pose together for a shareable browser screenshot; the server records the photo for both pets, and the screenshot itself is front-end work still to do. The plotter marks a pet portrait ready for a visitor to submit manually to Bevell, subject to permission and a successful sprite test; the download link is still to do. Never automatically submit a pet image to the shared physical plotter or claim a portrait was plotted without confirmation.
 
-### Food and coffee: visit the refreshment area
+### Food and Codex Cola: visit the refreshment area
 
-A pet approaches the venue's food area and chooses food or coffee. Show the pet receiving a small, recognizable item and record the visit as a shared world event. Keep this as one simple station with two possible outcomes; the food and coffee are virtual props.
+A pet approaches the venue's food area and chooses food or a Codex Cola. Show the pet receiving a small, recognizable item and record the visit as a shared world event. Keep this as one simple station with two possible outcomes; the food and Codex Cola are virtual props.
+
+### Send a message
+
+The Decisions API chooses `send_message` and a tone (cheerful, shy, punny, nerdy, competitive or sleepy) that suits the pet's personality. A light text model, set by `MESSAGE_MODEL`, writes one friendly sentence of at most 140 characters. Personalities are passed as untrusted data. The server rejects multiline text, links and contact details, then runs OpenAI moderation; if anything fails or times out, nothing is saved and the turn shows as failed. The feed names the model that wrote the message, never presenting it as the Decisions API's reasoning.
 
 ### Meet and exchange contact details
 
@@ -43,11 +57,11 @@ The existing application does not currently link a pet to its owner or have atte
 
 - Decisions must actually come from the Decisions API; generated captions must not be presented as its reasoning.
 - The active station, resulting object or portrait, and completion state must be shared and persist across refresh for all visitors. Avoid running the same generation independently in every browser.
-- A station handles one pet at a time. Show an occupied or failed state and release the station on timeout; cap stored artifacts and API usage.
-- Record only information needed for the shared result. Personalities and uploaded pet art are already shared; do not capture participant emails or private browser contents in a booth image.
-- The teammate's venue GLB is not ready. Agree on printer, booth and refreshment-area positions with the teammate and provide a temporary in-app representation so the interaction can be developed and tested independently.
+- A station handles one pet at a time; the photo wall holds one pair. Show an occupied or failed state and release the station on timeout; cap stored artifacts and API usage.
+- Record only information needed for the shared result. Personalities and uploaded pet art are already shared; do not capture participant emails or private browser contents in a photo-wall screenshot.
+- The teammate's venue GLB is not ready. Agree on printer, photo wall, plotter and refreshment-area positions with the teammate and provide a temporary in-app representation so the interaction can be developed and tested independently.
 - Check rights before reusing pet artwork or venue branding in shareable outputs.
 
 ## Demo sequence
 
-A visitor signs in, optionally adds handles, imports or selects a pet, and gives it a personality. The Decisions API can send the pet to the printer, photo booth or refreshments; another visitor sees the same activity. When pets meet, owners can connect only after both owners opt in. This is a target journey, not yet implemented.
+A visitor signs in, optionally adds handles, imports or selects a pet, and gives it a personality. The Decisions API can send the pet to the printer, photo wall, plotter or refreshments, or have it message another pet; another visitor sees the same activity. When pets meet, owners can connect only after both owners opt in. The actions are implemented on the server; the scene movement, inventory display and contact sharing are not yet built.
