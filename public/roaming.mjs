@@ -6,3 +6,5 @@ function smooth(t){const v=Math.max(0,Math.min(1,t));return v*v*(3-2*v)}
 export function roamPosition(id,home,timeMs,radius=.55){const clock=timeMs+hash(id)%STEP_MS,step=Math.floor(clock/STEP_MS),phase=(clock-step*STEP_MS)/STEP_MS;const from=waypoint(id,step,home,radius),to=waypoint(id,step+1,home,radius),t=smooth(phase/MOVE_FRACTION);return {x:from.x+(to.x-from.x)*t,z:from.z+(to.z-from.z)*t}}
 export function actionWeight(eventTime,timeMs){const elapsed=timeMs-eventTime;if(!Number.isFinite(elapsed)||elapsed<0||elapsed>=20000)return 0;return Math.min(smooth(elapsed/3000),smooth((20000-elapsed)/3000))}
 export function blendPosition(from,to,weight){return {x:from.x+(to.x-from.x)*weight,z:from.z+(to.z-from.z)*weight}}
+
+export function waveWeight(event,timeMs){return event?.action==='wave'?actionWeight(Date.parse(event.created_at),timeMs):0}
