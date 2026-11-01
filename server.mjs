@@ -6,6 +6,7 @@ import { randomUUID } from 'node:crypto';
 import { parsePetPackage, PetPackageError } from './pet-package.mjs';
 import { readUploadForm } from './upload-form.mjs';
 import { runTurn } from './turn.mjs';
+import { describeEvent, messagePrompt } from './actions.mjs';
 import { createSessions, isSameOrigin } from './session.mjs';
 
 const root = fileURLToPath(new URL('./public/', import.meta.url));
@@ -13,6 +14,7 @@ const port = Number(process.env.PORT || 3000);
 const base = process.env.SUPABASE_URL?.replace(/\/$/, '');
 const secret = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const sharedPassword = process.env.ISLAND_PASSWORD;
+const messageModel = process.env.MESSAGE_MODEL?.trim() || '';
 const sessions = createSessions(sharedPassword || '', {secure:process.env.COOKIE_SECURE === 'true'});
 let catalogue = null, loadedAt = 0, busy = false, lastTurn = 0, lastViewer = 0, turnCount = 0, decisionError = null;
 const joins = new Map();
@@ -44,11 +46,26 @@ async function body(req) {
   let text=''; for await (const chunk of req) { text += chunk; if (text.length > 2048) throw Error('Request is too large.'); }
   try { return JSON.parse(text); } catch { throw Error('Invalid request.'); }
 }
+async function openai(pathname, payload, timeout) {
+  const response=await fetch(`https://api.openai.com/v1/${pathname}`,{method:'POST',headers:{Authorization:`Bearer ${process.env.OPENAI_API_KEY}`,'content-type':'application/json'},body:JSON.stringify(payload),signal:AbortSignal.timeout(timeout)});
+  if(!response.ok) throw Error(`OpenAI ${pathname} request failed (${response.status}).`);
+  return response.json();
+}
+// A light text model writes pet messages; moderation checks them before anything is saved.
+async function generateMessage(pets) {
+  const result=await openai('responses',{model:messageModel,...messagePrompt(pets)},10000);
+  return (result.output||[]).filter(item=>item.type==='message').flatMap(item=>item.content||[]).filter(part=>part.type==='output_text').map(part=>part.text).join('');
+}
+async function moderateMessage(text) {
+  const result=await openai('moderations',{model:'omni-moderation-latest',input:text},10000);
+  if(typeof result.results?.[0]?.flagged!=='boolean') throw Error('Moderation returned no result.');
+  return result.results[0].flagged;
+}
 async function turn() {
   if (busy || Date.now()-lastTurn < 30000 || Date.now()-lastViewer > 120000 || turnCount >= 30 || !process.env.OPENAI_API_KEY) return;
   busy=true; lastTurn=Date.now();
   try {
-    const completed=await runTurn({db,onRequest:()=>{turnCount++},requestDecision:async payload=>{
+    const completed=await runTurn({db,onRequest:()=>{turnCount++},generateMessage:messageModel?generateMessage:undefined,moderateMessage,messageModel,requestDecision:async payload=>{
       const response=await fetch('https://api.openai.com/v1/decisions',{method:'POST',headers:{Authorization:`Bearer ${process.env.OPENAI_API_KEY}`,'content-type':'application/json'},body:JSON.stringify(payload),signal:AbortSignal.timeout(15000)});
       if(!response.ok) throw Error(`Decisions request failed (${response.status}).`);
       return response.json();
@@ -106,8 +123,8 @@ const server=createServer(async(req,res)=>{
     if(req.method==='GET' && url.pathname==='/api/world') {
       const access=await admit(req); if(access.status!==200) return send(res,access.status,{error:access.error});
       lastViewer=Date.now();
-      const [residents,events,inventory,stations]=await Promise.all([db('island_pets?select=*&order=created_at.desc&limit=50'),db('island_events?select=*&order=created_at.desc&limit=20'),db('island_inventory?select=pet_id,item_type,item_key,created_at&order=created_at.desc&limit=600'),db('island_stations?select=name,busy_until&name=eq.printer')]);
-      return send(res,200,{pets:residents,events,inventory,stations,decisionsConfigured:Boolean(process.env.OPENAI_API_KEY),decisionError,turnLimitReached:turnCount>=30});
+      const [residents,events,inventory,stations]=await Promise.all([db('island_pets?select=*&order=created_at.desc&limit=50'),db('island_events?select=*&order=created_at.desc&limit=20'),db('island_inventory?select=pet_id,item_type,item_key,partner_pet_id,created_at&order=created_at.desc&limit=600'),db('island_stations?select=name,busy_until&order=name')]);
+      return send(res,200,{pets:residents,events:events.map(event=>({...event,summary:describeEvent(event)})),inventory,stations,decisionsConfigured:Boolean(process.env.OPENAI_API_KEY),messagesConfigured:Boolean(messageModel),decisionError,turnLimitReached:turnCount>=30});
     }
     if(req.method==='POST' && url.pathname==='/api/join-upload') {
       const access=await admit(req); if(access.status!==200) return send(res,access.status,{error:access.error});

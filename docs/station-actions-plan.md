@@ -1,6 +1,6 @@
 # Venue actions and pet state plan
 
-**Status: planning only.** This incorporates the Discord handoff and the request for areas that restore energy and fun over time. The user approved dot-style printer figures and a photo wall separate from the physical plotter. Other changes remain proposals. See [pet actions](pet-actions.md) for the current implementation status. The GLB is being built by a teammate.
+**Status: actions implemented on the server; pet state and area bonuses still planned.** The printer, photo wall, plotter, refreshments and messages are implemented in `actions.mjs`, `turn.mjs`, `printer.sql` and `actions.sql`, with tests; scene movement and interface display for the new stations are not. This incorporates the Discord handoff and the request for areas that restore energy and fun over time. The user approved dot-style printer figures and a photo wall separate from the physical plotter. Other changes remain proposals. See [pet actions](pet-actions.md) for the current implementation status. The GLB is being built by a teammate.
 
 ## Demo and scope
 
@@ -14,7 +14,7 @@ Priority for the six-hour hackathon:
 
 ## Actions in the handoff
 
-Retain `approach`, `wave` and `explore`. The handoff proposes these additional actions:
+Retain `approach`, `wave` and `explore`. These additional actions are now implemented on the server:
 
 | Action | Proposed result |
 | --- | --- |
@@ -24,7 +24,7 @@ Retain `approach`, `wave` and `explore`. The handoff proposes these additional a
 | `visit_refreshments` | A pet receives a virtual food item or Codex Cola. |
 | `send_message` | The Decisions API chooses a tone; a separate small text model writes one public, pet-to-pet message. The feed identifies that model. |
 
-The user approved the photo-wall/physical-plotter split and dot figures. Codex Cola instead of coffee remains a proposed change. Inventory, mood and messages add scope; their full design is not yet implemented. Contact exchange remains an owner-controlled, mutual opt-in feature requiring profiles and pet ownership; a pet decision must not expose or trigger sharing of contact details.
+The user approved the photo-wall/physical-plotter split, dot figures, Codex Cola instead of coffee, and messages written by a light text model. Inventory and messages are implemented; mood is not yet. Each turn now picks a random partner and passes the acting pet's last six events and its inventory to the Decisions API, which fixed pets repeating the same greeting. The message model is configured with `MESSAGE_MODEL`; messages stay off when it is empty. Tones are cheerful, shy, punny, nerdy, competitive and sleepy. Contact exchange remains an owner-controlled, mutual opt-in feature requiring profiles and pet ownership; a pet decision must not expose or trigger sharing of contact details.
 
 ## Shared pet state
 
@@ -52,7 +52,7 @@ Proposed starting test values, subject to tuning: a regular eligible area adds 1
 - The server offers only eligible actions. Paired actions need another pet; busy stations cannot be selected. The photo wall may hold exactly two pets for one photo. Release reservations on completion, failure or timeout.
 - Persist action, participants, station status and outcome once. Commit event, resulting inventory and both pets' updated needs atomically. A pet's inventory is capped at 12 items; the handoff also proposes no more than three dots and one ready-to-plot portrait per pet. A photo record belongs to both pets. Deleting a pet deletes its inventory.
 - Return shared activity, inventory and game state to visitors without exposing email or private profile details. An item record is not a stored photo or an actual plotted portrait.
-- Treat visitor-entered personalities as untrusted data. A message is one friendly public sentence, at most 140 characters. Reject multiline content, links and contact details, then run moderation before storing it. On invalid output, a failed moderation check or timeout, save no message and report a failed turn; do not substitute fabricated text. Do not message the same partner twice in a row. The exact text model and tone list remain open.
+- Treat visitor-entered personalities as untrusted data. A message is one friendly public sentence, at most 140 characters. Reject multiline content, links and contact details, then run moderation before storing it. On invalid output, a failed moderation check or timeout, save no message and report a failed turn; do not substitute fabricated text. Do not message the same partner twice in a row. The exact text model is still the team's choice, set with `MESSAGE_MODEL`.
 - Preserve the existing one-turn-per-30-seconds and 30-turn-per-process limits, and pause decisions when nobody is viewing. The current local process has reached its limit; plan an intentional demo reset without silently raising the limit. Message calls share the turn budget and have their own short timeout.
 - Keep server credentials out of the browser and repository. New database tables and functions need restricted server access and row-level security. Test invalid choices, contention, timeouts and rollback; do not overwrite migrations already applied.
 
@@ -64,4 +64,4 @@ Proposed anchors for the scene builder are `PrinterStation`, `PhotoBoothStation`
 
 - Use fake clocks to check completed minutes, area entry and exit, decay, caps, restart behavior and two browsers observing identical values. Check an action and an area transition at the same time cannot double-apply a bonus.
 - Use fake model responses to check eligible actions, station occupancy, timeout release, inventory caps, atomic writes, invalid answers, message validation and prompt-injection attempts. Existing events must still load. Verify the completed slice in two browser sessions and on a phone.
-- Team decisions still needed: confirm the proposed drink change, final dot choices and rights; message model and tones; area boundaries, occupancy and bonus rates; offline accrual; and whether the physical plotter actually works with sprites. Confirm venue layout and anchors with the scene builder.
+- Team decisions still needed: confirm final dot choices and rights; the message model; area boundaries, occupancy and bonus rates; offline accrual; and whether the physical plotter actually works with sprites. Confirm venue layout and anchors with the scene builder.

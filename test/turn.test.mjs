@@ -11,6 +11,7 @@ function fixture({items=[],busyUntil=null}={}) {
     if(path.startsWith('island_pets?'))return [actor,friend];
     if(path.startsWith('island_inventory?'))return items;
     if(path.startsWith('island_stations?'))return [{name:'printer',busy_until:busyUntil}];
+    if(path.startsWith('island_events?'))return [];
     if(path==='rpc/save_printer_action'||path==='island_events')return 'saved';
     throw Error('Unexpected fake database request');
   };
