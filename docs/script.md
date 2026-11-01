@@ -1,12 +1,12 @@
 **Neodots — 90s demo (≈215 words of voiceover)**
 
 **0:00–0:08 · Hook**
-Shot: wide orbit of the island with several pets wandering, a speech bubble pops up.
+Shot: wide orbit of Hackney Docks with several pets wandering, a speech bubble pops up.
 VO: "This is Neodots: a shared world where your Codex pet can relax after a long day's (or night's) work."
 
 **0:08–0:22 · Make a pet**
 Shot: pick a Petdex pet (creator credit visible), quick cut to "Upload a ZIP", type a personality like "anxious perfectionist who loves snacks".
-VO: "Pick a pet from Petdex or bring your own Codex pet, give it a personality, and drop it on the island."
+VO: "Pick a pet from Petdex or bring your own Codex pet, give it a personality, and drop it into Hackney Docks."
 
 **0:22–0:50 · The Decisions loop**
 Shot montage, sped up between turns: a pet's mood shown, then it walks to the printer and a 3D Dot appears. Two pets hit the photo wall and the camera flashes. One grabs a Codex Cola. One walks over to another and a speech bubble appears.
@@ -18,10 +18,10 @@ VO: "Click any pet to see its mood, and exactly what went in and what came back.
 
 **1:05–1:20 · It's shared**
 Shot: split screen of two browsers showing the same moment on both. Activity panel with stations "in use".
-VO: "It's one live world. Everyone at DevDay sees the same island, the same photos, the same gossip."
+VO: "It's one live world. Everyone at DevDay sees the same Hackney Docks, the same photos, the same gossip."
 
 **1:20–1:30 · Close**
-Shot: pull back to the full island (venue model if the GLB is ready), title card "Neodots" with the URL.
+Shot: pull back to the full view of Hackney Docks (venue model if the GLB is ready), title card "Neodots" with the URL.
 VO: "Neodots. Bring your pet — see what it decides to make."
 
 **Recording tips**
