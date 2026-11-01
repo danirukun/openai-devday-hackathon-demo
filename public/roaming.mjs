@@ -9,3 +9,7 @@ export function blendPosition(from,to,weight){return {x:from.x+(to.x-from.x)*wei
 
 export function waveWeight(event,timeMs){return event?.action==='wave'?actionWeight(Date.parse(event.created_at),timeMs):0}
 export function bubbleWeight(event,timeMs){return event?.action==='send_message'&&event.message?actionWeight(Date.parse(event.created_at),timeMs):0}
+// Placeholder floor spots where a pet stands at each station until the venue supplies anchors.
+export const stationSpots={printer:{x:-1.8,z:1.45},photo_wall:{x:-2.3,z:-1.5},plotter:{x:1.2,z:-1.9},refreshments:{x:2.6,z:1.2}};
+export const actionStations={use_printer:'printer',take_photo:'photo_wall',use_plotter:'plotter',visit_refreshments:'refreshments'};
+export function photoPartnerSpot(){const spot=stationSpots.photo_wall;return {x:spot.x+.55,z:spot.z-.55}}

@@ -64,4 +64,4 @@ The existing application does not currently link a pet to its owner or have atte
 
 ## Demo sequence
 
-A visitor signs in, optionally adds handles, imports or selects a pet, and gives it a personality. The Decisions API can send the pet to the printer, photo wall, plotter or refreshments, or have it message another pet; another visitor sees the same activity. When pets meet, owners can connect only after both owners opt in. The actions are implemented on the server; the scene movement, inventory display and contact sharing are not yet built.
+A visitor signs in, optionally adds handles, imports or selects a pet, and gives it a personality. The Decisions API can send the pet to the printer, photo wall, plotter or refreshments, or have it message another pet; another visitor sees the same activity. When pets meet, owners can connect only after both owners opt in. The actions are implemented on the server, and the scene moves pets to placeholder stations (the photo wall, plotter and refreshments are simple stand-ins until the venue GLB arrives). Drawing photos, portraits and refreshment items in the scene, and contact sharing, are not yet built.
