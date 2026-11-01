@@ -8,7 +8,7 @@ Protect the core journey: an attendee signs in, imports or selects a pet, watche
 
 Priority for the six-hour hackathon:
 
-1. Keep sign-in, pet import, shared activity and a real decision reliable. The built-in Supabase email sender is restricted to authorized organization members, so general attendee sign-in remains a demo blocker until an appropriate sender is configured.
+1. Keep sign-in, pet import, shared activity and a real decision reliable. The temporary shared-password cookie gate removes the email sender dependency for the hackathon; individual accounts and owner identity remain future work.
 2. Build one complete station slice first: printer choice, shared persistent result, visible pet movement and a simple prebuilt object. Use placeholder positions until the venue GLB arrives. Add state changes only when they help demonstrate the slice.
 3. Add the photo wall, refreshments, plotter, inventory and messaging only if the full journey, two-browser test and video remain on schedule. Do not treat the full handoff as the minimum demo.
 

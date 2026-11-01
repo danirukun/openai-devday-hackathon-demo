@@ -6,12 +6,14 @@ import { randomUUID } from 'node:crypto';
 import { parsePetPackage, PetPackageError } from './pet-package.mjs';
 import { readUploadForm } from './upload-form.mjs';
 import { dots, printerAction, printerAvailable, validateAnswers } from './printer.mjs';
+import { createSessions, isSameOrigin } from './session.mjs';
 
 const root = fileURLToPath(new URL('./public/', import.meta.url));
 const port = Number(process.env.PORT || 3000);
 const base = process.env.SUPABASE_URL?.replace(/\/$/, '');
 const secret = process.env.SUPABASE_SERVICE_ROLE_KEY;
-const publicKey = process.env.SUPABASE_PUBLISHABLE_KEY;
+const sharedPassword = process.env.ISLAND_PASSWORD;
+const sessions = createSessions(sharedPassword || '', {secure:process.env.COOKIE_SECURE === 'true'});
 let catalogue = null, loadedAt = 0, busy = false, lastTurn = 0, lastViewer = 0, turnCount = 0, decisionError = null;
 const joins = new Map();
 const choices = [
@@ -19,7 +21,7 @@ const choices = [
   { value:'wave', description:'Wave a friendly hello from here.' },
   { value:'explore', description:'Explore the island independently.' }
 ];
-const send = (res, status, data) => { res.writeHead(status, {'content-type':'application/json; charset=utf-8','cache-control':'no-store','x-content-type-options':'nosniff'}); res.end(JSON.stringify(data)); };
+const send = (res, status, data, headers={}) => { res.writeHead(status, {'content-type':'application/json; charset=utf-8','cache-control':'no-store','x-content-type-options':'nosniff',...headers}); res.end(JSON.stringify(data)); };
 async function db(table, method='GET', data) {
   if (!base || !secret) throw Error('Supabase is not configured on the server.');
   const response = await fetch(`${base}/rest/v1/${table}`, {method, headers:{apikey:secret, Authorization:`Bearer ${secret}`,'content-type':'application/json',Prefer:'return=representation'}, body:data === undefined ? undefined : JSON.stringify(data),signal:AbortSignal.timeout(12000)});
@@ -27,15 +29,11 @@ async function db(table, method='GET', data) {
   return response.json();
 }
 async function admit(req) {
-  if (!base || !secret || !publicKey) return { status:503, error:'Email sign-in is not configured.' };
-  const token=(req.headers.authorization||'').match(/^Bearer ([^ ]+)$/)?.[1];
-  if (!token) return { status:401, error:'Sign in to enter the island.' };
-  const response=await fetch(`${base}/auth/v1/user`,{headers:{apikey:publicKey,Authorization:`Bearer ${token}`},signal:AbortSignal.timeout(12000)});
-  if (!response.ok) return { status:401, error:'Your sign-in expired. Please sign in again.' };
-  const user=await response.json();
-  if (typeof user.id !== 'string' || !user.email_confirmed_at) return { status:401, error:'Please verify your email to enter.' };
-  const admitted=await db('rpc/claim_island_slot','POST',{p_user_id:user.id});
-  if (admitted!==true) return { status:429, error:'The island is full (50 people). Please try again shortly.' };
+  if (!sharedPassword) return {status:503, error:'The shared password is not configured.'};
+  const session=sessions.get(req);
+  if(!session) return {status:401, error:'Enter the shared password to join.'};
+  const admitted=await db('rpc/claim_island_slot','POST',{p_user_id:session.id});
+  if (admitted!==true) return {status:429, error:'The island is full (50 people). Please try again shortly.'};
   return {status:200};
 }
 async function pets() {
@@ -79,7 +77,29 @@ async function turn() {
 const server=createServer(async(req,res)=>{
   try {
     const url=new URL(req.url,'http://localhost');
-    if(req.method==='GET' && url.pathname==='/api/config') return send(res,200,{url:base||null,publishableKey:publicKey||null});
+    if(req.method!=='GET' && !isSameOrigin(req)) return send(res,403,{error:'Invalid request origin.'});
+    if(req.method==='GET' && url.pathname==='/api/session') return send(res,200,{signedIn:Boolean(sessions.get(req))});
+    if(req.method==='POST' && url.pathname==='/api/login') {
+      if(!sharedPassword) return send(res,503,{error:'The shared password is not configured.'});
+      if(!/^application\/json(?:;|$)/i.test(req.headers['content-type']||'')) return send(res,415,{error:'Invalid request.'});
+      const data=await body(req), ip=req.socket.remoteAddress || 'unknown';
+      const match=sessions.authenticate(data.password,ip);
+      if(match==='limited') return send(res,429,{error:'Too many attempts. Please try again later.'});
+      if(!match) return send(res,401,{error:'That password is not correct.'});
+      const existing=sessions.get(req);
+      if(existing) {const access=await admit(req);return access.status===200?send(res,200,{signedIn:true}):send(res,access.status,{error:access.error});}
+      const created=sessions.create();
+      try {
+        const admitted=await db('rpc/claim_island_slot','POST',{p_user_id:created.session.id});
+        if(!admitted) {sessions.clear({headers:{cookie:created.cookie}});return send(res,429,{error:'The island is full (50 people). Please try again shortly.'});}
+      } catch(error) {sessions.clear({headers:{cookie:created.cookie}});throw error;}
+      return send(res,200,{signedIn:true},{'set-cookie':created.cookie});
+    }
+    if(req.method==='POST' && url.pathname==='/api/logout') {
+      const cleared=sessions.clear(req);
+      if(cleared.session) await db(`island_presence?user_id=eq.${cleared.session.id}`,'DELETE').catch(()=>{});
+      return send(res,200,{signedIn:false},{'set-cookie':cleared.cookie});
+    }
     if(req.method==='GET' && url.pathname==='/api/catalogue') return send(res,200,{pets:await pets()});
     if(req.method==='GET' && url.pathname==='/api/sprite') {
       const slug=url.searchParams.get('slug') || '';
