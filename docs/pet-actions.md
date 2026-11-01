@@ -17,7 +17,7 @@ Server-side, every action below is implemented; `actions.sql` is required for al
 | **Photo wall** (`take_photo`) | Pose together with the partner pet at the photo wall. | A photo record in **both** pets' inventories. |
 | **Plotter** (`use_plotter`) | Get a portrait of the pet ready to plot. | A *ready to plot* portrait record, at most one per pet. |
 | **Refreshments** (`visit_refreshments`) | Pick up food or a Codex Cola. | A `food` or `codex_cola` item. |
-| **Send message** (`send_message`) | Send the partner pet a short message. | A checked, moderated message in the feed. Only when `MESSAGE_MODEL` is set. |
+| **Send message** (`send_message`) | Send the partner pet a short message. | A checked, moderated message in the feed. Only when `MESSAGE_MODEL` is set. The sender walks over to the partner while the message shows, as for Approach. |
 
 Each turn the server picks the acting pet and a **random** partner, and gives the Decisions API both personalities, the acting pet's last six events (its own and those it took part in) and its inventory, asking it to prefer variety. It only offers actions that make sense: paired actions need a partner, stations must be free (each is busy for 20 seconds after use), inventories hold at most 12 items (3 dots, 1 portrait), a pet doesn't visit refreshments twice in a row or message the same partner twice in a row. The printer dot, refreshment item and message tone are extra questions in the same Decisions request. The world records each event with a plain-language line and exposes the decision context and confidence when a pet is clicked.
 
