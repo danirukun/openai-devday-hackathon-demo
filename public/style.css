@@ -45,6 +45,8 @@ button:disabled { opacity: .55; cursor: wait; }
 .feed { padding: 0 15px 5px; max-height: min(31vh, 245px); overflow-y: auto; overscroll-behavior: contain; }
 .feed article { position: relative; border-top: 1px solid var(--border); padding: 11px 0; font-size: 12px; line-height: 1.5; color: #c5cec3; }
 .feed article b { color: #f2f5ed; }
+.feed-pet { display: inline; padding: 2px 1px; border: 0; border-radius: 3px; background: transparent; color: var(--accent); font-weight: 700; text-decoration: underline; text-decoration-color: #8eac75; text-underline-offset: 3px; }
+.feed-pet:hover { color: #f2f5ed; }
 .feed time { display: block; margin-top: 4px; font: 500 10px/1.4 'IBM Plex Mono', monospace; color: #9dac9c; }
 .empty { margin: 0; padding: 11px 0 15px; border-top: 1px solid var(--border); color: var(--muted); font-size: 12px; line-height: 1.5; }
 .trace { max-height: 140px; overflow: auto; margin: 3px 15px 14px; padding: 11px; border-left: 2px solid var(--accent); background: rgba(255,255,255,.06); color: #d4ddd1; font-size: 11px; line-height: 1.6; white-space: pre-wrap; overflow-wrap: anywhere; }
