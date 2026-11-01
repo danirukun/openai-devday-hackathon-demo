@@ -1,4 +1,4 @@
-# Pet Island
+# NeoDots
 
 **[Open the live demo](https://pet-island-dde-ldn-2026.fly.dev/)**
 

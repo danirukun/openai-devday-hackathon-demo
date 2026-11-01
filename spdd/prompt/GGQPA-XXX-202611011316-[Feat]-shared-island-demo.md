@@ -1,4 +1,4 @@
-# Complete the Pet Island Hackathon Demo
+# Complete the NeoDots Hackathon Demo
 
 ## Requirements
 

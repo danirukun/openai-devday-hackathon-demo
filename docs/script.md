@@ -1,8 +1,8 @@
-**Neodots — 90s demo (≈155 words of voiceover)**
+**NeoDots — 90s demo (≈155 words of voiceover)**
 
 **0:00–0:08 · Hook**
 Shot: wide orbit of Hackney Docks with several pets wandering, a speech bubble pops up.
-VO: "This is Neodots: a shared world where your Codex pet can relax after a long day's (or night's) work."
+VO: "This is NeoDots: a shared world where your Codex pet can relax after a long day's (or night's) work."
 
 **0:08–0:22 · Make a pet**
 Shot: pick a Petdex pet (creator credit visible), quick cut to "Upload a ZIP", type a personality like "anxious perfectionist who loves snacks".
@@ -21,8 +21,8 @@ Shot: split screen of two browsers showing the same moment on both. Activity pan
 VO: "It's one live world. Everyone at DevDay sees the same Hackney Docks, the same photos, the same gossip."
 
 **1:20–1:30 · Close**
-Shot: pull back to the full view of Hackney Docks (venue model if the GLB is ready), title card "Neodots" with the URL.
-VO: "Neodots. Bring your pet — see what it decides to make."
+Shot: pull back to the full view of Hackney Docks (venue model if the GLB is ready), title card "NeoDots" with the URL.
+VO: "NeoDots. Bring your pet — see what it decides to make."
 
 **Recording tips**
 

@@ -168,5 +168,5 @@ const server=createServer(async(req,res)=>{
     res.writeHead(200,headers);res.end(contents);
   } catch(e) { if(e instanceof PetPackageError) return send(res,400,{error:e.message}); console.error(e.message); send(res,503,{error:e.message==='Invalid request.'?e.message:'The island could not connect to a required service. Please try again.'}); }
 });
-server.listen(port,()=>console.log(`Pet Island listening on http://localhost:${port}`));
+server.listen(port,()=>console.log(`NeoDots listening on http://localhost:${port}`));
 setInterval(()=>void turn(),TURN_INTERVAL_MS).unref();

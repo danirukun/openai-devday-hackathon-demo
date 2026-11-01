@@ -1,6 +1,6 @@
 ---
 name: blender-lowpoly-environment
-description: Build or refine the Pet Island venue as an editable low-poly isometric Blender environment using the project's style and venue references, then verify its Three.js GLB handoff when requested.
+description: Build or refine the NeoDots venue as an editable low-poly isometric Blender environment using the project's style and venue references, then verify its Three.js GLB handoff when requested.
 ---
 
 # Blender low-poly environment

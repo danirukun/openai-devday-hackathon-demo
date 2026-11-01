@@ -1,4 +1,4 @@
--- Applied to the hackathon project via Supabase migration `pet_island`.
+-- Initial schema applied to the hackathon Supabase project.
 create table public.island_pets (
  id uuid primary key default gen_random_uuid(),
  slug text not null check (length(slug) between 1 and 100),

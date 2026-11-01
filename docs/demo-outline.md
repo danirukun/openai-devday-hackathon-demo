@@ -1,4 +1,4 @@
-# Pet Island demo outline
+# NeoDots demo outline
 
 Target 75–85 seconds; maximum 90 seconds. Record only with permission to share each pet and asset. Hide the password, private data, browser bookmarks and credentials. The teammate's venue GLB is optional; call the fallback island a preview.
 

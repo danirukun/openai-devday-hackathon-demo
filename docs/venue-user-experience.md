@@ -1,4 +1,4 @@
-# Pet Island — venue and user experience
+# NeoDots — venue and user experience
 
 **Status: proposed design for review.** The printer dot figures and separate photo wall and physical plotter are approved; other new station proposals remain under review. This document covers how attendees enter, explore and understand the venue; it does not mean the proposed screens or venue are already implemented.
 

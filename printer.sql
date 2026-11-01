@@ -1,4 +1,4 @@
--- Printer station: additive migration for the existing Pet Island database.
+-- Printer station: additive migration for the existing NeoDots database.
 alter table public.island_events drop constraint island_events_action_check;
 alter table public.island_events add constraint island_events_action_check check (action in ('approach','wave','explore','use_printer'));
 alter table public.island_events add column outcome text check (outcome is null or outcome in ('pink_dot','blue_dot','yellow_dot'));

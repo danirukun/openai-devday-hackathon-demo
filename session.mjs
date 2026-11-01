@@ -5,9 +5,9 @@ const windowMs = 10 * 60 * 1000;
 export function createSessions(password, {secure=false, now=Date.now}={}) {
   const sessions = new Map(), attempts = new Map();
   const hash = value => createHash('sha256').update(value).digest();
-  function cookie(token, age) { return `pet_island_session=${token}; Path=/; HttpOnly; SameSite=Strict; Max-Age=${age}${secure?'; Secure':''}`; }
+  function cookie(token, age) { return `neodots_session=${token}; Path=/; HttpOnly; SameSite=Strict; Max-Age=${age}${secure?'; Secure':''}`; }
   function get(req) {
-    const value=(req.headers.cookie||'').split(';').map(part=>part.trim()).find(part=>part.startsWith('pet_island_session='))?.slice('pet_island_session='.length);
+    const value=(req.headers.cookie||'').split(';').map(part=>part.trim()).find(part=>part.startsWith('neodots_session='))?.slice('neodots_session='.length);
     if(!value || !/^[a-f0-9]{64}$/.test(value)) return null;
     const session=sessions.get(value);
     if(!session || session.expires<=now()){sessions.delete(value);return null;}
