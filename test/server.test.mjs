@@ -24,7 +24,7 @@ before(async()=>{
 after(()=>{child?.kill();database.close()});
 async function get(path,options){for(let i=0;i<40&&!ready;i++)await new Promise(r=>setTimeout(r,50));assert.ok(ready,'server did not start');return fetch(`http://127.0.0.1:${port}${path}`,options)}
 const login=(password,cookie)=>get('/api/login',{method:'POST',headers:{'content-type':'application/json',...(cookie?{cookie}:{})},body:JSON.stringify({password})});
-test('serves the UI without exposing environment files',async()=>{assert.equal((await get('/')).status,200);assert.equal((await get('/roaming.mjs')).status,200);assert.equal((await get('/.env')).status,404)});
+test('serves the UI without exposing environment files',async()=>{assert.equal((await get('/')).status,200);assert.equal((await get('/roaming.mjs')).status,200);assert.equal((await get('/pet-details.mjs')).status,200);assert.equal((await get('/.env')).status,404)});
 test('requires a password and protects mutations from cross-site requests',async()=>{
   assert.equal((await get('/api/world')).status,401);
   assert.equal((await login('incorrect')).status,401);
