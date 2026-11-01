@@ -21,7 +21,7 @@ Server-side, every action below is implemented; `actions.sql` is required for al
 
 Each turn the server picks the acting pet and a **random** partner, and gives the Decisions API both personalities, the acting pet's last six events (its own and those it took part in) and its inventory, asking it to prefer variety. It only offers actions that make sense: paired actions need a partner, stations must be free (each is busy for 20 seconds after use), inventories hold at most 12 items (3 dots, 1 portrait), a pet doesn't visit refreshments twice in a row or message the same partner twice in a row. The printer dot, refreshment item and message tone are extra questions in the same Decisions request. The world records each event with a plain-language line and exposes the decision context and confidence when a pet is clicked.
 
-Not yet built: moving pets to the new stations in the scene, showing inventories in the interface, the photo screenshot, the plotter download link, pet moods and area bonuses.
+Not yet built: drawing photos, portraits and refreshment items in the scene, showing inventories in the interface, the photo screenshot, the plotter download link, pet moods and area bonuses.
 
 ## Requested venue activations
 
