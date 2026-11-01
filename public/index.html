@@ -27,10 +27,12 @@
       </nav>
     </header>
     <aside class="activity panel" aria-labelledby="activity-title">
-      <div class="activity-heading"><h1 id="activity-title">Pet activity</h1><button class="presence" id="pet-list-toggle" type="button" aria-expanded="false" aria-controls="pet-list"><span id="pet-count">0 pets</span></button></div>
-      <div id="pet-list" class="pet-list" hidden><p class="empty">Sign in to see pets.</p></div>
-      <div id="feed" class="feed" aria-live="polite"><p class="empty">Sign in to see pet activity.</p></div>
-      <div id="trace" class="trace" aria-live="polite" hidden></div>
+      <div class="activity-heading"><h1 id="activity-title">Pet activity</h1><div class="activity-controls"><button class="presence" id="pet-list-toggle" type="button" aria-expanded="false" aria-controls="pet-list"><span id="pet-count">0 pets</span></button><button class="activity-toggle" id="activity-toggle" type="button" aria-expanded="true" aria-controls="activity-content" aria-label="Hide activity"><span aria-hidden="true"></span></button></div></div>
+      <div id="activity-content">
+        <div id="pet-list" class="pet-list" hidden><p class="empty">Sign in to see pets.</p></div>
+        <div id="feed" class="feed" aria-live="polite"><p class="empty">Sign in to see pet activity.</p></div>
+        <div id="trace" class="trace" aria-live="polite" hidden></div>
+      </div>
 
     </aside>
     <div class="credits"><a href="https://petdex.dev/" target="_blank" rel="noreferrer">Pets via Petdex</a><span aria-hidden="true">·</span><span>Made for DevDay Exchange</span></div>
