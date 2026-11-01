@@ -1,0 +1,12 @@
+blender_mcp/
+.venv/
+.venv-scan/
+reference-images/*
+!reference-images/README.md
+*.blend
+*.blend1
+*.blend2
+.DS_Store
+
+# Private scan inputs and derived evidence
+3D-model/
