@@ -36,7 +36,7 @@ new GLTFLoader().load('/venue.glb',gltf=>{
   const center=bounds.getCenter(new THREE.Vector3());
   venue.position.x-=center.x;venue.position.z-=center.z;venue.position.y-=bounds.min.y;
   venue.traverse(object=>{if(object.isMesh){object.castShadow=true;object.receiveShadow=true;}});
-  fallbackScene.visible=false;venueLoaded=true;scene.add(venue);placeVenueSeating(venue);placeVenueStations();petGroup.children.forEach((sprite,i)=>{sprite.material.depthTest=true;sprite.renderOrder=0;const home=venueHome(i);sprite.userData.home.set(home.x,.25,home.z);sprite.scale.set(.38,.41,1);sprite.userData.waveIndicator.scale.set(.3,.3,1);sprite.userData.bubble.scale.set(1.2,.675,1)});dotSignature='';renderDots(world.inventory||[]);container.removeAttribute('data-loading');$('#venue-status').textContent='Venue preview';
+  fallbackScene.visible=false;venueLoaded=true;scene.add(venue);placeVenueSeating(venue);placeRefreshmentSeating(venue);placeVenueStations();petGroup.children.forEach((sprite,i)=>{sprite.material.depthTest=true;sprite.renderOrder=0;const home=venueHome(i);sprite.userData.home.set(home.x,.25,home.z);sprite.scale.set(.38,.41,1);sprite.userData.waveIndicator.scale.set(.3,.3,1);sprite.userData.bubble.scale.set(1.2,.675,1)});dotSignature='';renderDots(world.inventory||[]);container.removeAttribute('data-loading');$('#venue-status').textContent='Venue preview';
 },undefined,error=>{console.warn('Venue could not load',error);container.removeAttribute('data-loading');$('#venue-status').textContent='Island preview';});
 // Reuse the venue chair mesh for three tidy rows facing screen-bottom-right (+X).
 function placeVenueSeating(venue){
@@ -62,6 +62,35 @@ function placeVenueSeating(venue){
     chair.castShadow=true;chair.receiveShadow=true;seating.add(chair);
   }
   scene.add(seating);
+}
+// Furnish the long refreshments room with matching assets from the venue model.
+function placeRefreshmentSeating(venue){
+  const lounge=new THREE.Group();lounge.name='Refreshments seating';
+  const templates=new Map();
+  function furnish(asset,x,z,rotation=0,size=1){
+    let template=templates.get(asset);
+    if(!template){
+      const source=venue.getObjectByName(asset);if(!source?.isMesh)return;
+      const geometry=source.geometry.clone();geometry.computeBoundingBox();
+      const bounds=geometry.boundingBox,center=bounds.getCenter(new THREE.Vector3());
+      geometry.translate(-center.x,-bounds.min.y,-center.z);
+      template={geometry,material:source.material};templates.set(asset,template);
+    }
+    const item=new THREE.Mesh(template.geometry,template.material);
+    item.scale.copy(venue.scale).multiplyScalar(size);item.rotation.y=rotation;
+    item.position.set(x,venue.position.y+.012,z);item.castShadow=true;item.receiveShadow=true;
+    lounge.add(item);
+  }
+  // Tables occupy the right side, leaving a central route to the food counter.
+  for(const z of [.65,1.5]){
+    furnish('table_dining_rect_2',.3,z);
+    for(const x of [.19,.41]){
+      furnish('chair_other_four_back_no_2',x,z-.2);
+      furnish('chair_other_four_back_no_2',x,z+.2,Math.PI);
+    }
+  }
+  furnish('sofa_rect_0',-.7,.55,-Math.PI/2,1.25);
+  scene.add(lounge);
 }
 // Placeholder stations and figures remain visible until the venue supplies station anchors.
 const printerGroup=new THREE.Group();scene.add(printerGroup);const printer=new THREE.Group();printerGroup.add(printer);
