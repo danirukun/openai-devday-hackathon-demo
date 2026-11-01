@@ -1,0 +1,12 @@
+*
+!package.json
+!package-lock.json
+!server.mjs
+!session.mjs
+!actions.mjs
+!turn.mjs
+!printer.mjs
+!pet-package.mjs
+!upload-form.mjs
+!public/
+!public/**
