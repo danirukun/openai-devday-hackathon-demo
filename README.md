@@ -37,3 +37,7 @@ Choose **Upload a ZIP** in the pet form. Include one `pet.json` with a `displayN
 ## Venue model handoff
 
 The app uses Three.js r187 and will load an optional self-contained `public/venue.glb`. See `docs/venue-glb-handoff.md` for the Blender export contract. Until the model is present and loads successfully, the original island remains visible. The model is made by the teammate; venue photographs are not included in this public repository.
+
+## Pet actions
+
+See [pet actions](docs/pet-actions.md) for the actions available now and the requested printer and photo booth activations.
