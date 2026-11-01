@@ -13,10 +13,9 @@ const root = fileURLToPath(new URL('./public/', import.meta.url));
 const port = Number(process.env.PORT || 3000);
 const base = process.env.SUPABASE_URL?.replace(/\/$/, '');
 const secret = process.env.SUPABASE_SERVICE_ROLE_KEY;
-const sharedPassword = process.env.ISLAND_PASSWORD;
 const TURN_INTERVAL_MS = 10000;
 const messageModel = process.env.MESSAGE_MODEL?.trim() || '';
-const sessions = createSessions(sharedPassword || '', {secure:process.env.COOKIE_SECURE === 'true'});
+const sessions = createSessions('', {secure:process.env.COOKIE_SECURE === 'true'});
 let catalogue = null, loadedAt = 0, busy = false, lastTurn = 0, lastViewer = 0, decisionError = null;
 const joins = new Map();
 const send = (res, status, data, headers={}) => { res.writeHead(status, {'content-type':'application/json; charset=utf-8','cache-control':'no-store','x-content-type-options':'nosniff',...headers}); res.end(JSON.stringify(data)); };
@@ -27,9 +26,8 @@ async function db(table, method='GET', data) {
   return response.json();
 }
 async function admit(req) {
-  if (!sharedPassword) return {status:503, error:'The shared password is not configured.'};
   const session=sessions.get(req);
-  if(!session) return {status:401, error:'Enter the shared password to join.'};
+  if(!session) return {status:401, error:'Enter the island to continue.'};
   const admitted=await db('rpc/claim_island_slot','POST',{p_user_id:session.id});
   if (admitted!==true) return {status:429, error:'The island is full (50 people). Please try again shortly.'};
   return {status:200};
@@ -82,12 +80,6 @@ const server=createServer(async(req,res)=>{
     if(req.method!=='GET' && !isSameOrigin(req)) return send(res,403,{error:'Invalid request origin.'});
     if(req.method==='GET' && url.pathname==='/api/session') return send(res,200,{signedIn:Boolean(sessions.get(req))});
     if(req.method==='POST' && url.pathname==='/api/login') {
-      if(!sharedPassword) return send(res,503,{error:'The shared password is not configured.'});
-      if(!/^application\/json(?:;|$)/i.test(req.headers['content-type']||'')) return send(res,415,{error:'Invalid request.'});
-      const data=await body(req), ip=req.socket.remoteAddress || 'unknown';
-      const match=sessions.authenticate(data.password,ip);
-      if(match==='limited') return send(res,429,{error:'Too many attempts. Please try again later.'});
-      if(!match) return send(res,401,{error:'That password is not correct.'});
       const existing=sessions.get(req);
       if(existing) {const access=await admit(req);return access.status===200?send(res,200,{signedIn:true}):send(res,access.status,{error:access.error});}
       const created=sessions.create();

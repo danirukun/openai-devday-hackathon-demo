@@ -18,25 +18,24 @@ const database=createServer(async(req,res)=>{
 let child,ready=false;
 before(async()=>{
   database.listen(dbPort,'127.0.0.1');await once(database,'listening');
-  child=spawn(process.execPath,['server.mjs'],{cwd:process.cwd(),env:{...process.env,PORT:String(port),SUPABASE_URL:`http://127.0.0.1:${dbPort}`,SUPABASE_SERVICE_ROLE_KEY:'test-server-key',ISLAND_PASSWORD:'test-password',OPENAI_API_KEY:''},stdio:['ignore','pipe','pipe']});
+  child=spawn(process.execPath,['server.mjs'],{cwd:process.cwd(),env:{...process.env,PORT:String(port),SUPABASE_URL:`http://127.0.0.1:${dbPort}`,SUPABASE_SERVICE_ROLE_KEY:'test-server-key',OPENAI_API_KEY:''},stdio:['ignore','pipe','pipe']});
   child.stdout.on('data',()=>{ready=true});
 });
 after(()=>{child?.kill();database.close()});
 async function get(path,options){for(let i=0;i<40&&!ready;i++)await new Promise(r=>setTimeout(r,50));assert.ok(ready,'server did not start');return fetch(`http://127.0.0.1:${port}${path}`,options)}
-const login=(password,cookie)=>get('/api/login',{method:'POST',headers:{'content-type':'application/json',...(cookie?{cookie}:{})},body:JSON.stringify({password})});
+const login=(cookie)=>get('/api/login',{method:'POST',headers:cookie?{cookie}:{}});
 test('serves the UI without exposing environment files',async()=>{assert.equal((await get('/')).status,200);assert.equal((await get('/roaming.mjs')).status,200);assert.equal((await get('/pet-details.mjs')).status,200);assert.equal((await get('/.env')).status,404)});
-test('requires a password and protects mutations from cross-site requests',async()=>{
+test('requires a session and protects mutations from cross-site requests',async()=>{
   assert.equal((await get('/api/world')).status,401);
-  assert.equal((await login('incorrect')).status,401);
   assert.equal((await get('/api/login',{method:'POST',headers:{'content-type':'application/json',origin:'https://evil.example'},body:JSON.stringify({password:'test-password'})})).status,403);
 });
 test('caps simultaneous sessions, shares a slot across tabs and frees it on logout',async()=>{
   const cookies=[];
-  for(let i=0;i<50;i++){const r=await login('test-password');assert.equal(r.status,200);const cookie=r.headers.get('set-cookie');assert.match(cookie,/HttpOnly; SameSite=Strict/);cookies.push(cookie);}
-  assert.equal((await login('test-password',cookies[0])).status,200);assert.equal(slots.size,50);
-  assert.equal((await login('test-password')).status,429);
+  for(let i=0;i<50;i++){const r=await login();assert.equal(r.status,200);const cookie=r.headers.get('set-cookie');assert.match(cookie,/HttpOnly; SameSite=Strict/);cookies.push(cookie);}
+  assert.equal((await login(cookies[0])).status,200);assert.equal(slots.size,50);
+  assert.equal((await login()).status,429);
   assert.equal((await get('/api/session',{headers:{cookie:cookies[0]}})).status,200);
   assert.equal((await get('/api/logout',{method:'POST',headers:{cookie:cookies[0]}})).status,200);
   assert.equal((await (await get('/api/session',{headers:{cookie:cookies[0]}})).json()).signedIn,false);
-  assert.equal((await login('test-password')).status,200);
+  assert.equal((await login()).status,200);
 });
