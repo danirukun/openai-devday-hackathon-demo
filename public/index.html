@@ -22,7 +22,7 @@
         <div class="venue-state"><span id="venue-status">Island preview</span><span id="world-status" role="status">Connecting...</span></div>
       </div>
       <nav class="top-actions" aria-label="Account and pets">
-        <button id="auth-button" class="hud-button secondary" type="button">Sign in</button>
+        <button id="auth-button" class="hud-button secondary" type="button">Enter</button>
         <button id="open-join" class="hud-button primary" type="button"><span aria-hidden="true">+</span> Add pet</button>
       </nav>
     </header>
@@ -39,7 +39,7 @@
   </div>
 </main>
 <dialog id="join-dialog"><form id="join-form"><button type="button" class="close" aria-label="Close">×</button><h2>Add a pet</h2><p>Choose a Petdex pet or upload your own.</p><fieldset class="source-choice"><legend>Choose a pet source</legend><label><input type="radio" name="pet-source" value="gallery" checked> Petdex gallery</label><label><input type="radio" name="pet-source" value="upload"> Upload a ZIP</label></fieldset><div id="gallery-source"><label for="search">Find a pet</label><input id="search" placeholder="Search the Petdex gallery" autocomplete="off"><div id="gallery" class="gallery" role="listbox" aria-label="Petdex pets"><p class="empty">Loading pets…</p></div></div><div id="upload-source" hidden><label for="pet-zip">Codex pet ZIP</label><input id="pet-zip" type="file" accept=".zip,application/zip"><p class="hint">Include pet.json and its PNG or WebP spritesheet. Maximum ZIP size: 8 MB. The pet and its image will be shared with island visitors; upload only assets you have the right to share.</p></div><label for="personality">Their personality</label><input id="personality" minlength="3" maxlength="120" placeholder="Curious, a little shy, loves making friends" required><p class="hint">This personality is visible to everyone on the island. Do not include personal information.</p><p id="form-error" role="alert"></p><button class="primary wide" id="join-button" type="submit">Add pet to venue</button><p class="hint">Petdex pets belong to their creators. Uploaded pets are credited as visitor uploads.</p></form></dialog>
-<dialog id="auth-dialog"><form id="auth-form"><button type="button" class="close-auth close" aria-label="Close">×</button><h2>Enter the island</h2><p>Enter the shared event password. The venue holds up to 50 people.</p><label for="password">Shared password</label><input id="password" type="password" autocomplete="current-password" required maxlength="256"><p id="auth-message" role="status"></p><button class="primary wide" type="submit">Enter</button></form></dialog>
+
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.187.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.187.0/examples/jsm/"}}</script>
 <script type="module" src="/app.js"></script>
 </body>
