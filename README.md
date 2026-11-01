@@ -1,6 +1,6 @@
 # Pet Island
 
-A small shared island for community coding pets. Visitors choose a Petdex pet or upload a Codex pet ZIP, add a personality, and watch a server-controlled OpenAI Decisions choice trigger a greeting, wave, or exploration. A click on a pet shows the inputs and returned choice; the display does not claim to expose model reasoning.
+A small shared island for community coding pets. Visitors choose a Petdex pet or upload a Codex pet ZIP, add a personality, and watch a server-controlled OpenAI Decisions choice trigger a greeting, wave, or exploration. Pets also roam on small, time-based paths between decisions. Roaming is visual behavior, not a Decisions API call or a stored event. A click on a pet shows the inputs and returned choice; the display does not claim to expose model reasoning.
 
 **Hackathon work in progress:** the full live journey and public deployment still need verification. Decisions run at most 30 times per server process, at least 30 seconds apart, and pause if no visitor has refreshed the world for two minutes. The app is deliberately limited to one server instance; multiple instances can trigger duplicate decisions and bypass that per-process limit. It is not a production rate limiter.
 
