@@ -1,0 +1,2377 @@
+[
+  {
+    "name": "Wall_0",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        -1.2993781566619873,
+        -0.10100102424621582,
+        -2.0144777297973633
+      ],
+      [
+        -1.1993781328201294,
+        2.984158992767334,
+        -1.3145278692245483
+      ]
+    ]
+  },
+  {
+    "name": "Wall_1",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        1.098423719406128,
+        -0.10100102424621582,
+        -18.23396110534668
+      ],
+      [
+        4.4150309562683105,
+        5.142606258392334,
+        -18.133962631225586
+      ]
+    ]
+  },
+  {
+    "name": "Wall_2",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        4.315031051635742,
+        -0.10100102424621582,
+        -18.23396110534668
+      ],
+      [
+        4.4150309562683105,
+        5.142606258392334,
+        -17.273406982421875
+      ]
+    ]
+  },
+  {
+    "name": "Wall_3",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        6.239017486572266,
+        -0.10100102424621582,
+        -17.3734073638916
+      ],
+      [
+        6.339017391204834,
+        5.550999641418457,
+        -7.8529133796691895
+      ]
+    ]
+  },
+  {
+    "name": "Wall_4",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        -9.333945274353027,
+        -0.07232236862182617,
+        -8.86340045928955
+      ],
+      [
+        -6.876258373260498,
+        5.840285778045654,
+        -8.763400077819824
+      ]
+    ]
+  },
+  {
+    "name": "Wall_5",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        -0.789570689201355,
+        -0.10100102424621582,
+        -2.0144777297973633
+      ],
+      [
+        0.9221113324165344,
+        5.840285778045654,
+        -1.3145278692245483
+      ]
+    ]
+  },
+  {
+    "name": "Wall_6",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        -4.049249649047852,
+        -0.03257787227630615,
+        -1.2645279169082642
+      ],
+      [
+        -3.949249505996704,
+        4.25035285949707,
+        20.989866256713867
+      ]
+    ]
+  },
+  {
+    "name": "Wall_7",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        -6.976258277893066,
+        -0.10100102424621582,
+        -20.97407341003418
+      ],
+      [
+        -6.876258373260498,
+        5.840285778045654,
+        -8.763400077819824
+      ]
+    ]
+  },
+  {
+    "name": "Wall_8",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        6.239017486572266,
+        -0.10100102424621582,
+        -7.952913761138916
+      ],
+      [
+        9.428692817687988,
+        5.550999641418457,
+        -7.8529133796691895
+      ]
+    ]
+  },
+  {
+    "name": "Wall_9",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        4.315031051635742,
+        -0.10100102424621582,
+        -17.3734073638916
+      ],
+      [
+        6.339017391204834,
+        5.142606258392334,
+        -17.273406982421875
+      ]
+    ]
+  },
+  {
+    "name": "Wall_10",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        9.328693389892578,
+        -0.10100102424621582,
+        -7.952913761138916
+      ],
+      [
+        9.428692817687988,
+        5.550999641418457,
+        -2.0144777297973633
+      ]
+    ]
+  },
+  {
+    "name": "Wall_11",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        -6.976258277893066,
+        -0.10100102424621582,
+        -20.97407341003418
+      ],
+      [
+        1.1984237432479858,
+        5.142606258392334,
+        -20.874073028564453
+      ]
+    ]
+  },
+  {
+    "name": "Wall_12",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        -4.049249649047852,
+        -0.05101442337036133,
+        -1.9746907949447632
+      ],
+      [
+        -3.949249505996704,
+        4.23486328125,
+        -1.2645279169082642
+      ]
+    ]
+  },
+  {
+    "name": "Wall_13",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        -3.949249505996704,
+        -0.10100102424621582,
+        -2.1144776344299316
+      ],
+      [
+        -3.8508830070495605,
+        4.23486328125,
+        -1.9481096267700195
+      ]
+    ]
+  },
+  {
+    "name": "Wall_14",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        -4.049249649047852,
+        -0.10100102424621582,
+        -2.1144776344299316
+      ],
+      [
+        -3.949249505996704,
+        4.23486328125,
+        -1.9746907949447632
+      ]
+    ]
+  },
+  {
+    "name": "Wall_15",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        -4.141753196716309,
+        -0.10100102424621582,
+        -6.5814080238342285
+      ],
+      [
+        -4.04175329208374,
+        3.550999879837036,
+        -2.1144776344299316
+      ]
+    ]
+  },
+  {
+    "name": "Wall_16",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        -1.2493780851364136,
+        -0.10100102424621582,
+        -2.1144776344299316
+      ],
+      [
+        0.9108705520629883,
+        5.681722640991211,
+        -2.0144777297973633
+      ]
+    ]
+  },
+  {
+    "name": "Wall_17",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        -3.8814632892608643,
+        -0.10100102424621582,
+        -2.1144776344299316
+      ],
+      [
+        -1.2493780851364136,
+        5.681722640991211,
+        -2.0144777297973633
+      ]
+    ]
+  },
+  {
+    "name": "Wall_18",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        1.098423719406128,
+        -0.10100102424621582,
+        -20.97407341003418
+      ],
+      [
+        1.1984237432479858,
+        5.142606258392334,
+        -18.133962631225586
+      ]
+    ]
+  },
+  {
+    "name": "Wall_19",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        -4.091753005981445,
+        -0.10100102424621582,
+        -2.1144776344299316
+      ],
+      [
+        -3.949249505996704,
+        5.681722640991211,
+        -2.0144777297973633
+      ]
+    ]
+  },
+  {
+    "name": "Wall_20",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        -5.943037033081055,
+        -0.10100102424621582,
+        -2.1144776344299316
+      ],
+      [
+        -4.091753005981445,
+        5.681722640991211,
+        -2.0144777297973633
+      ]
+    ]
+  },
+  {
+    "name": "Wall_21",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        -1.2493780851364136,
+        -0.10100102424621582,
+        -1.3145278692245483
+      ],
+      [
+        -0.7783299088478088,
+        5.469736099243164,
+        -1.21452796459198
+      ]
+    ]
+  },
+  {
+    "name": "Wall_22",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        -3.949249505996704,
+        -0.05101442337036133,
+        -1.3145278692245483
+      ],
+      [
+        -1.2493780851364136,
+        5.262051582336426,
+        -1.21452796459198
+      ]
+    ]
+  },
+  {
+    "name": "Wall_23",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        4.8029398918151855,
+        -0.03257787227630615,
+        0.056845635175704956
+      ],
+      [
+        4.902940273284912,
+        4.258725166320801,
+        19.70485496520996
+      ]
+    ]
+  },
+  {
+    "name": "Wall_24",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        0.9108705520629883,
+        -0.10100102424621582,
+        -2.1144776344299316
+      ],
+      [
+        9.428692817687988,
+        5.550999641418457,
+        -2.0144777297973633
+      ]
+    ]
+  },
+  {
+    "name": "Wall_25",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        -4.049249649047852,
+        -0.03257787227630615,
+        20.88986587524414
+      ],
+      [
+        3.4406566619873047,
+        5.311722755432129,
+        20.989866256713867
+      ]
+    ]
+  },
+  {
+    "name": "Wall_26",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        -0.7783299088478088,
+        -0.03257787227630615,
+        -1.3145278692245483
+      ],
+      [
+        4.114806175231934,
+        5.681722164154053,
+        -1.21452796459198
+      ]
+    ]
+  },
+  {
+    "name": "Joint_0",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        -1.2993781566619873,
+        -0.10000097751617432,
+        -2.1144776344299316
+      ],
+      [
+        -1.1993781328201294,
+        5.680722236633301,
+        -2.0144777297973633
+      ]
+    ]
+  },
+  {
+    "name": "Joint_1",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        -1.2993781566619873,
+        -0.10000097751617432,
+        -1.3145278692245483
+      ],
+      [
+        -1.1993781328201294,
+        5.2830963134765625,
+        -1.21452796459198
+      ]
+    ]
+  },
+  {
+    "name": "Joint_2",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        -4.049249649047852,
+        -0.10000097751617432,
+        -2.068742275238037
+      ],
+      [
+        -3.949249505996704,
+        4.233863830566406,
+        -1.9481096267700195
+      ]
+    ]
+  },
+  {
+    "name": "Joint_3",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        -4.049249649047852,
+        -0.10000097751617432,
+        -2.1144776344299316
+      ],
+      [
+        -3.949249505996704,
+        5.680722236633301,
+        -2.0144777297973633
+      ]
+    ]
+  },
+  {
+    "name": "Joint_4",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        -4.049249649047852,
+        -0.03157782554626465,
+        20.88986587524414
+      ],
+      [
+        -3.949249505996704,
+        4.261445045471191,
+        20.989866256713867
+      ]
+    ]
+  },
+  {
+    "name": "Joint_5",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        -4.049249649047852,
+        -0.050014376640319824,
+        -1.3145278692245483
+      ],
+      [
+        -3.949249505996704,
+        4.24935245513916,
+        -1.21452796459198
+      ]
+    ]
+  },
+  {
+    "name": "Joint_6",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        -3.8814632892608643,
+        -0.10000097751617432,
+        -2.1144776344299316
+      ],
+      [
+        -3.8508830070495605,
+        5.680722236633301,
+        -2.0144777297973633
+      ]
+    ]
+  },
+  {
+    "name": "Joint_7",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        -6.976258277893066,
+        -0.10000097751617432,
+        -20.97407341003418
+      ],
+      [
+        -6.876258373260498,
+        5.839285850524902,
+        -20.874073028564453
+      ]
+    ]
+  },
+  {
+    "name": "Joint_8",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        9.328693389892578,
+        -0.10000097751617432,
+        -7.952913761138916
+      ],
+      [
+        9.428692817687988,
+        5.549999713897705,
+        -7.8529133796691895
+      ]
+    ]
+  },
+  {
+    "name": "Joint_9",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        9.328693389892578,
+        -0.10000097751617432,
+        -2.1144776344299316
+      ],
+      [
+        9.428692817687988,
+        5.549999713897705,
+        -2.0144777297973633
+      ]
+    ]
+  },
+  {
+    "name": "Joint_10",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        1.098423719406128,
+        -0.10000097751617432,
+        -20.97407341003418
+      ],
+      [
+        1.1984237432479858,
+        5.141606330871582,
+        -20.874073028564453
+      ]
+    ]
+  },
+  {
+    "name": "Joint_11",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        4.315031051635742,
+        -0.10000097751617432,
+        -18.23396110534668
+      ],
+      [
+        4.4150309562683105,
+        5.141606330871582,
+        -18.133962631225586
+      ]
+    ]
+  },
+  {
+    "name": "Joint_12",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        -4.141753196716309,
+        -0.10000097751617432,
+        -2.1144776344299316
+      ],
+      [
+        -4.04175329208374,
+        5.680722236633301,
+        -2.0144777297973633
+      ]
+    ]
+  },
+  {
+    "name": "Joint_13",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        1.098423719406128,
+        -0.10000097751617432,
+        -18.23396110534668
+      ],
+      [
+        1.1984237432479858,
+        5.141606330871582,
+        -18.133962631225586
+      ]
+    ]
+  },
+  {
+    "name": "Joint_14",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        4.315031051635742,
+        -0.10000097751617432,
+        -17.3734073638916
+      ],
+      [
+        4.4150309562683105,
+        5.141606330871582,
+        -17.273406982421875
+      ]
+    ]
+  },
+  {
+    "name": "Joint_15",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        6.239017486572266,
+        -0.10000097751617432,
+        -7.952913761138916
+      ],
+      [
+        6.339017391204834,
+        5.549999713897705,
+        -7.8529133796691895
+      ]
+    ]
+  },
+  {
+    "name": "Joint_16",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        6.239017486572266,
+        -0.10000097751617432,
+        -17.3734073638916
+      ],
+      [
+        6.339017391204834,
+        5.549999713897705,
+        -17.273406982421875
+      ]
+    ]
+  },
+  {
+    "name": "Joint_17",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        -6.976258277893066,
+        -0.10000097751617432,
+        -8.86340045928955
+      ],
+      [
+        -6.876258373260498,
+        5.839285850524902,
+        -8.763400077819824
+      ]
+    ]
+  },
+  {
+    "name": "Joint_18",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        0.6884664297103882,
+        -0.10000097751617432,
+        -2.1144776344299316
+      ],
+      [
+        0.9221113324165344,
+        5.839285850524902,
+        -2.0144777297973633
+      ]
+    ]
+  },
+  {
+    "name": "Joint_19",
+    "group": "Architecture_Walls",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        -0.789570689201355,
+        -0.10000097751617432,
+        -1.3145278692245483
+      ],
+      [
+        -0.5559257864952087,
+        5.566793441772461,
+        -1.21452796459198
+      ]
+    ]
+  },
+  {
+    "name": "Floor_Living_Room",
+    "group": "Architecture_Floors",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        -3.9992494583129883,
+        -0.03057682514190674,
+        -1.2645279169082642
+      ],
+      [
+        4.852940082550049,
+        0.06942319869995117,
+        20.939865112304688
+      ]
+    ]
+  },
+  {
+    "name": "Floor_Other_2",
+    "group": "Architecture_Floors",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        -1.2493780851364136,
+        -0.0989999771118164,
+        -2.0644776821136475
+      ],
+      [
+        0.9108705520629883,
+        0.0009999275207519531,
+        -1.2645279169082642
+      ]
+    ]
+  },
+  {
+    "name": "Floor_Dining_Room_2",
+    "group": "Architecture_Floors",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        -4.091753005981445,
+        -0.0989999771118164,
+        -7.902913570404053
+      ],
+      [
+        9.378693580627441,
+        0.0009999275207519531,
+        -1.9746907949447632
+      ]
+    ]
+  },
+  {
+    "name": "Floor_Other_1",
+    "group": "Architecture_Floors",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        -3.9992494583129883,
+        -0.049013376235961914,
+        -2.0644776821136475
+      ],
+      [
+        -1.2493780851364136,
+        0.050986528396606445,
+        -1.2645279169082642
+      ]
+    ]
+  },
+  {
+    "name": "Floor_Dining_Room_1",
+    "group": "Architecture_Floors",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        -6.926258563995361,
+        -0.0989999771118164,
+        -20.924072265625
+      ],
+      [
+        6.289017677307129,
+        0.0009999275207519531,
+        -2.0644776821136475
+      ]
+    ]
+  },
+  {
+    "name": "Door_0",
+    "group": "Architecture_Openings",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        -6.925258636474609,
+        -1.0728836059570312e-06,
+        -12.972225189208984
+      ],
+      [
+        -6.925258636474609,
+        3.927565336227417,
+        -9.366414070129395
+      ]
+    ]
+  },
+  {
+    "name": "Window_0",
+    "group": "Architecture_Openings",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        -6.925258636474609,
+        1.969404935836792,
+        -20.732929229736328
+      ],
+      [
+        -6.925258636474609,
+        3.6364872455596924,
+        -17.36573600769043
+      ]
+    ]
+  },
+  {
+    "name": "Window_1",
+    "group": "Architecture_Openings",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        -6.925258636474609,
+        1.9429433345794678,
+        -17.16254234313965
+      ],
+      [
+        -6.925258636474609,
+        3.6629488468170166,
+        -13.583244323730469
+      ]
+    ]
+  },
+  {
+    "name": "Window_2",
+    "group": "Architecture_Openings",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        4.851940155029297,
+        1.7235119342803955,
+        2.671431541442871
+      ],
+      [
+        4.851940155029297,
+        3.452439546585083,
+        5.08743143081665
+      ]
+    ]
+  },
+  {
+    "name": "Window_3",
+    "group": "Architecture_Openings",
+    "root": "Architecture",
+    "hidden_in_preview": false,
+    "category": "",
+    "bounds": [
+      [
+        4.851940155029297,
+        1.5857808589935303,
+        16.933040618896484
+      ],
+      [
+        4.851940155029297,
+        3.54723858833313,
+        19.367149353027344
+      ]
+    ]
+  },
+  {
+    "name": "Ceiling_Living_Room_0",
+    "group": "Architecture_Ceilings",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        -0.7783299088478088,
+        5.468735694885254,
+        -1.2655279636383057
+      ],
+      [
+        -0.2975243031978607,
+        5.680722236633301,
+        20.938865661621094
+      ]
+    ]
+  },
+  {
+    "name": "Ceiling_Living_Room_1",
+    "group": "Architecture_Ceilings",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        -0.2975243031978607,
+        5.680722236633301,
+        -1.2655279636383057
+      ],
+      [
+        1.1368616819381714,
+        5.680722236633301,
+        20.938865661621094
+      ]
+    ]
+  },
+  {
+    "name": "Ceiling_Living_Room_2",
+    "group": "Architecture_Ceilings",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        1.1368616819381714,
+        4.464813709259033,
+        -1.2655279636383057
+      ],
+      [
+        4.114806175231934,
+        5.680722236633301,
+        20.938865661621094
+      ]
+    ]
+  },
+  {
+    "name": "Ceiling_Living_Room_3",
+    "group": "Architecture_Ceilings",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        -3.9992494583129883,
+        4.048638343811035,
+        -1.2655279636383057
+      ],
+      [
+        -0.7783299088478088,
+        5.468735694885254,
+        20.938865661621094
+      ]
+    ]
+  },
+  {
+    "name": "Ceiling_Living_Room_4",
+    "group": "Architecture_Ceilings",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        4.114806175231934,
+        4.163430213928223,
+        -1.2655279636383057
+      ],
+      [
+        4.852940082550049,
+        4.464813709259033,
+        20.938865661621094
+      ]
+    ]
+  },
+  {
+    "name": "Ceiling_Other_2",
+    "group": "Architecture_Ceilings",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        -1.2493780851364136,
+        5.839285850524902,
+        -2.0644776821136475
+      ],
+      [
+        0.9108705520629883,
+        5.839285850524902,
+        -1.2645279169082642
+      ]
+    ]
+  },
+  {
+    "name": "Ceiling_Dining_Room_2",
+    "group": "Architecture_Ceilings",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        -4.091753005981445,
+        5.680722236633301,
+        -7.902913570404053
+      ],
+      [
+        9.378693580627441,
+        5.680722236633301,
+        -1.9746907949447632
+      ]
+    ]
+  },
+  {
+    "name": "Ceiling_Other_1",
+    "group": "Architecture_Ceilings",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        -3.9992494583129883,
+        5.680722236633301,
+        -2.0644776821136475
+      ],
+      [
+        -1.2493780851364136,
+        5.680722236633301,
+        -1.2645279169082642
+      ]
+    ]
+  },
+  {
+    "name": "Ceiling_Dining_Room_1",
+    "group": "Architecture_Ceilings",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        -6.926258563995361,
+        5.839285850524902,
+        -20.924072265625
+      ],
+      [
+        6.289017677307129,
+        5.839285850524902,
+        -2.0644776821136475
+      ]
+    ]
+  },
+  {
+    "name": "Truss 01 | left slope",
+    "group": "Architecture_RoofTrusses",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        -3.870328664779663,
+        4.138260841369629,
+        18.24370765686035
+      ],
+      [
+        0.2703287899494171,
+        5.611739158630371,
+        18.356290817260742
+      ]
+    ]
+  },
+  {
+    "name": "Truss 01 | right slope",
+    "group": "Architecture_RoofTrusses",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        0.23113034665584564,
+        4.13779878616333,
+        18.24370765686035
+      ],
+      [
+        4.718869686126709,
+        5.61220121383667,
+        18.356290817260742
+      ]
+    ]
+  },
+  {
+    "name": "Truss 01 | lower chord",
+    "group": "Architecture_RoofTrusses",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        -3.8499996662139893,
+        4.134999752044678,
+        18.24370765686035
+      ],
+      [
+        4.699999809265137,
+        4.264999866485596,
+        18.356290817260742
+      ]
+    ]
+  },
+  {
+    "name": "Truss 01 | centre",
+    "group": "Architecture_RoofTrusses",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        0.21102885901927948,
+        4.199999809265137,
+        18.2549991607666
+      ],
+      [
+        0.2889711558818817,
+        5.550000190734863,
+        18.344999313354492
+      ]
+    ]
+  },
+  {
+    "name": "Truss 01 | diagonal L",
+    "group": "Architecture_RoofTrusses",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        -2.0205798149108887,
+        4.1656999588012695,
+        18.265357971191406
+      ],
+      [
+        0.27057984471321106,
+        5.5843000411987305,
+        18.334640502929688
+      ]
+    ]
+  },
+  {
+    "name": "Truss 01 | diagonal R",
+    "group": "Architecture_RoofTrusses",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        0.22836969792842865,
+        4.16635274887085,
+        18.265357971191406
+      ],
+      [
+        2.3716301918029785,
+        5.58364725112915,
+        18.334640502929688
+      ]
+    ]
+  },
+  {
+    "name": "Truss 02 | left slope",
+    "group": "Architecture_RoofTrusses",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        -3.870328664779663,
+        4.138260841369629,
+        13.643708229064941
+      ],
+      [
+        0.2703287899494171,
+        5.611739158630371,
+        13.756291389465332
+      ]
+    ]
+  },
+  {
+    "name": "Truss 02 | right slope",
+    "group": "Architecture_RoofTrusses",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        0.23113034665584564,
+        4.13779878616333,
+        13.643707275390625
+      ],
+      [
+        4.718869686126709,
+        5.61220121383667,
+        13.756292343139648
+      ]
+    ]
+  },
+  {
+    "name": "Truss 02 | lower chord",
+    "group": "Architecture_RoofTrusses",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        -3.8499996662139893,
+        4.134999752044678,
+        13.643708229064941
+      ],
+      [
+        4.699999809265137,
+        4.264999866485596,
+        13.756291389465332
+      ]
+    ]
+  },
+  {
+    "name": "Truss 02 | centre",
+    "group": "Architecture_RoofTrusses",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        0.21102885901927948,
+        4.199999809265137,
+        13.654999732971191
+      ],
+      [
+        0.2889711558818817,
+        5.550000190734863,
+        13.744999885559082
+      ]
+    ]
+  },
+  {
+    "name": "Truss 02 | diagonal L",
+    "group": "Architecture_RoofTrusses",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        -2.0205798149108887,
+        4.1656999588012695,
+        13.665358543395996
+      ],
+      [
+        0.27057984471321106,
+        5.5843000411987305,
+        13.734641075134277
+      ]
+    ]
+  },
+  {
+    "name": "Truss 02 | diagonal R",
+    "group": "Architecture_RoofTrusses",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        0.22836969792842865,
+        4.16635274887085,
+        13.665358543395996
+      ],
+      [
+        2.3716301918029785,
+        5.58364725112915,
+        13.734641075134277
+      ]
+    ]
+  },
+  {
+    "name": "Truss 03 | left slope",
+    "group": "Architecture_RoofTrusses",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        -3.870328664779663,
+        4.138260841369629,
+        9.043708801269531
+      ],
+      [
+        0.2703287899494171,
+        5.611739158630371,
+        9.156291961669922
+      ]
+    ]
+  },
+  {
+    "name": "Truss 03 | right slope",
+    "group": "Architecture_RoofTrusses",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        0.23113034665584564,
+        4.13779878616333,
+        9.043707847595215
+      ],
+      [
+        4.718869686126709,
+        5.61220121383667,
+        9.156292915344238
+      ]
+    ]
+  },
+  {
+    "name": "Truss 03 | lower chord",
+    "group": "Architecture_RoofTrusses",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        -3.8499996662139893,
+        4.134999752044678,
+        9.043708801269531
+      ],
+      [
+        4.699999809265137,
+        4.264999866485596,
+        9.156291961669922
+      ]
+    ]
+  },
+  {
+    "name": "Truss 03 | centre",
+    "group": "Architecture_RoofTrusses",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        0.21102885901927948,
+        4.199999809265137,
+        9.055000305175781
+      ],
+      [
+        0.2889711558818817,
+        5.550000190734863,
+        9.145000457763672
+      ]
+    ]
+  },
+  {
+    "name": "Truss 03 | diagonal L",
+    "group": "Architecture_RoofTrusses",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        -2.0205798149108887,
+        4.1656999588012695,
+        9.065359115600586
+      ],
+      [
+        0.27057984471321106,
+        5.5843000411987305,
+        9.134641647338867
+      ]
+    ]
+  },
+  {
+    "name": "Truss 03 | diagonal R",
+    "group": "Architecture_RoofTrusses",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        0.22836969792842865,
+        4.16635274887085,
+        9.065359115600586
+      ],
+      [
+        2.3716301918029785,
+        5.58364725112915,
+        9.134641647338867
+      ]
+    ]
+  },
+  {
+    "name": "Truss 04 | left slope",
+    "group": "Architecture_RoofTrusses",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        -3.870328664779663,
+        4.138260841369629,
+        4.443708419799805
+      ],
+      [
+        0.2703287899494171,
+        5.611739158630371,
+        4.556291580200195
+      ]
+    ]
+  },
+  {
+    "name": "Truss 04 | right slope",
+    "group": "Architecture_RoofTrusses",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        0.23113034665584564,
+        4.13779878616333,
+        4.4437079429626465
+      ],
+      [
+        4.718869686126709,
+        5.61220121383667,
+        4.5562920570373535
+      ]
+    ]
+  },
+  {
+    "name": "Truss 04 | lower chord",
+    "group": "Architecture_RoofTrusses",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        -3.8499996662139893,
+        4.134999752044678,
+        4.4437079429626465
+      ],
+      [
+        4.699999809265137,
+        4.264999866485596,
+        4.5562920570373535
+      ]
+    ]
+  },
+  {
+    "name": "Truss 04 | centre",
+    "group": "Architecture_RoofTrusses",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        0.21102885901927948,
+        4.199999809265137,
+        4.454999923706055
+      ],
+      [
+        0.2889711558818817,
+        5.550000190734863,
+        4.545000076293945
+      ]
+    ]
+  },
+  {
+    "name": "Truss 04 | diagonal L",
+    "group": "Architecture_RoofTrusses",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        -2.0205798149108887,
+        4.1656999588012695,
+        4.465358734130859
+      ],
+      [
+        0.27057984471321106,
+        5.5843000411987305,
+        4.534641265869141
+      ]
+    ]
+  },
+  {
+    "name": "Truss 04 | diagonal R",
+    "group": "Architecture_RoofTrusses",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        0.22836969792842865,
+        4.16635274887085,
+        4.465358734130859
+      ],
+      [
+        2.3716301918029785,
+        5.58364725112915,
+        4.534641265869141
+      ]
+    ]
+  },
+  {
+    "name": "Truss 05 | left slope",
+    "group": "Architecture_RoofTrusses",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        -3.870328664779663,
+        4.138260841369629,
+        -0.1562916785478592
+      ],
+      [
+        0.2703287899494171,
+        5.611739158630371,
+        -0.04370831698179245
+      ]
+    ]
+  },
+  {
+    "name": "Truss 05 | right slope",
+    "group": "Architecture_RoofTrusses",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        0.23113034665584564,
+        4.13779878616333,
+        -0.15629224479198456
+      ],
+      [
+        4.718869686126709,
+        5.61220121383667,
+        -0.04370775446295738
+      ]
+    ]
+  },
+  {
+    "name": "Truss 05 | lower chord",
+    "group": "Architecture_RoofTrusses",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        -3.8499996662139893,
+        4.134999752044678,
+        -0.15629184246063232
+      ],
+      [
+        4.699999809265137,
+        4.264999866485596,
+        -0.04370816797018051
+      ]
+    ]
+  },
+  {
+    "name": "Truss 05 | centre",
+    "group": "Architecture_RoofTrusses",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        0.21102885901927948,
+        4.199999809265137,
+        -0.14500001072883606
+      ],
+      [
+        0.2889711558818817,
+        5.550000190734863,
+        -0.054999999701976776
+      ]
+    ]
+  },
+  {
+    "name": "Truss 05 | diagonal L",
+    "group": "Architecture_RoofTrusses",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        -2.0205798149108887,
+        4.1656999588012695,
+        -0.1346411108970642
+      ],
+      [
+        0.27057984471321106,
+        5.5843000411987305,
+        -0.06535889953374863
+      ]
+    ]
+  },
+  {
+    "name": "Truss 05 | diagonal R",
+    "group": "Architecture_RoofTrusses",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        0.22836969792842865,
+        4.16635274887085,
+        -0.13464103639125824
+      ],
+      [
+        2.3716301918029785,
+        5.58364725112915,
+        -0.065358966588974
+      ]
+    ]
+  },
+  {
+    "name": "Longitudinal beam | left",
+    "group": "Architecture_RoofTrusses",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        -3.9322738647460938,
+        4.1049981117248535,
+        -1.0499992370605469
+      ],
+      [
+        -3.767725944519043,
+        4.29500150680542,
+        20.600000381469727
+      ]
+    ]
+  },
+  {
+    "name": "Longitudinal beam | right",
+    "group": "Architecture_RoofTrusses",
+    "root": "Architecture",
+    "hidden_in_preview": true,
+    "category": "",
+    "bounds": [
+      [
+        4.617725849151611,
+        4.1049981117248535,
+        -1.0499992370605469
+      ],
+      [
+        4.782273769378662,
+        4.29500150680542,
+        20.600000381469727
+      ]
+    ]
+  },
+  {
+    "name": "table_dining_rect_0",
+    "group": "Furniture_Tables",
+    "root": "Furniture",
+    "hidden_in_preview": false,
+    "category": "Table",
+    "bounds": [
+      [
+        -0.1905907243490219,
+        0.060722947120666504,
+        17.442644119262695
+      ],
+      [
+        2.3167178630828857,
+        0.80118328332901,
+        18.38475227355957
+      ]
+    ]
+  },
+  {
+    "name": "table_dining_rect_1",
+    "group": "Furniture_Tables",
+    "root": "Furniture",
+    "hidden_in_preview": false,
+    "category": "Table",
+    "bounds": [
+      [
+        -5.970479965209961,
+        0.0,
+        -14.078154563903809
+      ],
+      [
+        -3.86110520362854,
+        0.9562214016914368,
+        -13.107208251953125
+      ]
+    ]
+  },
+  {
+    "name": "table_dining_rect_2",
+    "group": "Furniture_Tables",
+    "root": "Furniture",
+    "hidden_in_preview": false,
+    "category": "Table",
+    "bounds": [
+      [
+        0.39748823642730713,
+        0.060722947120666504,
+        15.6000337600708
+      ],
+      [
+        2.3125269412994385,
+        0.8256828784942627,
+        16.598569869995117
+      ]
+    ]
+  },
+  {
+    "name": "table_dining_rect_3",
+    "group": "Furniture_Tables",
+    "root": "Furniture",
+    "hidden_in_preview": false,
+    "category": "Table",
+    "bounds": [
+      [
+        -6.387247562408447,
+        0.0,
+        -11.717278480529785
+      ],
+      [
+        -4.374519348144531,
+        0.9270155429840088,
+        -10.553065299987793
+      ]
+    ]
+  },
+  {
+    "name": "table_other_rect_0",
+    "group": "Furniture_Tables",
+    "root": "Furniture",
+    "hidden_in_preview": false,
+    "category": "Table",
+    "bounds": [
+      [
+        -6.33592414855957,
+        1.1920928955078125e-07,
+        -9.989514350891113
+      ],
+      [
+        -4.974887371063232,
+        0.9435163736343384,
+        -9.213861465454102
+      ]
+    ]
+  },
+  {
+    "name": "table_other_rect_1",
+    "group": "Furniture_Tables",
+    "root": "Furniture",
+    "hidden_in_preview": false,
+    "category": "Table",
+    "bounds": [
+      [
+        -0.7345567941665649,
+        0.060722947120666504,
+        -0.5845528244972229
+      ],
+      [
+        1.2143110036849976,
+        0.850128710269928,
+        0.5476916432380676
+      ]
+    ]
+  },
+  {
+    "name": "table_other_rect_2",
+    "group": "Furniture_Tables",
+    "root": "Furniture",
+    "hidden_in_preview": false,
+    "category": "Table",
+    "bounds": [
+      [
+        2.5716607570648193,
+        0.0,
+        -5.3480353355407715
+      ],
+      [
+        3.6664531230926514,
+        1.110022783279419,
+        -3.249444007873535
+      ]
+    ]
+  },
+  {
+    "name": "table_other_rect_3",
+    "group": "Furniture_Tables",
+    "root": "Furniture",
+    "hidden_in_preview": false,
+    "category": "Table",
+    "bounds": [
+      [
+        -5.676187992095947,
+        0.0,
+        -20.318531036376953
+      ],
+      [
+        -4.769993782043457,
+        1.0042097568511963,
+        -17.93667221069336
+      ]
+    ]
+  },
+  {
+    "name": "table_other_rect_4",
+    "group": "Furniture_Tables",
+    "root": "Furniture",
+    "hidden_in_preview": false,
+    "category": "Table",
+    "bounds": [
+      [
+        -6.23157262802124,
+        0.0,
+        -16.281370162963867
+      ],
+      [
+        -3.8795456886291504,
+        1.0127546787261963,
+        -15.3051118850708
+      ]
+    ]
+  },
+  {
+    "name": "table_other_rect_5",
+    "group": "Furniture_Tables",
+    "root": "Furniture",
+    "hidden_in_preview": false,
+    "category": "Table",
+    "bounds": [
+      [
+        -2.8957724571228027,
+        0.06072282791137695,
+        5.994678020477295
+      ],
+      [
+        -1.7365927696228027,
+        0.900924026966095,
+        7.718310832977295
+      ]
+    ]
+  },
+  {
+    "name": "table_other_rect_6",
+    "group": "Furniture_Tables",
+    "root": "Furniture",
+    "hidden_in_preview": false,
+    "category": "Table",
+    "bounds": [
+      [
+        4.008670806884766,
+        0.060723066329956055,
+        12.408466339111328
+      ],
+      [
+        4.792117595672607,
+        0.8239619135856628,
+        14.465182304382324
+      ]
+    ]
+  },
+  {
+    "name": "chair_dining_four_back_arms_0",
+    "group": "Furniture_Chairs",
+    "root": "Furniture",
+    "hidden_in_preview": false,
+    "category": "Chair",
+    "bounds": [
+      [
+        -5.748732089996338,
+        -1.1920928955078125e-07,
+        -19.24058723449707
+      ],
+      [
+        -5.215895652770996,
+        1.1346529722213745,
+        -18.781965255737305
+      ]
+    ]
+  },
+  {
+    "name": "chair_dining_four_back_arms_1",
+    "group": "Furniture_Chairs",
+    "root": "Furniture",
+    "hidden_in_preview": false,
+    "category": "Chair",
+    "bounds": [
+      [
+        -0.04038636013865471,
+        0.060722947120666504,
+        0.14590290188789368
+      ],
+      [
+        0.4864691197872162,
+        1.0474293231964111,
+        0.763578474521637
+      ]
+    ]
+  },
+  {
+    "name": "chair_dining_four_back_no_0",
+    "group": "Furniture_Chairs",
+    "root": "Furniture",
+    "hidden_in_preview": false,
+    "category": "Chair",
+    "bounds": [
+      [
+        2.3734946250915527,
+        1.1920928955078125e-07,
+        -13.758962631225586
+      ],
+      [
+        2.9328205585479736,
+        1.022661805152893,
+        -13.203787803649902
+      ]
+    ]
+  },
+  {
+    "name": "chair_dining_four_back_no_1",
+    "group": "Furniture_Chairs",
+    "root": "Furniture",
+    "hidden_in_preview": false,
+    "category": "Chair",
+    "bounds": [
+      [
+        1.2771365642547607,
+        -1.1920928955078125e-07,
+        -11.265969276428223
+      ],
+      [
+        1.9111698865890503,
+        1.0439741611480713,
+        -10.604348182678223
+      ]
+    ]
+  },
+  {
+    "name": "chair_dining_four_back_no_2",
+    "group": "Furniture_Chairs",
+    "root": "Furniture",
+    "hidden_in_preview": false,
+    "category": "Chair",
+    "bounds": [
+      [
+        2.3806400299072266,
+        -1.1920928955078125e-07,
+        -14.366860389709473
+      ],
+      [
+        2.9098153114318848,
+        1.0350416898727417,
+        -13.882728576660156
+      ]
+    ]
+  },
+  {
+    "name": "chair_dining_four_back_no_3",
+    "group": "Furniture_Chairs",
+    "root": "Furniture",
+    "hidden_in_preview": false,
+    "category": "Chair",
+    "bounds": [
+      [
+        3.2923672199249268,
+        1.1920928955078125e-07,
+        -15.760843276977539
+      ],
+      [
+        3.9949285984039307,
+        1.008186936378479,
+        -15.054057121276855
+      ]
+    ]
+  },
+  {
+    "name": "chair_dining_four_back_no_4",
+    "group": "Furniture_Chairs",
+    "root": "Furniture",
+    "hidden_in_preview": false,
+    "category": "Chair",
+    "bounds": [
+      [
+        2.327925443649292,
+        -1.1920928955078125e-07,
+        -13.270541191101074
+      ],
+      [
+        2.884566068649292,
+        1.0438307523727417,
+        -12.76932144165039
+      ]
+    ]
+  },
+  {
+    "name": "chair_other_four_back_no_0",
+    "group": "Furniture_Chairs",
+    "root": "Furniture",
+    "hidden_in_preview": false,
+    "category": "Chair",
+    "bounds": [
+      [
+        1.7903614044189453,
+        0.1377248764038086,
+        7.354846000671387
+      ],
+      [
+        2.363359212875366,
+        1.121744990348816,
+        7.847277641296387
+      ]
+    ]
+  },
+  {
+    "name": "chair_other_four_back_no_1",
+    "group": "Furniture_Chairs",
+    "root": "Furniture",
+    "hidden_in_preview": false,
+    "category": "Chair",
+    "bounds": [
+      [
+        2.67519474029541,
+        0.0,
+        -15.162050247192383
+      ],
+      [
+        3.11647891998291,
+        1.0130040645599365,
+        -14.685853004455566
+      ]
+    ]
+  },
+  {
+    "name": "chair_other_four_back_no_2",
+    "group": "Furniture_Chairs",
+    "root": "Furniture",
+    "hidden_in_preview": false,
+    "category": "Chair",
+    "bounds": [
+      [
+        -2.356821060180664,
+        0.0,
+        -16.646486282348633
+      ],
+      [
+        -1.7884618043899536,
+        1.0192272663116455,
+        -16.063234329223633
+      ]
+    ]
+  },
+  {
+    "name": "chair_other_four_back_no_3",
+    "group": "Furniture_Chairs",
+    "root": "Furniture",
+    "hidden_in_preview": false,
+    "category": "Chair",
+    "bounds": [
+      [
+        5.43013858795166,
+        0.0,
+        -4.7010884284973145
+      ],
+      [
+        6.05001163482666,
+        1.190882921218872,
+        -4.190102577209473
+      ]
+    ]
+  },
+  {
+    "name": "sofa_rect_0",
+    "group": "Furniture_Sofas",
+    "root": "Furniture",
+    "hidden_in_preview": false,
+    "category": "Sofa / armchair",
+    "bounds": [
+      [
+        -3.458348035812378,
+        0.06072282791137695,
+        19.45880126953125
+      ],
+      [
+        -1.2620590925216675,
+        0.8927725553512573,
+        20.566713333129883
+      ]
+    ]
+  },
+  {
+    "name": "sofa_rect_1",
+    "group": "Furniture_Sofas",
+    "root": "Furniture",
+    "hidden_in_preview": false,
+    "category": "Sofa / armchair",
+    "bounds": [
+      [
+        -8.469045639038086,
+        1.1920928955078125e-07,
+        -7.915857791900635
+      ],
+      [
+        -7.500783920288086,
+        1.0205332040786743,
+        -6.221522808074951
+      ]
+    ]
+  },
+  {
+    "name": "sofa_single_0",
+    "group": "Furniture_Sofas",
+    "root": "Furniture",
+    "hidden_in_preview": false,
+    "category": "Sofa / armchair",
+    "bounds": [
+      [
+        -3.820047616958618,
+        0.060723066329956055,
+        17.27735137939453
+      ],
+      [
+        -2.709451913833618,
+        0.8392301201820374,
+        18.917490005493164
+      ]
+    ]
+  },
+  {
+    "name": "sofa_single_1",
+    "group": "Furniture_Sofas",
+    "root": "Furniture",
+    "hidden_in_preview": false,
+    "category": "Sofa / armchair",
+    "bounds": [
+      [
+        -3.7746191024780273,
+        0.060722947120666504,
+        14.989521026611328
+      ],
+      [
+        -2.7785253524780273,
+        0.790734052658081,
+        16.469501495361328
+      ]
+    ]
+  },
+  {
+    "name": "storage_cabinet_tall2_0",
+    "group": "Furniture_Storage",
+    "root": "Furniture",
+    "hidden_in_preview": false,
+    "category": "Storage cabinet",
+    "bounds": [
+      [
+        4.9989471435546875,
+        1.1920928955078125e-07,
+        -9.024141311645508
+      ],
+      [
+        5.4952850341796875,
+        1.3241097927093506,
+        -8.119356155395508
+      ]
+    ]
+  }
+]
