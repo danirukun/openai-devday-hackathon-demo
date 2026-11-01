@@ -6,9 +6,8 @@
 
 Checked on 1 November 2026 from Bevell's public pages:
 
-- **The DevDay plotter** (<https://bevell.app/devday>) is a web form. A visitor uploads a photo, enters a first name, ticks a consent box ("the photo is mine or I have permission, and I agree to send it to OpenAI") and clicks *Make my dot portrait*. Bevell makes a GPT Image dot portrait with a preview, then the visitor joins a queue and a robot draws it with one pen. No API, file limits or submission rules are documented for this flow. `robots.txt` disallows `/api/`. The gallery showed "Arm offline" when checked.
-- **Bevell's public API** (<https://bevell.app/developers>, base `https://bevell.app/api/v1`, OpenAPI at `/api/v1/openapi.json`) is a different product: it converts a photo into DXF or SVG CAD files. It needs a paid Bevell Unlimited subscription, uses account-wide bearer keys, and has no link to the DevDay robot or its queue. It does not help here.
-- Contact for a real integration: natalie@bevell.app. Nothing has been sent.
+- **The DevDay plotter** (<https://bevell.app/devday>) is a web form. A visitor uploads a photo, enters a first name, ticks a consent box ("the photo is mine or I have permission, and I agree to send it to OpenAI") and clicks *Make my dot portrait*. Bevell makes a GPT Image dot portrait with a preview, then the visitor joins a queue and a robot draws it with one pen. No file limits or submission rules are documented for this flow. The gallery showed "Arm offline" when checked.
+- Contact if the team wants to ask about an integration: natalie@bevell.app. Nothing has been sent.
 
 So the app must **never** submit an image to Bevell, call its endpoints, or say a portrait was plotted. The visitor does the upload and ticks the consent box themselves. This is already a rule in the spec.
 
@@ -50,6 +49,6 @@ Optional once the above works: a "Mark as submitted" button is **not** recommend
 
 ## Out of scope
 
-- Calling Bevell's DevDay form or any `/api/` route, or using a paid Bevell API key.
-- Pen-plotter file formats (SVG or DXF). The DevDay form takes an image.
+- Submitting to the DevDay form for the visitor, or calling Bevell from the app in any way.
+- Other file formats. The DevDay form takes an image.
 - Per-owner permissions. They wait for individual accounts.
