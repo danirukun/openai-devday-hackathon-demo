@@ -1,6 +1,6 @@
 # Venue actions and pet state plan
 
-**Status: planning only.** This incorporates the Discord handoff and the request for areas that restore energy and fun over time. Only approach, wave and explore are currently implemented. The existing [pet actions](pet-actions.md) design remains the approved baseline where the handoff proposes a change; agree those changes with the team before implementation. The GLB is being built by a teammate.
+**Status: planning only.** This incorporates the Discord handoff and the request for areas that restore energy and fun over time. The user approved dot-style printer figures and a photo wall separate from the physical plotter. Other changes remain proposals. See [pet actions](pet-actions.md) for the current implementation status. The GLB is being built by a teammate.
 
 ## Demo and scope
 
@@ -24,7 +24,7 @@ Retain `approach`, `wave` and `explore`. The handoff proposes these additional a
 | `visit_refreshments` | A pet receives a virtual food item or Codex Cola. |
 | `send_message` | The Decisions API chooses a tone; a separate small text model writes one public, pet-to-pet message. The feed identifies that model. |
 
-The handoff's photo-wall/physical-plotter split, Codex Cola instead of coffee, and dot figures are changes to the approved design. The handoff's inventory, mood and messages add scope. They are proposals in this plan, not retroactive approvals or implemented features. Contact exchange remains an owner-controlled, mutual opt-in feature requiring profiles and pet ownership; a pet decision must not expose or trigger sharing of contact details.
+The user approved the photo-wall/physical-plotter split and dot figures. Codex Cola instead of coffee remains a proposed change. Inventory, mood and messages add scope; their full design is not yet implemented. Contact exchange remains an owner-controlled, mutual opt-in feature requiring profiles and pet ownership; a pet decision must not expose or trigger sharing of contact details.
 
 ## Shared pet state
 
@@ -64,4 +64,4 @@ Proposed anchors for the scene builder are `PrinterStation`, `PhotoBoothStation`
 
 - Use fake clocks to check completed minutes, area entry and exit, decay, caps, restart behavior and two browsers observing identical values. Check an action and an area transition at the same time cannot double-apply a bonus.
 - Use fake model responses to check eligible actions, station occupancy, timeout release, inventory caps, atomic writes, invalid answers, message validation and prompt-injection attempts. Existing events must still load. Verify the completed slice in two browser sessions and on a phone.
-- Team decisions still needed: confirm the changes to the approved photo booth, drink and printer design; final dot choices and rights; message model and tones; area boundaries, occupancy and bonus rates; offline accrual; and whether the physical plotter actually works with sprites. Confirm venue layout and anchors with the scene builder.
+- Team decisions still needed: confirm the proposed drink change, final dot choices and rights; message model and tones; area boundaries, occupancy and bonus rates; offline accrual; and whether the physical plotter actually works with sprites. Confirm venue layout and anchors with the scene builder.

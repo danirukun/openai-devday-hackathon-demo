@@ -1,6 +1,6 @@
 # Pet Island — venue and user experience
 
-**Status: proposed design for review.** The pet-action design is approved. This document covers how attendees enter, explore and understand the venue; it does not mean the proposed screens or venue are already implemented.
+**Status: proposed design for review.** The printer dot figures and separate photo wall and physical plotter are approved; other new station proposals remain under review. This document covers how attendees enter, explore and understand the venue; it does not mean the proposed screens or venue are already implemented.
 
 ## Experience in one sentence
 
@@ -55,7 +55,7 @@ Use the existing fixed isometric camera as the starting view. Remove or cut away
 
 The server remains the authority for a pet's chosen action and the shared event. All connected visitors should see consistent station activity and outcomes after refresh. Show a pet travelling, a short in-progress state and the final result; if the active viewer opens later, show the current or completed state rather than pretending a new decision occurred.
 
-A station handles one pet at a time in the proposed first version. Make “in use” legible, avoid overlapping results, and recover cleanly if a turn fails or a visitor disconnects. The printer's first version uses the agreed set of instantly available 3D objects. The booth should derive its sketch from the actual pet image and show a virtual plotter drawing it; it does not use an attendee's camera or produce physical paper. Validate portrait quality using real Petdex and uploaded sprites before promising a particular result.
+A station handles one pet at a time, except for the two-pet photo wall. Make occupancy legible and recover cleanly if a turn fails. The printer uses prebuilt dot figures. The photo wall and physical plotter are separate: visitors can capture the posed pets at the wall, and a person must manually submit a permitted image to Bevell for the plotter. These photo and plotter features are not implemented yet.
 
 Handles are optional and private by default. Each owner must opt in before either sees the other's selected handles. A pet meeting or model decision must never bypass that consent. Show pending, accepted, declined and withdrawn states only to the relevant owners. Existing pets have no owner relationship today; don't infer or assign an owner retroactively.
 
