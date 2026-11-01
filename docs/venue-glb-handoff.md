@@ -26,4 +26,6 @@ Use a dollhouse/cutaway interpretation of the photographed industrial interior: 
 
 ## Requested activity stations
 
+The [venue actions and pet state plan](station-actions-plan.md) includes proposed separate photo wall and plotter anchors and a presentation area with time-based energy and fun bonuses. These changes and positions still need agreement with the team.
+
 Reserve space for a small table with a 3D printer, a photo wall with a paper-drawing plotter, and a refreshment table where pets can collect food and coffee. The supplied reference set shows the colorful photo-wall area in `IMG_0273.HEIC`, `IMG_0274.HEIC`, and `IMG_0320.HEIC`; the photos are not included here. Maintain a clear path and enough camera visibility for the pets and resulting objects. Please discuss station positions before final export; runtime anchor naming and placement are not implemented yet. See `docs/pet-actions.md` for the intended interactions.

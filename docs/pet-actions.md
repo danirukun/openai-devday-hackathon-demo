@@ -1,5 +1,7 @@
 # Pet actions
 
+For the Discord handoff, proposed changes and timed area bonuses, see the [venue actions and pet state plan](station-actions-plan.md). Changes to this approved baseline remain proposals until the team agrees.
+
 Pet Island's actions should give attendees a reason to watch, share and meet. A single server-owned Decisions API choice selects the pet's next action using its personality and relevant world context. All visitors should see the same action and result.
 
 ## Available now
