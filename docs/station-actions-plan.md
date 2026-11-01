@@ -20,7 +20,7 @@ Retain `approach`, `wave` and `explore`. These additional actions are now implem
 | --- | --- |
 | `use_printer` | The Decisions API chooses a prebuilt dot figure. The pet receives a persistent item and the shared world can show the object. It is not a newly generated 3D model. Confirm the final figures with the scene builder and permission to use OpenAI's dots look with the organizers. |
 | `take_photo` | Two available pets pose at the photo wall. Both receive a shared photo record; a visitor can capture the scene in the browser. The record is not an image file. |
-| `use_plotter` | A pet's image becomes ready for a visitor to download and submit manually to [Bevell](https://bevell.app/devday). Do not automatically use the shared physical plotter or claim a portrait was plotted. Verify that the service accepts and produces useful results from transparent pet sprites, and that the visitor has permission to share the image. |
+| `use_plotter` | (Implementation handoff: [plotter-handoff.md](plotter-handoff.md).) A pet's image becomes ready for a visitor to download and submit manually to [Bevell](https://bevell.app/devday). Do not automatically use the shared physical plotter or claim a portrait was plotted. Verify that the service accepts and produces useful results from transparent pet sprites, and that the visitor has permission to share the image. |
 | `visit_refreshments` | A pet receives a virtual food item or Codex Cola. |
 | `send_message` | The Decisions API chooses a tone; a separate small text model writes one public, pet-to-pet message. The feed identifies that model, and the sender walks toward the recipient and shows the message in a speech bubble above its avatar for about 20 seconds. |
 
