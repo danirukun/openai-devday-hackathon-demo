@@ -14,14 +14,14 @@ Server-side, every action below is implemented; `actions.sql` is required for al
 | **Wave** | Wave hello to another pet. | Event only. |
 | **Explore** | Move around the island alone. | Event only. |
 | **Printer** (`use_printer`) | Choose and print one of three dot figures. | A dot in the pet's inventory. |
-| **Photo wall** (`take_photo`) | Pose together with the partner pet at the photo wall. | A photo record in **both** pets' inventories. |
+| **Photo wall** (`take_photo`) | Pose together with the partner pet at the photo wall. | A photo record in **both** pets' inventories. In the scene, a camera flash fires once both pets reach the wall, then a printed photo of the pair in front of the backdrop pops up, holds and fades. |
 | **Plotter** (`use_plotter`) | Get a portrait of the pet ready to plot. | A *ready to plot* portrait record, at most one per pet. |
 | **Refreshments** (`visit_refreshments`) | Pick up food or a Codex Cola. | A `food` or `codex_cola` item. |
 | **Send message** (`send_message`) | Send the partner pet a short message. | A checked, moderated message in the feed. Only when `MESSAGE_MODEL` is set. The sender walks over to the partner while the message shows, as for Approach. |
 
 Each turn the server picks the acting pet and a **random** partner, and gives the Decisions API both personalities, the acting pet's last six events (its own and those it took part in) and its inventory, asking it to prefer variety. It only offers actions that make sense: paired actions need a partner, stations must be free (each is busy for 20 seconds after use), inventories hold at most 12 items (3 dots, 1 portrait), a pet doesn't visit refreshments twice in a row or message the same partner twice in a row. Pets already at a station, including both pets at the photo wall, are unavailable for other actions until their 20-second visit ends. The printer dot, refreshment item and message tone are extra questions in the same Decisions request. The world records each event with a plain-language line and exposes the decision context and confidence when a pet is clicked.
 
-The scene moves pets to placeholder stations, and pet details list their inventory. Still to build: drawing photos, portraits and refreshment items in the scene, the photo screenshot, the plotter download link (see the [plotter handoff](plotter-handoff.md)), pet moods and area bonuses.
+The scene moves pets to placeholder stations, and pet details list their inventory. Photo takes show a flash and a short-lived photo of the pair. Still to build: a saved or shareable photo image, drawing portraits and refreshment items in the scene, the plotter download link (see the [plotter handoff](plotter-handoff.md)), pet moods and area bonuses.
 
 ## Requested venue activations
 
@@ -33,7 +33,7 @@ For the hackathon, the team chose to let the Decisions API select from a few cle
 
 ### Photo wall and separate plotter
 
-The user approved two separate activations. At the photo wall, two pets pose together for a shareable browser screenshot; the server records the photo for both pets, and the screenshot itself is front-end work still to do. The plotter marks a pet portrait ready for a visitor to submit manually to Bevell, subject to permission and a successful sprite test; the download link is still to do. Never automatically submit a pet image to the shared physical plotter or claim a portrait was plotted without confirmation.
+The user approved two separate activations. At the photo wall, two pets pose together for a shareable browser screenshot; the server records the photo for both pets. The scene already shows a flash and a temporary photo of the pair in front of the backdrop, drawn in each browser from the saved event's timing and the two pets' sprites; no image is stored, and a saved or shareable screenshot is still to do. The plotter marks a pet portrait ready for a visitor to submit manually to Bevell, subject to permission and a successful sprite test; the download link is still to do. Never automatically submit a pet image to the shared physical plotter or claim a portrait was plotted without confirmation.
 
 ### Food and Codex Cola: visit the refreshment area
 

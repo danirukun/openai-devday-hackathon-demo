@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {roamPosition,actionWeight,blendPosition,waveWeight,bubbleWeight,stationSpots,actionStations,photoPartnerSpot} from '../public/roaming.mjs';
+import {roamPosition,actionWeight,blendPosition,waveWeight,bubbleWeight,photoShot,stationSpots,actionStations,photoPartnerSpot} from '../public/roaming.mjs';
 const home={x:1,z:2},near=(a,b)=>Math.abs(a-b)<1e-7;
 test('roaming is stable for the same pet and clock, bounded, and changes with time',()=>{
  const now=1730000000000,a=roamPosition('pet-a',home,now),b=roamPosition('pet-a',home,now);
@@ -41,4 +41,16 @@ test('every station has a distinct standing spot on the island and every station
  for(const a of names)for(const b of names)if(a<b)assert.ok(Math.hypot(stationSpots[a].x-stationSpots[b].x,stationSpots[a].z-stationSpots[b].z)>1.5,`${a} and ${b} are apart`);
  assert.deepEqual(actionStations,{use_printer:'printer',take_photo:'photo_wall',use_plotter:'plotter',visit_refreshments:'refreshments'});
  const partner=photoPartnerSpot();assert.ok(Math.hypot(partner.x-stationSpots.photo_wall.x,partner.z-stationSpots.photo_wall.z)>.5);
+});
+test('the photo timeline flashes once, then shows the photo, then fades, and ignores other actions',()=>{
+ const created_at='2024-10-27T03:33:20.000Z',t=Date.parse(created_at),event={action:'take_photo',created_at};
+ assert.deepEqual(photoShot(event,t+1000),{flash:0,photo:0,pop:0});
+ assert.equal(photoShot(event,t+3400).flash,1);
+ assert.equal(photoShot(event,t+3400).photo,0);
+ const shown=photoShot(event,t+8000);assert.equal(shown.photo,1);assert.equal(shown.pop,1);assert.equal(shown.flash,0);
+ const popping=photoShot(event,t+3950);assert.ok(popping.pop>0&&popping.pop<1);
+ const fading=photoShot(event,t+15000);assert.ok(fading.photo>0&&fading.photo<1);
+ assert.deepEqual(photoShot(event,t+16000),{flash:0,photo:0,pop:0});
+ assert.deepEqual(photoShot({action:'wave',created_at},t+8000),{flash:0,photo:0,pop:0});
+ assert.deepEqual(photoShot(undefined,t),{flash:0,photo:0,pop:0});
 });
