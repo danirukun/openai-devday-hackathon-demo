@@ -62,3 +62,7 @@ The included Dockerfile and `fly.toml` run the app in London on one always-on Fl
 Apply `supabase/migrations/20261101164901_shared_pet_needs.sql` after `actions.sql` before running this version. Existing and new pets start with fullness, energy, fun and social at 70. The server projects elapsed-time decay and records action gains atomically with the event. The pet card shows four meters and the calculated mood. Decay continues offline; reads do not write state. Area bonuses and inventory consumption are still unimplemented, so a full inventory can prevent further refreshments.
 
 Run `sh test/verify-needs-db.sh` with local PostgreSQL tools to verify initialization, decay, mood thresholds, action gains, rollback and concurrent paired updates in a disposable database.
+
+## Moving around
+
+Drag the world to pan; scroll or pinch to zoom. The edge controls zoom in, zoom out, and reset the view. On a keyboard, focus the world and use arrow keys to pan, +/− to zoom, or Home to reset. Click or tap a pet to inspect it.

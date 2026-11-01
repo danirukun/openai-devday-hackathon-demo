@@ -27,6 +27,11 @@
         <button id="open-join" class="hud-button primary" type="button"><span aria-hidden="true">+</span> Add pet</button>
       </nav>
     </header>
+    <nav class="view-controls panel" aria-label="View controls">
+      <button id="zoom-in" type="button" aria-label="Zoom in" title="Zoom in (+)">+</button>
+      <button id="zoom-out" type="button" aria-label="Zoom out" title="Zoom out (−)">−</button>
+      <button id="reset-view" type="button" aria-label="Reset view" title="Reset view (Home)"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/><circle cx="12" cy="12" r="3"/></svg></button>
+    </nav>
     <aside class="activity panel" aria-labelledby="activity-title">
       <div class="activity-heading"><h1 id="activity-title">Pet activity</h1><div class="activity-controls"><button class="presence" id="pet-list-toggle" type="button" aria-expanded="false" aria-controls="pet-list"><span id="pet-count">0 pets</span></button><button class="activity-toggle" id="activity-toggle" type="button" aria-expanded="true" aria-controls="activity-content" aria-label="Hide activity"><span aria-hidden="true"></span></button></div></div>
       <div id="activity-content">

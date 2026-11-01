@@ -142,3 +142,13 @@ input::placeholder { color: #b5c0b4; }
 
 #world[data-loading] canvas { visibility: hidden; }
 #world[data-loading]::after { content: "Opening the venue…"; position: absolute; inset: 0; display: grid; place-items: center; color: #385348; font-size: 14px; }
+
+#world canvas { touch-action: none; cursor: grab; }
+#world canvas:active { cursor: grabbing; }
+#world canvas:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; }
+.view-controls { position: absolute; right: max(20px, env(safe-area-inset-right)); bottom: max(50px, calc(env(safe-area-inset-bottom) + 40px)); display: flex; flex-direction: column; pointer-events: auto; border-radius: 10px; overflow: hidden; }
+.view-controls button { display: grid; place-items: center; width: 44px; height: 44px; border: 0; background: transparent; color: #f2f5ed; font-size: 23px; }
+.view-controls button + button { border-top: 1px solid var(--border); }
+.view-controls button:hover { background: #354239; }
+.view-controls button:disabled { opacity: .3; cursor: default; }
+@media (max-width: 680px) { .view-controls { top: 118px; right: max(10px, env(safe-area-inset-right)); bottom: auto; } }

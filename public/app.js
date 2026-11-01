@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { MapControls } from 'three/addons/controls/MapControls.js';
 import {groupInventory} from '/pet-details.mjs';
 import {roamPosition,actionWeight,blendPosition,waveWeight,bubbleWeight,photoShot,stationSpots,actionStations,photoPartnerSpot,venueStationSpots,venueHome} from '/roaming.mjs';
 
@@ -11,6 +12,47 @@ const container=$('#world');
 const scene=new THREE.Scene();scene.background=new THREE.Color('#dcece6');
 const camera=new THREE.OrthographicCamera(-7,7,5,-5,.1,100);camera.position.set(10,11,13);camera.lookAt(0,0,0);
 const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.shadowMap.enabled=true;container.appendChild(renderer.domElement);
+// Keep the isometric angle fixed while allowing mouse, touch and keyboard navigation.
+const viewControls=new MapControls(camera,renderer.domElement);
+viewControls.enableRotate=false;viewControls.screenSpacePanning=true;
+viewControls.minZoom=.65;viewControls.maxZoom=4;viewControls.zoomSpeed=.8;
+viewControls.maxTargetRadius=8;
+viewControls.mouseButtons.RIGHT=THREE.MOUSE.PAN;
+viewControls.touches.TWO=THREE.TOUCH.DOLLY_PAN;
+viewControls.keyPanSpeed=35;
+renderer.domElement.tabIndex=0;
+renderer.domElement.setAttribute('aria-label','Venue view. Drag or use arrow keys to pan; scroll or pinch to zoom.');
+viewControls.listenToKeyEvents(renderer.domElement);
+viewControls.saveState();
+function updateZoomButtons(){
+  $('#zoom-in').disabled=camera.zoom>=viewControls.maxZoom-.001;
+  $('#zoom-out').disabled=camera.zoom<=viewControls.minZoom+.001;
+}
+function zoomView(factor){
+  camera.zoom=THREE.MathUtils.clamp(camera.zoom*factor,viewControls.minZoom,viewControls.maxZoom);
+  camera.updateProjectionMatrix();viewControls.update();updateZoomButtons();
+}
+$('#zoom-in').onclick=()=>zoomView(1.25);
+$('#zoom-out').onclick=()=>zoomView(1/1.25);
+$('#reset-view').onclick=()=>{viewControls.reset();updateZoomButtons()};
+viewControls.addEventListener('change',updateZoomButtons);
+renderer.domElement.addEventListener('keydown',event=>{
+  if(event.key==='+'||event.key==='='){event.preventDefault();zoomView(1.25)}
+  if(event.key==='-'){event.preventDefault();zoomView(1/1.25)}
+  if(event.key==='Home'){event.preventDefault();viewControls.reset();updateZoomButtons()}
+});
+// A drag or pinch must not select the pet underneath its final pointer position.
+const viewPointers=new Map();let suppressPetClick=false;
+renderer.domElement.addEventListener('pointerdown',event=>{
+  if(!viewPointers.size)suppressPetClick=false;
+  viewPointers.set(event.pointerId,{x:event.clientX,y:event.clientY});
+  if(viewPointers.size>1)suppressPetClick=true;
+});
+renderer.domElement.addEventListener('pointermove',event=>{
+  const start=viewPointers.get(event.pointerId);
+  if(start&&Math.hypot(event.clientX-start.x,event.clientY-start.y)>6)suppressPetClick=true;
+});
+for(const type of ['pointerup','pointercancel','lostpointercapture'])renderer.domElement.addEventListener(type,event=>viewPointers.delete(event.pointerId));
 scene.add(new THREE.HemisphereLight(0xffffff,0x9cbcab,2.2));const sun=new THREE.DirectionalLight(0xffffff,2.5);sun.position.set(-4,12,8);sun.castShadow=true;scene.add(sun);
 let venueLoaded=false;
 const fallbackScene=new THREE.Group();scene.add(fallbackScene);
@@ -212,7 +254,7 @@ function inventorySlot(item){const slot=document.createElement('div');slot.class
 function moodIndicator(p){const moods={happy:['Happy','☺'],excited:['Excited','✦'],hungry:['Hungry','◔'],sleepy:['Sleepy','◡'],bored:['Bored','◦'],lonely:['Lonely','♡']};const mood=typeof p.mood==='string'?moods[p.mood.toLowerCase()]:null;const card=document.createElement('div');card.className='mood-indicator';const icon=document.createElement('span');icon.className='mood-face';icon.setAttribute('aria-hidden','true');icon.textContent=mood?mood[1]:'?';const copy=document.createElement('span');const label=document.createElement('small');label.textContent='Mood';const value=document.createElement('strong');value.textContent=mood?mood[0]:'Not available';copy.append(label,value);card.append(icon,copy);return card;}
 function showPet(p,{reveal=true}={}){p=world.pets.find(pet=>pet.id===p.id)||p;selectedPetId=p.id;if(reveal){setActivityOpen(true);$('#pet-list').hidden=true;$('#pet-list-toggle').setAttribute('aria-expanded','false')}const trace=$('#trace');trace.hidden=false;trace.replaceChildren();const heading=document.createElement('div');heading.className='pet-card-heading';const avatar=petAvatar(p);avatar.classList.add('pet-card-avatar');const identity=document.createElement('div');const name=document.createElement('strong');name.textContent=p.name;const credit=document.createElement('p');credit.className='pet-credit';credit.textContent=`Pet by ${p.credit}`;identity.append(name,credit);heading.append(avatar,identity);trace.append(heading);const event=world.events.find(x=>x.pet_id===p.id);const age=event?Date.now()+serverClockOffset-Date.parse(event.created_at):Infinity;const state=document.createElement('span');state.className='pet-state';state.textContent=age>=0&&age<20000?(actionLabels[event.action]||'On the move'):'Roaming';const status=document.createElement('div');status.className='pet-status-row';status.append(state,moodIndicator(p));trace.append(status);if(p.needs){const meters=document.createElement('div');meters.className='needs-meters';for(const [key,label] of [['fullness','Fullness'],['energy','Energy'],['fun','Fun'],['social','Social']]){const value=Number(p.needs[key]);if(!Number.isFinite(value))continue;const row=document.createElement('label');const title=document.createElement('span');title.textContent=label;const meter=document.createElement('meter');meter.min=0;meter.max=100;meter.low=30;meter.high=75;meter.optimum=100;meter.value=value;meter.setAttribute('aria-label',label);const count=document.createElement('span');count.textContent=Math.round(value);row.append(title,meter,count);meters.append(row)}trace.append(meters)}const personality=document.createElement('p');personality.className='pet-personality';personality.textContent=p.personality;trace.append(personality);const inventory=groupInventory(world.inventory||[],p.id);const itemsLabel=document.createElement('h3');itemsLabel.className='inventory-heading';itemsLabel.textContent='Inventory';trace.append(itemsLabel);if(inventory.length){const tray=document.createElement('div');tray.className='pet-items';tray.setAttribute('aria-label','Inventory');for(const item of inventory)tray.append(inventorySlot(item));trace.append(tray)}else{const empty=document.createElement('p');empty.className='inventory-empty';empty.textContent='Nothing collected yet';trace.append(empty)}if(reveal)trace.scrollIntoView({behavior:'smooth',block:'nearest'});}
 function petAvatar(pet){const avatar=document.createElement('span');avatar.className='event-avatar';avatar.setAttribute('aria-hidden','true');avatar.textContent=Array.from(pet?.name?.trim()||'?')[0].toLocaleUpperCase();if(pet?.slug){const url=`/api/sprite?slug=${encodeURIComponent(pet.slug)}`;const image=new Image();image.onload=()=>{try{const rows=image.naturalHeight===2288?11:9;if(firstFrameHasPixels(image,rows)){avatar.style.backgroundImage=`url("${url}")`;avatar.textContent=''}}catch{}};image.src=url}return avatar;}
-container.addEventListener('click',e=>{const r=container.getBoundingClientRect();pointer.set((e.clientX-r.left)/r.width*2-1,-((e.clientY-r.top)/r.height)*2+1);ray.setFromCamera(pointer,camera);const hit=ray.intersectObjects(petGroup.children)[0];if(hit)showPet(hit.object.userData.pet)});
+container.addEventListener('click',e=>{if(suppressPetClick)return;const r=container.getBoundingClientRect();pointer.set((e.clientX-r.left)/r.width*2-1,-((e.clientY-r.top)/r.height)*2+1);ray.setFromCamera(pointer,camera);const hit=ray.intersectObjects(petGroup.children)[0];if(hit)showPet(hit.object.userData.pet)});
 $('#pet-list-toggle').onclick=()=>{const list=$('#pet-list');list.hidden=!list.hidden;$('#pet-list-toggle').setAttribute('aria-expanded',String(!list.hidden));};
 function updatePetList(pets){const list=$('#pet-list');list.replaceChildren();if(!pets.length){const p=document.createElement('p');p.className='empty';p.textContent='No pets in the venue yet.';list.append(p);return}for(const pet of pets){const button=document.createElement('button');button.type='button';button.append(petAvatar(pet),document.createTextNode(pet.name));button.onclick=()=>showPet(pet);list.append(button)}}
 function option(p){const b=document.createElement('button');b.type='button';b.className='pet-option';b.setAttribute('role','option');b.setAttribute('aria-selected',String(selected===p.slug));b.textContent=p.name;b.onclick=()=>{selected=p.slug;showGallery()};return b}
