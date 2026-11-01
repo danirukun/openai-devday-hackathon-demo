@@ -50,13 +50,14 @@ const photoWall=new THREE.Group();photoWall.position.set(-2.94,0,-2.14);photoWal
 stationPart(photoWall,1.9,1.35,.08,'#f1e4d4',0,.68,0);[['#d18a75',-.6],['#86b7db',0],['#c46aa8',.6]].forEach(([color,x])=>stationPart(photoWall,.42,1.1,.04,color,x,.68,.06));stationPart(photoWall,2.1,.08,.4,'#ba8e68',0,.04,.12);const photoLabel=stationLabel('Photo wall',-2.94,1.75,-2.14);
 // Plotter: a table with a paper bed and a pen gantry.
 const plotter=new THREE.Group();plotter.position.set(1.2,0,-2.5);printerGroup.add(plotter);
-stationPart(plotter,1.3,.5,.8,'#c9b79c',0,.25,0);stationPart(plotter,1.0,.04,.6,'#fbfbf4',0,.52,0);stationPart(plotter,1.15,.06,.08,'#3a4840',0,.8,-.2);stationPart(plotter,.06,.3,.06,'#3a4840',-.55,.65,-.2);stationPart(plotter,.06,.3,.06,'#3a4840',.55,.65,-.2);stationPart(plotter,.08,.18,.08,'#d18a75',.1,.66,-.2);stationLabel('Plotter',1.2,1.35,-2.5);
+stationPart(plotter,1.3,.5,.8,'#c9b79c',0,.25,0);stationPart(plotter,1.0,.04,.6,'#fbfbf4',0,.52,0);stationPart(plotter,1.15,.06,.08,'#3a4840',0,.8,-.2);stationPart(plotter,.06,.3,.06,'#3a4840',-.55,.65,-.2);stationPart(plotter,.06,.3,.06,'#3a4840',.55,.65,-.2);stationPart(plotter,.08,.18,.08,'#d18a75',.1,.66,-.2);const plotterLabel=stationLabel('Plotter',1.2,1.35,-2.5);
 // Refreshments: a table with a snack plate and cans of Codex Cola.
 const refreshments=new THREE.Group();refreshments.position.set(3.3,0,1.2);printerGroup.add(refreshments);
 stationPart(refreshments,.75,.5,1.4,'#d18a75',0,.25,0);stationPart(refreshments,.55,.06,.55,'#f4d3ad',0,.53,.3);for(const z of [-.3,-.12,.06]){const can=new THREE.Mesh(new THREE.CylinderGeometry(.07,.07,.2,12),material('#2f6f5e'));can.position.set(0,.66,z);can.castShadow=true;refreshments.add(can)}const refreshLabel=stationLabel('Refreshments',3.3,1.3,1.2);
 // Positions follow the marked-up venue preview; the original island keeps its layout.
 const stageLabel=stationLabel('Demo stage',0,1,-3.17);stageLabel.visible=false;
 function placeVenueStations(){
+  plotter.scale.setScalar(.32);plotter.position.set(.25,0,-2.05);plotterLabel.position.set(.3,.7,-2.15);plotterLabel.scale.set(.715,.17875,1);
   printer.scale.setScalar(.48);printer.position.set(.63,0,-2.35);printerLabel.position.set(-.45,.9,-1.78);printerLabel.scale.multiplyScalar(.7);
   photoWall.position.set(-1.15,0,-1.95);photoWall.scale.setScalar(.48);photoLabel.position.set(-1.15,1.05,-1.95);photoLabel.scale.multiplyScalar(.7);
   refreshments.position.set(-.37,0,2.27);refreshments.scale.setScalar(.55);refreshLabel.position.set(-.37,.9,2.27);refreshLabel.scale.multiplyScalar(.7);

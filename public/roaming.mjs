@@ -11,7 +11,7 @@ export function waveWeight(event,timeMs){return event?.action==='wave'?actionWei
 export function bubbleWeight(event,timeMs){return event?.action==='send_message'&&event.message?actionWeight(Date.parse(event.created_at),timeMs):0}
 // Placeholder floor spots where a pet stands at each station until the venue supplies anchors.
 export const stationSpots={printer:{x:-1.8,z:1.45},photo_wall:{x:-2.3,z:-1.5},plotter:{x:1.2,z:-1.9},refreshments:{x:2.6,z:1.2}};
-export const venueStationSpots={printer:{x:-.1,z:-1.45},photo_wall:{x:-.8,z:-1.4},plotter:{x:1.2,z:-1.9},refreshments:{x:0,z:1.95}};
+export const venueStationSpots={printer:{x:-.1,z:-1.45},photo_wall:{x:-.8,z:-1.4},plotter:{x:.5,z:-1.8},refreshments:{x:0,z:1.95}};
 // Keep venue homes within the two narrow floor areas. Each pet gets a stable slot.
 export function venueHome(index){
   const initial=[{x:0,z:-2.7},{x:0,z:1.45},{x:0,z:-.45}];
