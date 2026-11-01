@@ -18,6 +18,7 @@ This demo stores names, public personalities and recent interactions. Do not ent
 ## Credits
 
 - Pet catalogue and sprite imagery: [Petdex](https://petdex.dev/), with each chosen pet's creator shown on selection in the island. Petdex hosts community submissions and does not claim ownership of underlying IP; check each asset's permission before redistributing it.
+- Photo-wall circles: canvas recreation of OpenAI event artwork visible in the owner’s venue reference `IMG_0315`; not an official source asset. OpenAI artwork and marks are not covered by the project’s MIT license.
 - Island teacup kiosk: generated with OpenAI image generation for this project. Island geometry is original project code.
 - [Three.js](https://threejs.org/), [Supabase](https://supabase.com/), and [OpenAI Decisions API](https://developers.openai.com/api/docs/guides/decisions).
 - Codex helped inspect current provider documentation, build the island interface and prepare the server's bounded decision loop. Verify the final demo and provider use before submitting.

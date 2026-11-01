@@ -36,7 +36,7 @@ new GLTFLoader().load('/venue.glb',gltf=>{
   const center=bounds.getCenter(new THREE.Vector3());
   venue.position.x-=center.x;venue.position.z-=center.z;venue.position.y-=bounds.min.y;
   venue.traverse(object=>{if(object.isMesh){object.castShadow=true;object.receiveShadow=true;}});
-  fallbackScene.visible=false;venueLoaded=true;scene.add(venue);placeVenueSeating(venue);placeRefreshmentSeating(venue);placeVenueStations();petGroup.children.forEach((sprite,i)=>{sprite.material.depthTest=true;sprite.renderOrder=0;const home=venueHome(i);sprite.userData.home.set(home.x,.25,home.z);sprite.scale.set(.38,.41,1);sprite.userData.waveIndicator.scale.set(.3,.3,1);sprite.userData.bubble.scale.set(1.2,.675,1)});dotSignature='';renderDots(world.inventory||[]);container.removeAttribute('data-loading');$('#venue-status').textContent='Venue preview';
+  fallbackScene.visible=false;venueLoaded=true;scene.add(venue);placeVenueSeating(venue);placeRefreshmentSeating(venue);['table_other_rect_0','table_dining_rect_3'].forEach(name=>{const table=venue.getObjectByName(name);if(table)table.visible=false});placeVenueStations();petGroup.children.forEach((sprite,i)=>{sprite.material.depthTest=true;sprite.renderOrder=0;const home=venueHome(i);sprite.userData.home.set(home.x,.25,home.z);sprite.scale.set(.38,.41,1);sprite.userData.waveIndicator.scale.set(.3,.3,1);sprite.userData.bubble.scale.set(1.2,.675,1)});dotSignature='';renderDots(world.inventory||[]);container.removeAttribute('data-loading');$('#venue-status').textContent='Venue preview';
 },undefined,error=>{console.warn('Venue could not load',error);container.removeAttribute('data-loading');$('#venue-status').textContent='Island preview';});
 // Reuse the venue chair mesh for three tidy rows facing screen-bottom-right (+X).
 function placeVenueSeating(venue){
@@ -99,9 +99,35 @@ printerBox(1.1,.6,.75,'#3a4840',-2.25,.3,1.2);printerBox(.9,.08,.58,'#9caea0',-2
 function stationLabel(text,x,y,z){const canvas=document.createElement('canvas');canvas.width=256;canvas.height=64;const c=canvas.getContext('2d');c.fillStyle='rgba(38,53,45,.88)';c.beginPath();c.roundRect(4,8,248,48,24);c.fill();c.fillStyle='#f2f5ed';c.font='600 28px -apple-system, \"Segoe UI\", sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText(text,128,33,230);const t=new THREE.CanvasTexture(canvas);t.colorSpace=THREE.SRGBColorSpace;const label=new THREE.Sprite(new THREE.SpriteMaterial({map:t,transparent:true,depthTest:false,depthWrite:false}));label.scale.set(1.3,.325,1);label.position.set(x,y,z);label.renderOrder=35;printerGroup.add(label);return label}
 function stationPart(group,w,h,d,color,x,y,z){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),material(color));m.position.set(x,y,z);m.castShadow=true;group.add(m);return m}
 const printerLabel=stationLabel('Printer',-2.25,1.55,1.2);
-// Photo wall: a colourful backdrop facing the pets' standing spot.
+// Photo-wall pattern redrawn from the owner's event reference IMG_0315 (OpenAI artwork).
+function dotsBackdropCanvas(){
+  const canvas=document.createElement('canvas');canvas.width=960;canvas.height=640;
+  const c=canvas.getContext('2d');c.fillStyle='#f7efdc';c.fillRect(0,0,960,640);
+  const colors=['#8263aa','#ff6d15','#368bc1','#b4cf50','#292a25','#d3c8b4'];
+  for(let row=0;row<4;row++)for(let col=0;col<7;col++){
+    const index=row*7+col,r=[58,43,66,49,60][index%5];
+    const x=67+col*139+(row%2?12:0),y=77+row*164;
+    c.fillStyle=colors[(col+row*3)%colors.length];c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();
+    c.strokeStyle=c.fillStyle==='#292a25'?'#f7efdc':'#25251f';c.fillStyle=c.strokeStyle;
+    c.lineWidth=4;c.lineCap='round';
+    for(const side of [-1,1]){
+      const eyeX=x+side*r*.28,eyeY=y-r*.06;
+      c.beginPath();
+      if(index%3===0){c.arc(eyeX,eyeY,5,0,Math.PI*2);c.fill();}
+      else if(index%3===1){c.moveTo(eyeX,eyeY-9);c.lineTo(eyeX,eyeY+8);c.stroke();}
+      else{c.moveTo(eyeX-5,eyeY-7);c.lineTo(eyeX+5,eyeY);c.lineTo(eyeX-5,eyeY+7);c.stroke();}
+    }
+    if(index%4===1){c.beginPath();c.arc(x,y+r*.12,r*.18,0,Math.PI);c.stroke();}
+  }
+  return canvas;
+}
+const photoBackdrop=dotsBackdropCanvas();
 const photoWall=new THREE.Group();photoWall.position.set(-2.94,0,-2.14);photoWall.rotation.y=Math.PI/4;printerGroup.add(photoWall);
-stationPart(photoWall,1.9,1.35,.08,'#f1e4d4',0,.68,0);[['#d18a75',-.6],['#86b7db',0],['#c46aa8',.6]].forEach(([color,x])=>stationPart(photoWall,.42,1.1,.04,color,x,.68,.06));stationPart(photoWall,2.1,.08,.4,'#ba8e68',0,.04,.12);const photoLabel=stationLabel('Photo wall',-2.94,1.75,-2.14);
+stationPart(photoWall,1.9,1.35,.08,'#f7efdc',0,.68,0);
+const backdropTexture=new THREE.CanvasTexture(photoBackdrop);backdropTexture.colorSpace=THREE.SRGBColorSpace;
+const backdropPrint=new THREE.Mesh(new THREE.PlaneGeometry(1.84,1.23),new THREE.MeshBasicMaterial({map:backdropTexture}));
+backdropPrint.position.set(0,.7,.045);photoWall.add(backdropPrint);
+const photoLabel=stationLabel('Photo wall',-2.94,1.75,-2.14);
 // Plotter: a table with a paper bed and a pen gantry.
 const plotter=new THREE.Group();plotter.position.set(1.2,0,-2.5);printerGroup.add(plotter);
 stationPart(plotter,1.3,.5,.8,'#c9b79c',0,.25,0);stationPart(plotter,1.0,.04,.6,'#fbfbf4',0,.52,0);stationPart(plotter,1.15,.06,.08,'#3a4840',0,.8,-.2);stationPart(plotter,.06,.3,.06,'#3a4840',-.55,.65,-.2);stationPart(plotter,.06,.3,.06,'#3a4840',.55,.65,-.2);stationPart(plotter,.08,.18,.08,'#d18a75',.1,.66,-.2);const plotterLabel=stationLabel('Plotter',1.2,1.35,-2.5);
@@ -142,7 +168,7 @@ const stageLabel=stationLabel('Demo stage',0,1,-3.17);stageLabel.visible=false;
 function placeVenueStations(){
   plotter.scale.setScalar(.32);plotter.position.set(.25,0,-2.05);plotterLabel.position.set(.3,.7,-2.15);plotterLabel.scale.set(.715,.17875,1);
   printer.scale.setScalar(.48);printer.position.set(.63,0,-2.35);printerLabel.position.set(-.45,.9,-1.78);printerLabel.scale.multiplyScalar(.7);
-  photoWall.position.set(-1.15,0,-1.95);photoWall.scale.setScalar(.48);photoLabel.position.set(-1.15,1.05,-1.95);photoLabel.scale.multiplyScalar(.7);
+  photoWall.position.set(-1.27,0,-1.7);photoWall.rotation.y=Math.PI/2;photoWall.scale.setScalar(.48);photoLabel.position.set(-1.27,.95,-1.7);photoLabel.scale.multiplyScalar(.7);
   refreshments.position.set(-.37,0,2.27);refreshments.scale.setScalar(.55);refreshLabel.position.set(-.37,.9,2.27);refreshLabel.scale.multiplyScalar(.7);
   stageLabel.visible=true;stageLabel.scale.multiplyScalar(.75);
 }
@@ -156,7 +182,7 @@ const flashOverlay=document.createElement('div');flashOverlay.className='camera-
 const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)');
 const photoSprite=new THREE.Sprite(new THREE.SpriteMaterial({transparent:true,depthTest:false,depthWrite:false}));photoSprite.scale.set(2.1,2.52,1);photoSprite.visible=false;photoSprite.renderOrder=50;scene.add(photoSprite);let photoKey='';
 function drawPhotoPet(c,sprite,pet,x,y,size){const image=sprite?.material.map?.image;if(sprite&&!sprite.userData.visualStatus&&image?.width===1536){const rows=image.height===2288?11:9;c.imageSmoothingEnabled=false;c.drawImage(image,0,0,image.width/8,image.height/rows,x,y,size*192/208,size)}else{c.fillStyle='#26352d';c.beginPath();c.arc(x+size*.46,y+size*.55,size*.36,0,Math.PI*2);c.fill();c.fillStyle='#f2f5ed';c.font=`700 ${size*.4}px sans-serif`;c.textAlign='center';c.textBaseline='middle';c.fillText(Array.from(pet?.name||'?')[0].toLocaleUpperCase(),x+size*.46,y+size*.57)}}
-function photoTexture(actor,partner){const canvas=document.createElement('canvas');canvas.width=400;canvas.height=480;const c=canvas.getContext('2d');c.fillStyle='#fbfbf4';c.fillRect(0,0,400,480);c.fillStyle='#f1e4d4';c.fillRect(24,24,352,352);[['#d18a75',60],['#86b7db',146],['#c46aa8',232]].forEach(([color,x])=>{c.fillStyle=color;c.fillRect(x+16,24,70,270)});c.fillStyle='#ba8e68';c.fillRect(24,300,352,76);c.fillStyle='rgba(38,53,45,.12)';c.fillRect(24,296,352,6);
+function photoTexture(actor,partner){const canvas=document.createElement('canvas');canvas.width=400;canvas.height=480;const c=canvas.getContext('2d');c.fillStyle='#fbfbf4';c.fillRect(0,0,400,480);c.drawImage(photoBackdrop,24,24,352,276);c.fillStyle='#d6c5a7';c.fillRect(24,300,352,76);
 const sprites=[actor,partner].map(pet=>petGroup.children.find(item=>item.userData.pet.id===pet?.id));drawPhotoPet(c,sprites[0],actor,56,170,170);drawPhotoPet(c,sprites[1],partner,190,170,170);
 c.fillStyle='#26352d';c.font='600 28px \"Segoe Print\", \"Bradley Hand\", cursive, sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText(`${actor?.name||'Pet'} & ${partner?.name||'Pet'}`,200,426,340);const t=new THREE.CanvasTexture(canvas);t.colorSpace=THREE.SRGBColorSpace;return t}
 function updatePhoto(now){const event=world.events.find(e=>e.action==='take_photo'),shot=photoShot(event,now);flashOverlay.style.opacity=reduceMotion.matches?0:String(shot.flash*.85);photoSprite.visible=shot.photo>0;if(!photoSprite.visible)return;const key=event.id??event.created_at;if(key!==photoKey){photoKey=key;photoSprite.material.map?.dispose();photoSprite.material.map=photoTexture(world.pets.find(p=>p.id===event.pet_id),world.pets.find(p=>p.id===event.other_pet_id));photoSprite.material.needsUpdate=true}const wall=(venueLoaded?venueStationSpots:stationSpots).photo_wall;photoSprite.material.opacity=shot.photo;photoSprite.material.rotation=-.06;photoSprite.scale.set(2.1*(.6+.4*shot.pop),2.52*(.6+.4*shot.pop),1);photoSprite.position.set(wall.x,1.3+1.3*shot.pop,wall.z)}
