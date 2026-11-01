@@ -8,7 +8,7 @@ An attendee brings a pet into a miniature version of the hackathon venue, watche
 
 ## The core journey
 
-1. **Arrive:** The landing view introduces the shared venue, shows the current experience and explains that attendees can bring an existing Codex pet. Keep the main action prominent: **Enter the venue**.
+1. **Arrive:** Open directly into the full-screen Three.js venue. Keep sign-in and **Add pet** at the edge of the scene. Before sign-in, show the venue preview without presenting private world activity as live data.
 2. **Sign in:** Enter an email and open the magic link. If the 50-person capacity is reached, explain that the venue is full and offer a retry; do not reveal other attendees' email addresses.
 3. **Bring a pet:** Choose a Petdex pet or upload a Codex pet ZIP, add a short personality, and optionally add profile handles. Make it clear that the pet and personality are shared, while handles stay private until both owners opt in. Existing attendees can edit their profile later.
 4. **Enter:** Place the pet in the shared venue and show a short, dismissible orientation: the activity feed, clickable pets and the printer, photo booth and refreshment area. The same signed-in account in multiple tabs occupies one of the 50 places.
@@ -18,7 +18,7 @@ The venue and activities are primarily observed; the initial design does not pro
 
 ## Main screen
 
-**Desktop and phone are both required:** On larger screens, give the isometric venue the largest area and place the activity panel beside it. Keep a compact header with the Pet Island name, occupancy/status, profile and sign-out. The panel has three views: **Activity**, **Pets**, and **My profile**. On phones, use the dedicated layout below rather than shrinking the desktop view.
+**Desktop and phone are both required:** The isometric venue fills the viewport. Place compact, game-like controls along its edges: the venue identity and connection status, sign-in and Add pet controls, and a persistent activity panel. The pet count opens a text-based pet list for inspection. Profile and connection controls remain planned. Avoid a separate marketing landing page.
 
 - **Activity:** recent shared events in plain language, such as “Mochi is making a tiny star” or “Boba is at the photo booth.” Show progress and completed results only when they actually exist. Selecting an event opens its detail.
 - **Pets:** a text list of pets, owners' public pet names and current activities. Selecting one highlights it and exposes the same details available by clicking it in the scene. This supplies a keyboard-accessible alternative to hitting small sprites.
@@ -30,7 +30,7 @@ The venue and activities are primarily observed; the initial design does not pro
 
 Attendees can complete the same sign-in, pet selection or upload, observation and mutual-opt-in connection journey on an ordinary phone browser. Portrait orientation is the default; landscape is optional. The venue, activity and contact permissions are shared with desktop visitors, not a separate mobile world.
 
-- **Layout:** Use a compact header and an edge-to-edge venue panel, with a clearly visible control to open Activity, Pets or My profile below the scene. On narrow screens, these views can use a bottom sheet or stacked panel; selecting a pet or station must leave an obvious way to return to the venue. Respect the phone's safe areas and dynamic browser bars, and avoid horizontal scrolling or controls hidden behind the keyboard.
+- **Layout:** Keep the venue full-screen with a compact header and an activity panel at the bottom edge. The pet count opens a touch-friendly list; profile and connection views remain planned. Selecting a pet or station must leave an obvious way to return to the venue. Respect the phone's safe areas and dynamic browser bars, and avoid horizontal scrolling or controls hidden behind the keyboard.
 - **Touch:** Tap a pet or station for details, with a selectable text list as an alternative when small sprites are hard to hit. Aim for at least 44 × 44 CSS-pixel interactive targets, visible focus states and readable labels. Normal page scrolling must work without accidental scene gestures; don't require drag, hover, pinch or rotation to finish the journey.
 - **Sign-in:** Email magic links may open from a mail app in a different browser. Return the attendee to the signed-in venue on the device that opens the link, explain recovery if the session lands in another browser, and preserve a clear route to resume bringing a pet. Verify the actual flow rather than assuming app-to-browser handoff works.
 - **Bring a pet:** Offer the Petdex gallery and the ZIP upload equally. The ZIP picker must work with the phone's native Files chooser, including files stored on-device or in a cloud drive. Show format/size errors in the form, retain the personality after an error, and allow the gallery path when the attendee has no ZIP. No camera access is required for the virtual photo booth.
