@@ -33,3 +33,7 @@ The Supabase built-in email sender only sends to organization team members and i
 ## Bring your own pet
 
 Choose **Upload a ZIP** in the pet form. Include one `pet.json` with a `displayName` and relative `spritesheetPath`, and the PNG or WebP file named by that path. The manifest and sprite may be inside one parent folder. Supported sprite sheets are 1536×1872 (8×9) or 1536×2288 (8×11). The ZIP limit is 8 MiB; the extracted sprite limit is 5 MiB. Unsafe paths, duplicate files and oversized archives are rejected. Only the manifest name and sprite image are saved, not the full archive. Upload only pets and artwork you have the right to share.
+
+## Venue model handoff
+
+The app uses Three.js r187 and will load an optional self-contained `public/venue.glb`. See `docs/venue-glb-handoff.md` for the Blender export contract. Until the model is present and loads successfully, the original island remains visible. The model is made by the teammate; venue photographs are not included in this public repository.

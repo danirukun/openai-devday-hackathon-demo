@@ -1,4 +1,5 @@
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js';
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
 const $ = s => document.querySelector(s);
@@ -11,15 +12,31 @@ const scene=new THREE.Scene();scene.background=new THREE.Color('#dcece6');
 const camera=new THREE.OrthographicCamera(-7,7,5,-5,.1,100);camera.position.set(10,11,13);camera.lookAt(0,0,0);
 const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.shadowMap.enabled=true;container.appendChild(renderer.domElement);
 scene.add(new THREE.HemisphereLight(0xffffff,0x9cbcab,2.2));const sun=new THREE.DirectionalLight(0xffffff,2.5);sun.position.set(-4,12,8);sun.castShadow=true;scene.add(sun);
+const fallbackScene=new THREE.Group();scene.add(fallbackScene);
 const material=c=>new THREE.MeshStandardMaterial({color:c,roughness:.88});
-function cube(w,h,d,color,x,y,z){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),material(color));m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;scene.add(m);return m;}
-const island=new THREE.Mesh(new THREE.CylinderGeometry(4.25,4.8,.7,8),material('#9acb96'));island.position.y=-.18;island.receiveShadow=true;scene.add(island);
-const shore=new THREE.Mesh(new THREE.CylinderGeometry(4.5,4.6,.35,8),material('#dfc998'));shore.position.y=-.45;scene.add(shore);
+function cube(w,h,d,color,x,y,z){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),material(color));m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;fallbackScene.add(m);return m;}
+const island=new THREE.Mesh(new THREE.CylinderGeometry(4.25,4.8,.7,8),material('#9acb96'));island.position.y=-.18;island.receiveShadow=true;fallbackScene.add(island);
+const shore=new THREE.Mesh(new THREE.CylinderGeometry(4.5,4.6,.35,8),material('#dfc998'));shore.position.y=-.45;fallbackScene.add(shore);
 cube(3.4,.18,1.35,'#ba8e68',1.7,.12,2.7);for(let x=.3;x<3.3;x+=.48)cube(.035,.2,1.35,'#987255',x,.13,2.7);
-cube(1.7,1.25,1.4,'#f4d3ad',-.9,.65,-1.15);const roof=new THREE.Mesh(new THREE.ConeGeometry(1.55,.8,4),material('#d18a75'));roof.position.set(-.9,1.67,-1.15);roof.rotation.y=Math.PI/4;scene.add(roof);
-function tree(x,z){cube(.19,.8,.19,'#927758',x,.4,z);for(const [a,b,c] of [[0,1.2,0],[.35,1.1,0],[-.3,1.05,.1]]){let m=new THREE.Mesh(new THREE.SphereGeometry(.48,8,6),material('#84b68c'));m.position.set(x+a,b,z+c);scene.add(m)}}tree(-3,-.6);tree(2.7,-1.8);
-for(const [x,z] of [[-2,2],[2.3,.2],[.4,-2.8]]){let m=new THREE.Mesh(new THREE.SphereGeometry(.11,8,5),material('#efb1a3'));m.position.set(x,.1,z);scene.add(m)}
-const texLoader=new THREE.TextureLoader();texLoader.load('/teacup-kiosk.png',texture=>{texture.colorSpace=THREE.SRGBColorSpace;const m=new THREE.Sprite(new THREE.SpriteMaterial({map:texture,transparent:true}));m.position.set(1.35,1.25,-.45);m.scale.set(2.2,2,1);scene.add(m)});
+cube(1.7,1.25,1.4,'#f4d3ad',-.9,.65,-1.15);const roof=new THREE.Mesh(new THREE.ConeGeometry(1.55,.8,4),material('#d18a75'));roof.position.set(-.9,1.67,-1.15);roof.rotation.y=Math.PI/4;fallbackScene.add(roof);
+function tree(x,z){cube(.19,.8,.19,'#927758',x,.4,z);for(const [a,b,c] of [[0,1.2,0],[.35,1.1,0],[-.3,1.05,.1]]){let m=new THREE.Mesh(new THREE.SphereGeometry(.48,8,6),material('#84b68c'));m.position.set(x+a,b,z+c);fallbackScene.add(m)}}tree(-3,-.6);tree(2.7,-1.8);
+for(const [x,z] of [[-2,2],[2.3,.2],[.4,-2.8]]){let m=new THREE.Mesh(new THREE.SphereGeometry(.11,8,5),material('#efb1a3'));m.position.set(x,.1,z);fallbackScene.add(m)}
+const texLoader=new THREE.TextureLoader();texLoader.load('/teacup-kiosk.png',texture=>{texture.colorSpace=THREE.SRGBColorSpace;const m=new THREE.Sprite(new THREE.SpriteMaterial({map:texture,transparent:true}));m.position.set(1.35,1.25,-.45);m.scale.set(2.2,2,1);fallbackScene.add(m)});
+// A teammate can provide /venue.glb; keep the original island if it is absent or invalid.
+new GLTFLoader().load('/venue.glb',gltf=>{
+  const venue=gltf.scene;
+  const bounds=new THREE.Box3().setFromObject(venue);
+  const size=bounds.getSize(new THREE.Vector3());
+  const footprint=Math.max(size.x,size.z);
+  if(bounds.isEmpty() || !Number.isFinite(footprint) || footprint<=0){$('#venue-status').textContent='Island preview';return;}
+  venue.scale.multiplyScalar(8/footprint);
+  venue.updateMatrixWorld(true);
+  bounds.setFromObject(venue);
+  const center=bounds.getCenter(new THREE.Vector3());
+  venue.position.x-=center.x;venue.position.z-=center.z;venue.position.y-=bounds.min.y;
+  venue.traverse(object=>{if(object.isMesh){object.castShadow=true;object.receiveShadow=true;}});
+  fallbackScene.visible=false;scene.add(venue);$('#venue-status').textContent='Venue preview';
+},undefined,()=>{$('#venue-status').textContent='Island preview';});
 const petGroup=new THREE.Group();scene.add(petGroup);const ray=new THREE.Raycaster(),pointer=new THREE.Vector2();
 function renderPets(pets){petGroup.clear();pets.forEach((pet,i)=>{const angle=i*2.399, radius=1.05+(i%3)*.56;const t=texLoader.load(`/api/sprite?slug=${encodeURIComponent(pet.slug)}`,texture=>{const rows=texture.image?.height===2288?11:9;texture.repeat.set(1/8,1/rows);texture.offset.set(0,(rows-1)/rows);texture.colorSpace=THREE.SRGBColorSpace;texture.magFilter=THREE.NearestFilter;});const sprite=new THREE.Sprite(new THREE.SpriteMaterial({map:t,transparent:true,alphaTest:.02}));sprite.position.set(Math.cos(angle)*radius,.62,Math.sin(angle)*radius);sprite.scale.set(1.0,1.08,1);sprite.userData.pet=pet;sprite.userData.home=sprite.position.clone();petGroup.add(sprite)})}
 function resize(){const w=container.clientWidth,h=container.clientHeight;renderer.setSize(w,h,false);const aspect=w/h;camera.left=-5.4*aspect;camera.right=5.4*aspect;camera.top=5.4;camera.bottom=-5.4;camera.updateProjectionMatrix()}new ResizeObserver(resize).observe(container);resize();
