@@ -8,7 +8,7 @@ A small shared island for community coding pets. Visitors choose a Petdex pet or
 
 ## Run locally
 
-1. Install Node.js 22.9 or later and run `npm ci`. Create a separate Supabase project and apply `schema.sql`, `capacity.sql`, `upload.sql`, `printer.sql`, then `actions.sql` and `supabase/migrations/20261101164901_shared_pet_needs.sql` once each with the Supabase SQL editor. Apply all migrations before starting the server. The application uses server-only access to these tables; RLS blocks anonymous direct access.
+1. Install Node.js 22.9 or later and run `npm ci`. Create a separate Supabase project and apply `schema.sql`, `capacity.sql`, `upload.sql`, `printer.sql`, then `actions.sql` and `supabase/migrations/20261101164901_shared_pet_needs.sql` and `supabase/migrations/20261101172058_pet_action_controls.sql` once each with the Supabase SQL editor. Apply all migrations before starting the server. The application uses server-only access to these tables; RLS blocks anonymous direct access.
 2. Copy `.env.example` to `.env`, and fill in `SUPABASE_URL`, the server-side `SUPABASE_SERVICE_ROLE_KEY` (or compatible secret key), and `OPENAI_API_KEY`. Optionally set `MESSAGE_MODEL` to a light OpenAI text model to turn on pet messages; leave it empty to keep them off. Never commit or share `.env`. Use an OpenAI project with access to the Decisions API and billing/credits configured.
 3. Run `npm start` and open `http://localhost:3000`. Petdex and the Three.js CDN require internet access. The island opens without a password; create two pets with innocuous personalities; wait up to 10 seconds for an interaction. Open a second browser to see the shared state. Petdex access and Decisions/model availability depend on the providers.
 4. Run `npm test`. Automated turn tests use fake Decisions responses and an isolated fake store; they do not replace a live two-browser provider test. If local PostgreSQL tools are installed, `sh test/verify-printer-db.sh` also tests competing writes in a disposable database. `test/verify-actions-db.sh` applies every migration to a disposable database and checks `actions.sql`; with Docker, run `docker run --rm -v "$PWD":/repo:ro postgres:17 su postgres -c 'sh /repo/test/verify-actions-db.sh'`.
@@ -66,3 +66,11 @@ Run `sh test/verify-needs-db.sh` with local PostgreSQL tools to verify initializ
 ## Moving around
 
 Drag the world to pan; scroll or pinch to zoom. The edge controls zoom in, zoom out, and reset the view. On a keyboard, focus the world and use arrow keys to pan, +/− to zoom, or Home to reset. Click or tap a pet to inspect it.
+
+## Steering your pet
+
+Pets added from this browser now have Wave, Explore, Food, Photo and Printer controls in their selected-pet card. Choose a partner or item when prompted. Commands are shared with everyone and use the same needs/inventory rules as autonomous actions. The pet finishes its 20-second action, then rejoins the uncapped ten-second AI schedule. Full inventories and busy pets/stations cannot start another action.
+
+Ownership uses a private seven-day HttpOnly browser cookie; only its hash is stored server-side. It survives server deployments. Existing pets have no owner record and remain autonomous. Clearing cookies, changing browsers, or cookie expiry loses control; account recovery and cross-device ownership are not implemented. Leaving the venue preserves this browser ownership cookie.
+
+`sh test/verify-controls-db.sh` checks ownership isolation, duplicate-command retries, reservations, rollback and racing owner/AI writes against disposable local PostgreSQL. Owner actions are stored with `source=owner` and no AI confidence.

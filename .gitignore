@@ -36,3 +36,5 @@ node_modules/
 *.[tT][iI][fF]
 *.[tT][iI][fF][fF]
 *.[wW][eE][bB][pP]
+
+supabase/.temp/

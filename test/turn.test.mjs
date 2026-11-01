@@ -53,3 +53,16 @@ test('model and database errors propagate instead of reporting success',async()=
   f=fixture();const db=async(...args)=>{if(args[0]==='rpc/save_pet_turn')throw Error('database unavailable');return f.db(...args)};
   await assert.rejects(runTurn({db,chooseActor:()=>0,requestDecision:async()=>({answers:[answer('action','use_printer'),answer('dot','pink_dot')]})}),/database unavailable/);
 });
+
+test('owner reservations skip AI selection and stale AI writes yield without an error',async()=>{
+ const f=fixture();let requests=0;
+ const held=async(path,...rest)=>{
+  const result=await f.db(path,...rest);
+  if(path==='island_pets?select=*&order=created_at.desc&limit=50')return result.map(p=>({...p,busy_until:new Date(30000).toISOString()}));
+  return result;
+ };
+ assert.equal(await runTurn({db:held,now:()=>1000,requestDecision:async()=>requests++}),false);
+ assert.equal(requests,0);
+ const racing=async(path,...rest)=>{if(path==='rpc/save_pet_turn'){const error=Error('pet busy');error.code='55P03';throw error;}return f.db(path,...rest);};
+ assert.equal(await runTurn({db:racing,now:()=>1000,chooseActor:()=>0,requestDecision:async()=>({answers:[answer('action','wave')]})}),false);
+});

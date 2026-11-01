@@ -16,7 +16,7 @@ export async function runTurn({db, requestDecision, generateMessage, moderateMes
     busy.add(event.pet_id);
     if(event.action==='take_photo'&&event.other_pet_id) busy.add(event.other_pet_id);
   }
-  const available=await withNeeds(db,residents.filter(pet=>!busy.has(pet.id)));
+  const available=await withNeeds(db,residents.filter(pet=>!busy.has(pet.id)&&!(Date.parse(pet.busy_until)>time)));
   if(!available.length) return false;
   const actor=available[Math.floor(chooseActor()*available.length)];
   const others=available.filter(p=>p.id!==actor.id);
@@ -47,6 +47,6 @@ export async function runTurn({db, requestDecision, generateMessage, moderateMes
     message=checkMessage(await generateMessage({sender:actor,recipient:partner,tone:outcome}));
     if(await moderateMessage(message)) throw Error('The message failed moderation.');
   }
-  await db('rpc/save_pet_turn','POST',{p_action:choice,p_pet_id:actor.id,p_other_pet_id:pairedActions.has(choice)?partner.id:null,p_confidence:answer.confidence,p_context:input,p_outcome:outcome,p_message:message,p_message_model:message?messageModel:null});
+  try{await db('rpc/save_pet_turn','POST',{p_action:choice,p_pet_id:actor.id,p_other_pet_id:pairedActions.has(choice)?partner.id:null,p_confidence:answer.confidence,p_context:input,p_outcome:outcome,p_message:message,p_message_model:message?messageModel:null});}catch(error){if(error.code==='55P03')return false;throw error;}
   return true;
 }

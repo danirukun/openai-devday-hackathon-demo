@@ -1,3 +1,4 @@
+import {controlIdentity,readControlHash,parsePetCommand,commandFailure} from './pet-control.mjs';
 import {withNeeds} from './needs.mjs';
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
@@ -22,12 +23,12 @@ const TURN_INTERVAL_MS = 10000;
 const messageModel = process.env.MESSAGE_MODEL?.trim() || '';
 const sessions = createSessions('', {secure:process.env.COOKIE_SECURE === 'true'});
 let catalogue = null, loadedAt = 0, busy = false, lastTurn = 0, lastViewer = 0, decisionError = null;
-const joins = new Map();
+const joins = new Map(), commandAttempts = new Map();
 const send = (res, status, data, headers={}) => { res.writeHead(status, {'content-type':'application/json; charset=utf-8','cache-control':'no-store','x-content-type-options':'nosniff',...headers}); res.end(JSON.stringify(data)); };
 async function db(table, method='GET', data) {
   if (!base || !secret) throw Error('Supabase is not configured on the server.');
   const response = await fetch(`${base}/rest/v1/${table}`, {method, headers:{apikey:secret, Authorization:`Bearer ${secret}`,'content-type':'application/json',Prefer:'return=representation'}, body:data === undefined ? undefined : JSON.stringify(data),signal:AbortSignal.timeout(12000)});
-  if (!response.ok) throw Error('Shared world is unavailable.');
+  if (!response.ok) {const detail=await response.json().catch(()=>({}));const error=Error('Shared world is unavailable.');error.code=detail.code;throw error;}
   return response.json();
 }
 async function admit(req) {
@@ -83,16 +84,21 @@ const server=createServer(async(req,res)=>{
   try {
     const url=new URL(req.url,'http://localhost');
     if(req.method!=='GET' && !isSameOrigin(req)) return send(res,403,{error:'Invalid request origin.'});
-    if(req.method==='GET' && url.pathname==='/api/session') return send(res,200,{signedIn:Boolean(sessions.get(req))});
+    if(req.method==='GET' && url.pathname==='/api/session') {
+      const signedIn=Boolean(sessions.get(req)),owner=signedIn?controlIdentity(req,{secure:process.env.COOKIE_SECURE==='true'}):null;
+      return send(res,200,{signedIn},owner?.cookie?{'set-cookie':owner.cookie}:{});
+    }
     if(req.method==='POST' && url.pathname==='/api/login') {
+      const owner=controlIdentity(req,{secure:process.env.COOKIE_SECURE==='true'});
+      const ownerHeaders=owner.cookie?{'set-cookie':owner.cookie}:{};
       const existing=sessions.get(req);
-      if(existing) {const access=await admit(req);return access.status===200?send(res,200,{signedIn:true}):send(res,access.status,{error:access.error});}
+      if(existing) {const access=await admit(req);return access.status===200?send(res,200,{signedIn:true},ownerHeaders):send(res,access.status,{error:access.error});}
       const created=sessions.create();
       try {
         const admitted=await db('rpc/claim_island_slot','POST',{p_user_id:created.session.id});
         if(!admitted) {sessions.clear({headers:{cookie:created.cookie}});return send(res,429,{error:'The island is full (50 people). Please try again shortly.'});}
       } catch(error) {sessions.clear({headers:{cookie:created.cookie}});throw error;}
-      return send(res,200,{signedIn:true},{'set-cookie':created.cookie});
+      return send(res,200,{signedIn:true},{'set-cookie':[created.cookie,...(owner.cookie?[owner.cookie]:[])]});
     }
     if(req.method==='POST' && url.pathname==='/api/logout') {
       const cleared=sessions.clear(req);
@@ -122,9 +128,25 @@ const server=createServer(async(req,res)=>{
       const access=await admit(req); if(access.status!==200) return send(res,access.status,{error:access.error});
       lastViewer=Date.now();
       const [residents,events,inventory,stations]=await Promise.all([db('island_pets?select=*&order=created_at.desc&limit=50'),db('island_events?select=*&order=created_at.desc&limit=20'),db('island_inventory?select=pet_id,item_type,item_key,partner_pet_id,created_at&order=created_at.desc&limit=600'),db('island_stations?select=name,busy_until&order=name')]);
-      return send(res,200,{pets:await withNeeds(db,residents),events:events.map(event=>({...event,summary:describeEvent(event)})),inventory,stations,decisionsConfigured:Boolean(process.env.OPENAI_API_KEY),messagesConfigured:Boolean(messageModel),decisionError});
+      const ownerHash=readControlHash(req);
+      const owned=ownerHash?await db(`island_pet_owners?select=pet_id&owner_hash=eq.${ownerHash}`):[];
+      const ownIds=new Set(owned.map(row=>row.pet_id));
+      return send(res,200,{pets:(await withNeeds(db,residents)).map(p=>({...p,canControl:ownIds.has(p.id)})),events:events.map(event=>({...event,summary:describeEvent(event)})),inventory,stations,decisionsConfigured:Boolean(process.env.OPENAI_API_KEY),messagesConfigured:Boolean(messageModel),decisionError});
+    }
+    if(req.method==='POST' && url.pathname==='/api/pet-command') {
+      const access=await admit(req);if(access.status!==200)return send(res,access.status,{error:access.error});
+      const ownerHash=readControlHash(req);if(!ownerHash)return send(res,403,{error:'Enter again to control pets added from this browser.'});
+      const commandTime=Date.now();for(const [key,time] of commandAttempts)if(commandTime-time>60000)commandAttempts.delete(key);
+      if(commandTime-(commandAttempts.get(ownerHash)||0)<750)return send(res,429,{error:'Please wait a moment before another command.'});
+      commandAttempts.set(ownerHash,commandTime);
+      let command;try{command=parsePetCommand(await body(req));}catch{return send(res,400,{error:'Choose a valid pet, action and item.'});}
+      try{
+        const eventId=await db('rpc/save_owner_action','POST',{p_owner_hash:ownerHash,p_pet_id:command.petId,p_action:command.action,p_other_pet_id:command.partnerId,p_outcome:command.outcome,p_request_id:command.requestId});
+        return send(res,200,{eventId});
+      }catch(error){const failure=commandFailure(error);if(failure)return send(res,failure.status,{error:failure.error});throw error;}
     }
     if(req.method==='POST' && url.pathname==='/api/join-upload') {
+      const ownerHash=readControlHash(req);if(!ownerHash)return send(res,403,{error:'Enter again before adding a pet.'});
       const access=await admit(req); if(access.status!==200) return send(res,access.status,{error:access.error});
       const ip=req.socket.remoteAddress || 'unknown'; const now=Date.now();
       if(now-(joins.get(ip)||0)<15000) return send(res,429,{error:'Please wait a moment before adding another pet.'});
@@ -136,7 +158,7 @@ const server=createServer(async(req,res)=>{
       const id=randomUUID();
       await db('island_uploaded_sprites?select=id','POST',{id,content_type:pet.contentType,data:'\\x'+pet.image.toString('hex')});
       try {
-        const created=await db('island_pets','POST',{slug:`upload-${id}`,name:pet.name,sprite:`island-upload://${id}`,credit:'Uploaded by a visitor',personality});
+        const created=await db('rpc/create_owned_pet','POST',{p_owner_hash:ownerHash,p_slug:`upload-${id}`,p_name:pet.name,p_sprite:`island-upload://${id}`,p_credit:'Uploaded by a visitor',p_personality:personality});
         void turn(); return send(res,201,{pet:created[0]});
       } catch(error) {
         await db(`island_uploaded_sprites?id=eq.${id}`,'DELETE').catch(()=>{});
@@ -144,6 +166,7 @@ const server=createServer(async(req,res)=>{
       }
     }
     if(req.method==='POST' && url.pathname==='/api/join') {
+      const ownerHash=readControlHash(req);if(!ownerHash)return send(res,403,{error:'Enter again before adding a pet.'});
       const access=await admit(req); if(access.status!==200) return send(res,access.status,{error:access.error});
       const ip=req.socket.remoteAddress || 'unknown'; const now=Date.now();
       if (now-(joins.get(ip)||0)<15000) return send(res,429,{error:'Please wait a moment before adding another pet.'});
@@ -152,11 +175,11 @@ const server=createServer(async(req,res)=>{
       if(personality.length<3||personality.length>120) return send(res,400,{error:'Personality must be 3–120 characters.'});
       const selected=(await pets()).find(p=>p.slug===data.slug); if(!selected) return send(res,400,{error:'Choose a pet from the available catalogue.'});
       const existing=await db('island_pets?select=id&limit=50'); if(existing.length>=50) return send(res,429,{error:'The island is full for this demo.'});
-      const created=await db('island_pets','POST',{slug:selected.slug,name:selected.name.slice(0,60),sprite:selected.sprite,credit:String(selected.credit).slice(0,80),personality});
+      const created=await db('rpc/create_owned_pet','POST',{p_owner_hash:ownerHash,p_slug:selected.slug,p_name:selected.name.slice(0,60),p_sprite:selected.sprite,p_credit:String(selected.credit).slice(0,80),p_personality:personality});
       void turn(); return send(res,201,{pet:created[0]});
     }
     if(req.method!=='GET') return send(res,404,{error:'Not found.'});
-    const files={'/':['index.html','text/html; charset=utf-8'],'/app.js':['app.js','text/javascript; charset=utf-8'],'/roaming.mjs':['roaming.mjs','text/javascript; charset=utf-8'],'/pet-details.mjs':['pet-details.mjs','text/javascript; charset=utf-8'],'/style.css':['style.css','text/css; charset=utf-8'],'/teacup-kiosk.png':['teacup-kiosk.png','image/png'],'/venue.glb':['venue.glb','model/gltf-binary']};
+    const files={'/':['index.html','text/html; charset=utf-8'],'/app.js':['app.js','text/javascript; charset=utf-8'],'/roaming.mjs':['roaming.mjs','text/javascript; charset=utf-8'],'/pet-details.mjs':['pet-details.mjs','text/javascript; charset=utf-8'],'/pet-commands.mjs':['pet-commands.mjs','text/javascript; charset=utf-8'],'/style.css':['style.css','text/css; charset=utf-8'],'/teacup-kiosk.png':['teacup-kiosk.png','image/png'],'/venue.glb':['venue.glb','model/gltf-binary']};
     const file=files[url.pathname]; if(!file) return send(res,404,{error:'Not found.'});
     let contents;try{contents=await readFile(path.join(root,file[0]))}catch(error){if(error.code==='ENOENT')return send(res,404,{error:'Not found.'});throw error}const headers={'content-type':file[1],'x-content-type-options':'nosniff','cache-control':'no-cache'};
     if(url.pathname==='/venue.glb'){
