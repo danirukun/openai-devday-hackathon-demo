@@ -9,17 +9,18 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Manrope:wght@400;500;600;700;800&display=swap">
   <link rel="stylesheet" href="/style.css">
+  <link rel="preload" href="/venue.glb" as="fetch" crossorigin>
 </head>
 <body>
 <main class="game" aria-label="Pet Island venue">
-  <div id="world" aria-label="Isometric view of the shared pet venue"></div>
+  <div id="world" data-loading aria-label="Isometric view of the shared pet venue"></div>
   <div class="hud">
     <header class="topbar">
       <div class="venue-id panel">
 
         <div class="venue-copy"><span class="venue-kicker">DEV DAY EXCHANGE / LONDON</span><strong class="brand-name">Pet Island</strong></div>
         <div class="venue-divider" aria-hidden="true"></div>
-        <div class="venue-state"><span id="venue-status">Island preview</span><span id="world-status" role="status">Connecting...</span></div>
+        <div class="venue-state"><span id="venue-status">Loading venue</span><span id="world-status" role="status">Connecting...</span></div>
       </div>
       <nav class="top-actions" aria-label="Account and pets">
         <button id="auth-button" class="hud-button secondary" type="button">Enter</button>

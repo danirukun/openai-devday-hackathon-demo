@@ -29,15 +29,15 @@ new GLTFLoader().load('/venue.glb',gltf=>{
   const bounds=new THREE.Box3().setFromObject(venue);
   const size=bounds.getSize(new THREE.Vector3());
   const footprint=Math.max(size.x,size.z);
-  if(bounds.isEmpty() || !Number.isFinite(footprint) || footprint<=0){$('#venue-status').textContent='Island preview';return;}
+  if(bounds.isEmpty() || !Number.isFinite(footprint) || footprint<=0){container.removeAttribute('data-loading');$('#venue-status').textContent='Island preview';return;}
   venue.scale.multiplyScalar(8/footprint);
   venue.updateMatrixWorld(true);
   bounds.setFromObject(venue);
   const center=bounds.getCenter(new THREE.Vector3());
   venue.position.x-=center.x;venue.position.z-=center.z;venue.position.y-=bounds.min.y;
   venue.traverse(object=>{if(object.isMesh){object.castShadow=true;object.receiveShadow=true;}});
-  fallbackScene.visible=false;venueLoaded=true;scene.add(venue);placeVenueSeating(venue);placeVenueStations();petGroup.children.forEach((sprite,i)=>{sprite.material.depthTest=true;sprite.renderOrder=0;const home=venueHome(i);sprite.userData.home.set(home.x,.25,home.z);sprite.scale.set(.38,.41,1);sprite.userData.waveIndicator.scale.set(.3,.3,1);sprite.userData.bubble.scale.set(1.2,.675,1)});dotSignature='';renderDots(world.inventory||[]);$('#venue-status').textContent='Venue preview';
-},undefined,()=>{$('#venue-status').textContent='Island preview';});
+  fallbackScene.visible=false;venueLoaded=true;scene.add(venue);placeVenueSeating(venue);placeVenueStations();petGroup.children.forEach((sprite,i)=>{sprite.material.depthTest=true;sprite.renderOrder=0;const home=venueHome(i);sprite.userData.home.set(home.x,.25,home.z);sprite.scale.set(.38,.41,1);sprite.userData.waveIndicator.scale.set(.3,.3,1);sprite.userData.bubble.scale.set(1.2,.675,1)});dotSignature='';renderDots(world.inventory||[]);container.removeAttribute('data-loading');$('#venue-status').textContent='Venue preview';
+},undefined,error=>{console.warn('Venue could not load',error);container.removeAttribute('data-loading');$('#venue-status').textContent='Island preview';});
 // Reuse the venue chair mesh for three tidy rows facing screen-bottom-right (+X).
 function placeVenueSeating(venue){
   const source=venue.getObjectByName('chair_other_four_back_no_2');
@@ -78,7 +78,36 @@ const plotter=new THREE.Group();plotter.position.set(1.2,0,-2.5);printerGroup.ad
 stationPart(plotter,1.3,.5,.8,'#c9b79c',0,.25,0);stationPart(plotter,1.0,.04,.6,'#fbfbf4',0,.52,0);stationPart(plotter,1.15,.06,.08,'#3a4840',0,.8,-.2);stationPart(plotter,.06,.3,.06,'#3a4840',-.55,.65,-.2);stationPart(plotter,.06,.3,.06,'#3a4840',.55,.65,-.2);stationPart(plotter,.08,.18,.08,'#d18a75',.1,.66,-.2);const plotterLabel=stationLabel('Plotter',1.2,1.35,-2.5);
 // Refreshments: a table with a snack plate and cans of Codex Cola.
 const refreshments=new THREE.Group();refreshments.position.set(3.3,0,1.2);printerGroup.add(refreshments);
-stationPart(refreshments,.75,.5,1.4,'#d18a75',0,.25,0);stationPart(refreshments,.55,.06,.55,'#f4d3ad',0,.53,.3);for(const z of [-.3,-.12,.06]){const can=new THREE.Mesh(new THREE.CylinderGeometry(.07,.07,.2,12),material('#2f6f5e'));can.position.set(0,.66,z);can.castShadow=true;refreshments.add(can)}const refreshLabel=stationLabel('Refreshments',3.3,1.3,1.2);
+// A stocked counter: coffee machine, cups, sandwiches, pastries and cold drinks.
+stationPart(refreshments,1.15,.5,1.8,'#b78365',0,.25,0);
+stationPart(refreshments,1.22,.06,1.87,'#f1e4d4',0,.53,0);
+stationPart(refreshments,.48,.48,.38,'#35433d',-.22,.8,-.58);
+stationPart(refreshments,.4,.08,.34,'#b6c6bd',-.22,.6,-.51);
+stationPart(refreshments,.34,.06,.1,'#aabbb1',-.22,.78,-.37);
+function refreshCylinder(radiusTop,radiusBottom,height,color,x,y,z){
+  const item=new THREE.Mesh(new THREE.CylinderGeometry(radiusTop,radiusBottom,height,16),material(color));
+  item.position.set(x,y,z);item.castShadow=true;refreshments.add(item);return item;
+}
+for(const z of [-.67,-.43,-.19]){
+  refreshCylinder(.065,.065,.19,'#2f6f5e',.35,.66,z);
+  refreshCylinder(.061,.061,.012,'#c6d2cb',.35,.76,z);
+}
+for(const x of [-.34,-.12,.1]){
+  refreshCylinder(.075,.055,.13,'#fff8e8',x,.63,-.12);
+  refreshCylinder(.058,.058,.006,'#63412b',x,.7,-.12);
+}
+stationPart(refreshments,.47,.025,.48,'#fff8e8',-.28,.58,.46);
+for(const z of [.32,.55]){
+  stationPart(refreshments,.3,.045,.16,'#d9ae68',-.28,.62,z);
+  stationPart(refreshments,.31,.025,.17,'#79a963',-.28,.655,z);
+  stationPart(refreshments,.3,.045,.16,'#f0cc8a',-.28,.69,z);
+}
+stationPart(refreshments,.4,.025,.48,'#fff8e8',.29,.58,.46);
+for(const z of [.32,.56]){
+  const pastry=new THREE.Mesh(new THREE.TorusGeometry(.075,.032,8,16),material('#cc8c4f'));
+  pastry.rotation.x=Math.PI/2;pastry.position.set(.29,.63,z);pastry.castShadow=true;refreshments.add(pastry);
+}
+const refreshLabel=stationLabel('Refreshments',3.3,1.3,1.2);
 // Positions follow the marked-up venue preview; the original island keeps its layout.
 const stageLabel=stationLabel('Demo stage',0,1,-3.17);stageLabel.visible=false;
 function placeVenueStations(){

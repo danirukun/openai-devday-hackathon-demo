@@ -39,3 +39,18 @@ test('caps simultaneous sessions, shares a slot across tabs and frees it on logo
   assert.equal((await (await get('/api/session',{headers:{cookie:cookies[0]}})).json()).signedIn,false);
   assert.equal((await login()).status,200);
 });
+
+ test('venue downloads compressed without changing the model and respects gzip opt-out',async()=>{
+  const plain=await get('/venue.glb',{headers:{'accept-encoding':'identity'}});
+  const expected=Buffer.from(await plain.arrayBuffer());
+  assert.equal(plain.status,200);
+  assert.equal(plain.headers.get('content-encoding'),null);
+  const compressed=await get('/venue.glb',{headers:{'accept-encoding':'gzip'}});
+  assert.equal(compressed.headers.get('content-encoding'),'gzip');
+  assert.equal(compressed.headers.get('vary'),'Accept-Encoding');
+  assert.ok(Number(compressed.headers.get('content-length'))<expected.length/2);
+  assert.deepEqual(Buffer.from(await compressed.arrayBuffer()),expected);
+  const optedOut=await get('/venue.glb',{headers:{'accept-encoding':'gzip;q=0'}});
+  assert.equal(optedOut.headers.get('content-encoding'),null);
+  assert.equal(optedOut.headers.get('cache-control'),'no-cache');
+});
