@@ -14,9 +14,10 @@ const port = Number(process.env.PORT || 3000);
 const base = process.env.SUPABASE_URL?.replace(/\/$/, '');
 const secret = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const sharedPassword = process.env.ISLAND_PASSWORD;
+const TURN_INTERVAL_MS = 10000;
 const messageModel = process.env.MESSAGE_MODEL?.trim() || '';
 const sessions = createSessions(sharedPassword || '', {secure:process.env.COOKIE_SECURE === 'true'});
-let catalogue = null, loadedAt = 0, busy = false, lastTurn = 0, lastViewer = 0, turnCount = 0, decisionError = null;
+let catalogue = null, loadedAt = 0, busy = false, lastTurn = 0, lastViewer = 0, decisionError = null;
 const joins = new Map();
 const send = (res, status, data, headers={}) => { res.writeHead(status, {'content-type':'application/json; charset=utf-8','cache-control':'no-store','x-content-type-options':'nosniff',...headers}); res.end(JSON.stringify(data)); };
 async function db(table, method='GET', data) {
@@ -62,10 +63,10 @@ async function moderateMessage(text) {
   return result.results[0].flagged;
 }
 async function turn() {
-  if (busy || Date.now()-lastTurn < 30000 || Date.now()-lastViewer > 120000 || turnCount >= 30 || !process.env.OPENAI_API_KEY) return;
+  if (busy || Date.now()-lastTurn < TURN_INTERVAL_MS || Date.now()-lastViewer > 120000 || !process.env.OPENAI_API_KEY) return;
   busy=true; lastTurn=Date.now();
   try {
-    const completed=await runTurn({db,onRequest:()=>{turnCount++},generateMessage:messageModel?generateMessage:undefined,moderateMessage,messageModel,requestDecision:async payload=>{
+    const completed=await runTurn({db,generateMessage:messageModel?generateMessage:undefined,moderateMessage,messageModel,requestDecision:async payload=>{
       const response=await fetch('https://api.openai.com/v1/decisions',{method:'POST',headers:{Authorization:`Bearer ${process.env.OPENAI_API_KEY}`,'content-type':'application/json'},body:JSON.stringify(payload),signal:AbortSignal.timeout(15000)});
       if(!response.ok) throw Error(`Decisions request failed (${response.status}).`);
       return response.json();
@@ -124,7 +125,7 @@ const server=createServer(async(req,res)=>{
       const access=await admit(req); if(access.status!==200) return send(res,access.status,{error:access.error});
       lastViewer=Date.now();
       const [residents,events,inventory,stations]=await Promise.all([db('island_pets?select=*&order=created_at.desc&limit=50'),db('island_events?select=*&order=created_at.desc&limit=20'),db('island_inventory?select=pet_id,item_type,item_key,partner_pet_id,created_at&order=created_at.desc&limit=600'),db('island_stations?select=name,busy_until&order=name')]);
-      return send(res,200,{pets:residents,events:events.map(event=>({...event,summary:describeEvent(event)})),inventory,stations,decisionsConfigured:Boolean(process.env.OPENAI_API_KEY),messagesConfigured:Boolean(messageModel),decisionError,turnLimitReached:turnCount>=30});
+      return send(res,200,{pets:residents,events:events.map(event=>({...event,summary:describeEvent(event)})),inventory,stations,decisionsConfigured:Boolean(process.env.OPENAI_API_KEY),messagesConfigured:Boolean(messageModel),decisionError});
     }
     if(req.method==='POST' && url.pathname==='/api/join-upload') {
       const access=await admit(req); if(access.status!==200) return send(res,access.status,{error:access.error});
@@ -164,4 +165,4 @@ const server=createServer(async(req,res)=>{
   } catch(e) { if(e instanceof PetPackageError) return send(res,400,{error:e.message}); console.error(e.message); send(res,503,{error:e.message==='Invalid request.'?e.message:'The island could not connect to a required service. Please try again.'}); }
 });
 server.listen(port,()=>console.log(`Pet Island listening on http://localhost:${port}`));
-setInterval(()=>void turn(),30000).unref();
+setInterval(()=>void turn(),TURN_INTERVAL_MS).unref();
