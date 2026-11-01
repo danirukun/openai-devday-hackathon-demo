@@ -1,0 +1,9 @@
+# Pet Island implementation plan
+
+Goal: one real Petdex pet joins a shared Three.js island and performs a real Decisions API action visible to two browsers.
+
+1. Verify Petdex manifest shape, source attribution, sprite format and access from the runtime. Use a bounded approved selection and report unavailability clearly.
+2. Create an isolated Supabase project, inspect it, define minimal shared pets and events with RLS and server-only writes; verify policies and queries. Project creation is blocked by overdue invoices.
+3. Implement a Node server that validates input, caps demo usage, stores shared state, calls Decisions with fixed choices and displays refusal/failure honestly. Protect credentials and avoid simultaneous turn runners.
+4. Build a responsive Three.js island, render real sprites, allow personality selection, show an event and trace, and synchronize across two independent browser sessions.
+5. Test a live Decisions request, Petdex import, malformed input, unavailable services and the full two-browser journey. Produce image-generation asset and credit it, then deploy, document setup and record <=90-second demo.
