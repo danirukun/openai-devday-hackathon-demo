@@ -41,3 +41,5 @@ The app uses Three.js r187 and will load an optional self-contained `public/venu
 ## Pet actions
 
 See [pet actions](docs/pet-actions.md) for the actions available now and the requested printer and photo booth activations.
+
+The printer station requires the additive `printer.sql` migration after the existing setup migrations. It stores dot items and shared station state with server-only access. The figures are provisional; confirm the rights to the dots look with the event organizers before a public demo.

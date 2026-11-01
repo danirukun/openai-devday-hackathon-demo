@@ -1,6 +1,6 @@
 # Pet actions
 
-For the Discord handoff, proposed changes and timed area bonuses, see the [venue actions and pet state plan](station-actions-plan.md). Changes to this approved baseline remain proposals until the team agrees.
+For the Discord handoff, proposed changes and timed area bonuses, see the [venue actions and pet state plan](station-actions-plan.md). The user has approved dot-style figures and separate photo wall and plotter activations; other changes remain proposals until the team agrees.
 
 Pet Island's actions should give attendees a reason to watch, share and meet. A single server-owned Decisions API choice selects the pet's next action using its personality and relevant world context. All visitors should see the same action and result.
 
@@ -9,8 +9,9 @@ Pet Island's actions should give attendees a reason to watch, share and meet. A 
 - **Approach:** move towards another pet to greet them.
 - **Wave:** wave hello to another pet.
 - **Explore:** move around the island independently.
+- **Printer:** choose and print one of three dot figures; the result is recorded in the pet inventory and visible to all visitors.
 
-These are the only actions currently implemented. The world records a short event and exposes the decision context and confidence when a pet is clicked.
+These are the actions currently implemented. The world records a short event and exposes the decision context and confidence when a pet is clicked.
 
 ## Requested venue activations
 
@@ -20,11 +21,9 @@ A pet approaches a 3D printer on a table, chooses what to make, and watches a sm
 
 For the hackathon, the team chose to let the Decisions API select from a few clearly different, prebuilt or procedurally constructed 3D objects based on the pet's personality. This provides an immediate, real 3D result. It does not claim to generate an arbitrary novel 3D model; that is outside the first version.
 
-### Photo booth: pose and get a plotted portrait
+### Photo wall and separate plotter
 
-A pet approaches a photo wall and poses. The booth captures an image of that pet against the wall, and an animated virtual plotter draws a recognisable sketch on a sheet of paper. Other visitors see the same finished portrait; the drawing should be inspectable in the activity feed or by clicking the pet.
-
-The recommended first version uses the pet's visual appearance and a fixed virtual photo wall, then derives a sketch from the resulting image. It does not photograph the attendee, request camera access or claim a physical drawing has been produced. Test the effect with actual sprite artwork, including transparent uploaded sprites, before promising recognisable portraits.
+The user approved two separate activations. At the photo wall, two pets pose together for a shareable browser screenshot. The plotter marks a pet portrait ready for a visitor to submit manually to Bevell, subject to permission and a successful sprite test. Neither activation is implemented yet. Never automatically submit a pet image to the shared physical plotter or claim a portrait was plotted without confirmation.
 
 ### Food and coffee: visit the refreshment area
 
