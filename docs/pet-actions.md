@@ -35,7 +35,7 @@ When two pets meet, they can invite their owners to connect. Each owner must exp
 
 ### Attendee profile
 
-During email sign-in, attendees can add optional social or contact handles to a profile and later edit or remove them. Existing users can set up a profile after signing in. Do not use the login email as a public handle or share it automatically. Handles are private by default and are shared only with the other owner after both opt in. Until this is implemented, contact sharing stays off.
+After individual accounts are introduced, attendees can add optional social or contact handles to a profile and later edit or remove them. The temporary shared-password gate has no individual ownership or profiles. Do not use the login email as a public handle or share it automatically. Handles are private by default and are shared only with the other owner after both opt in. Until this is implemented, contact sharing stays off.
 
 The existing application does not currently link a pet to its owner or have attendee profiles. Both are needed for this interaction; existing pets must remain usable without inventing ownership. Profile details and visibility must be enforced on the server, not just hidden in the interface. Validate handles and construct safe links for supported platforms rather than rendering arbitrary user-supplied HTML or unsafe URLs. Allow owners to withdraw sharing and edit or delete their own handles.
 
@@ -46,7 +46,7 @@ The existing application does not currently link a pet to its owner or have atte
 - A station handles one pet at a time. Show an occupied or failed state and release the station on timeout; cap stored artifacts and API usage.
 - Record only information needed for the shared result. Personalities and uploaded pet art are already shared; do not capture participant emails or private browser contents in a booth image.
 - The teammate's venue GLB is not ready. Agree on printer, booth and refreshment-area positions with the teammate and provide a temporary in-app representation so the interaction can be developed and tested independently.
-- Check rights before reusing pet artwork or venue branding in shareable outputs. Keep the built-in email sender's restriction to organization members visible as a separate public-demo blocker.
+- Check rights before reusing pet artwork or venue branding in shareable outputs.
 
 ## Demo sequence
 

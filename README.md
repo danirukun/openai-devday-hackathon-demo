@@ -7,8 +7,8 @@ A small shared island for community coding pets. Visitors choose a Petdex pet or
 ## Run locally
 
 1. Install Node.js 22.9 or later and run `npm ci`. Create a separate Supabase project and apply `schema.sql`, `capacity.sql`, then `upload.sql` once with the Supabase SQL editor. The application uses server-only access to these tables; RLS blocks anonymous direct access.
-2. Copy `.env.example` to `.env`, and fill in `SUPABASE_URL`, the public `SUPABASE_PUBLISHABLE_KEY`, the server-side `SUPABASE_SERVICE_ROLE_KEY` (or compatible secret key), and `OPENAI_API_KEY`. Never commit or share `.env`. Use an OpenAI project with access to the Decisions API and billing/credits configured.
-3. Run `npm start` and open `http://localhost:3000`. Petdex and the Three.js CDN require internet access. Sign in through an email link, then create two pets with innocuous personalities; wait up to 30 seconds for an interaction. Open a second browser to see the shared state. Petdex access and Decisions/model availability depend on the providers.
+2. Copy `.env.example` to `.env`, and fill in `SUPABASE_URL`, the server-side `SUPABASE_SERVICE_ROLE_KEY` (or compatible secret key), `OPENAI_API_KEY`, and a shared `ISLAND_PASSWORD`. Never commit or share `.env`. Use an OpenAI project with access to the Decisions API and billing/credits configured.
+3. Run `npm start` and open `http://localhost:3000`. Petdex and the Three.js CDN require internet access. Enter the shared password, then create two pets with innocuous personalities; wait up to 30 seconds for an interaction. Open a second browser to see the shared state. Petdex access and Decisions/model availability depend on the providers.
 4. Run `npm test`. The tests cover the local HTTP boundary, input rejection and unavailable-database handling; they do not replace a live two-browser provider test.
 
 This demo stores names, public personalities and recent interactions. Do not enter personal data or secrets. All users can view this shared content. Uploaded sprites are served through an unguessable image URL, which anyone possessing it can access. The in-process request limits are for a small supervised demo and are not sufficient for an unrestricted public service.
@@ -24,11 +24,11 @@ This demo stores names, public personalities and recent interactions. Do not ent
 
 The project code is available under the [MIT License](LICENSE). Third-party Petdex pets remain subject to their creators' rights and are not covered by this project's license.
 
-## Email sign-in and capacity
+## Shared password and capacity
 
-Email magic-link sign-in is required for the shared island. The server verifies the session with Supabase Auth and atomically admits at most 50 distinct accounts. Multiple tabs share one place. A place expires after two minutes without a world request; capacity is checked on each refresh and join. The cap is distinct from the maximum of 50 persistent pets. Configure the deployed origin as an allowed Auth redirect URL.
+The temporary gate uses a server-configured shared password and an HTTP-only, SameSite=Strict session cookie. There are no signups or email addresses. Set `ISLAND_PASSWORD` privately in the runtime environment and share it with attendees outside the repository. Set `COOKIE_SECURE=true` on HTTPS deployments; use `false` for localhost. Sessions expire after eight hours or a server restart. The server limits failed password attempts per network address in each process; it is a basic demo safeguard, not production-grade protection.
 
-The Supabase built-in email sender only sends to organization team members and is unsuitable for open public hackathon access. The event requires custom SMTP for general attendees, and its send rate limit must accommodate expected sign-ins. See [Supabase authentication testing](https://supabase.com/docs/guides/auth/testing-auth-flows) and [custom SMTP](https://supabase.com/docs/guides/auth/auth-smtp). Email addresses are retained by Supabase Auth and are not displayed in the island.
+The server atomically admits at most 50 active browser sessions using Supabase. Tabs in one browser share a slot; different browsers take separate slots. A slot expires after two minutes without a world request or is released on sign-out. This is separate from the 50-pet limit. This gate does not identify owners or protect information between attendees: anyone with the shared password can see the same island. Use individual authentication and access controls before adding private profiles or contact sharing. The current session store and rate limit are per server process, so run only one server instance.
 
 ## Bring your own pet
 
